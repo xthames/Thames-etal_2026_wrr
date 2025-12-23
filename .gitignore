@@ -218,3 +218,6 @@ rsconnect
 inst/shinyApp/temp.ini
 inst/shinyApp/test.ini
 packrat/lib*/
+
+# GitHub token
+Thamesetal2026_token.txt

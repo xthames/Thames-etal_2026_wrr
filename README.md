@@ -11,20 +11,22 @@ A meta-repository creates a single point of access for someone to find all of th
 
 <!-- Get rid of the metarepo instructions (the two sections above this) once you're done. -->
 
-# lastname-etal_year_journal
+# Thames-etal_2026_wrr
 
-**your Paper Title here (once published, include a link to the text)**
+**Climate Sensitivity of Agricultural Water Demand Depends on Control Over Growing Season: Implications for Producers in the Upper Colorado River Basin**
 
-First Last<sup>1\*</sup>, First Last<sup>1</sup>,  and First Last<sup>1, 2</sup>
+Alexander B. Thames<sup>1</sup>, Antonia Hadjimichael<sup>1,2\*</sup>,  and Julianne D. Quinn<sup>3</sup>
 
-<sup>1 </sup>Pacific Northwest National Laboratory, Richland, WA, USA.
+<sup>1 </sup>Department of Geosciences, The Pennsylvania State University, University Park, Pennsylvania 16802, USA.
 
-<sup>2 </sup> Institute for Energy Analysis, Oak Ridge Associated Universities, Washington, DC, USA
+<sup>2 </sup>Earth and Environmental Systems Institute (EESI), The Pennsylvania State University, University Park, Pennsylvania 16802, USA.
 
-\* corresponding author:  email@myorg.gov
+<sup>3 </sup>School of Engineering & Applied Science, University of Virginia, Charlottesville, Virginia 22904, USA.
+
+\* corresponding author:  hadjimichael@psu.edu
 
 ## Abstract
-_your abstract here_
+Impacts of climate change on agricultural water demands are deeply uncertain due to complex interactions between precipitation, temperature, and growing season dynamics. For the different agricultural users experiencing these climate impacts, traditional top-down approaches using downscaled climate projections may underrepresent this uncertainty and mask spatial heterogeneities. To address this shortcoming, we develop a multivariate, multisite, copula-based stochastic weather generator for bottom-up exploratory modeling analysis of agricultural water resources systems. Paired with a regional consumptive use model, this generator allows us to investigate differential impacts of climate change on diverse agricultural producers and crops. We demonstrate this framework in the Upper Colorado River Basin within the state of Colorado. Results show that all producers see irrigation requirements increase higher than their historical averages in more than 50% of our sampled realizations, with producers at lower elevations seeing this increase in more than 75% of them. Global sensitivity analysis reveals that adequate access to water impacts producers' effective growing season lengths and thereby which climate variables most control crop water requirement: producers with adequate water are most sensitive to changes in temperature mean and variance while producers without adequate water are most sensitive to changes in precipitation variance---and not mean---with temperature contributions halving. We also find that access to water is more important than crop type, elevation, or location when considering producer sensitivity to climate. These findings demonstrate how differential vulnerability drivers underscore the need for stakeholder-specific assessments that account for spatial heterogeneity and decision-relevant uncertainties in agricultural water demand.
 
 ## Journal reference
 _your journal reference_
