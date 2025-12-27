@@ -53,7 +53,23 @@ You may also follow the procedure outlined below to retrieve and pre-process the
     | USC00057031 | Rifle | USC00057033, USW00003016 |
     | USC00059265 | Yampa | USC00056797, USC00057936, USC00059103 |
 
-2. Download regional daily precipitation and temperature CMIP6 projections from the [NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6)](https://www.nccs.nasa.gov/services/data-collections/land-based-products/nex-gddp-cmip6) and the [US Department of Energy SECURE Water Act Assessment (Section 9505)](https://hydrosource.ornl.gov/data/datasets/9505v3flow-1/). The following scripts were used to create the necessary directories and filepaths, download these regional hydroclimatic observations, and check that the download process has completed.
+    After this process is complete, merge data such that only 12 `.csv` files identified by each key climate station exist that contain the key station's and all secondary station's reported observations. The name of the `.csv` files should have the key climate station's name with no numbers, special punctuation, or spaces like:
+    | Key Climate Station Name | `.csv` File Name |
+    | :---: | :---: |
+    | Altenbern | `Altenbern_NOAAClimateDaily.csv` |
+    | Collbran | `Collbran_NOAAClimateDaily.csv` |
+    | Eagle County AP | `EagleCounty_NOAAClimateDaily.csv` |
+    | Fruita 1 W | `Fruita_NOAAClimateDaily.csv` |
+    | Glenwood Springs #2 | `GlenwoodSprings_NOAAClimateDaily.csv` |
+    | Grand Junction 6 ESE | `GrandJunction_NOAAClimateDaily.csv` |
+    | Grand Lake | `GrandLake_NOAAClimateDaily.csv` |
+    | Green Mt. Dam | `GreenMtDam_NOAAClimateDaily.csv` |
+    | Kremmling | `Kremmling_NOAAClimateDaily.csv` |
+    | Meredith | `Meredith_NOAAClimateDaily.csv` |
+    | Rifle | `Rifle_NOAAClimateDaily.csv` |
+    | Yampa | `Yampa_NOAAClimateDaily.csv` |
+
+2. Download regional daily precipitation and temperature CMIP6 projections from the [NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6)](https://www.nccs.nasa.gov/services/data-collections/land-based-products/nex-gddp-cmip6) and the [US Department of Energy SECURE Water Act Assessment (Section 9505)](https://hydrosource.ornl.gov/data/datasets/9505v3flow-1/). The following scripts assist in this process. Note numerical orderings in the Description which define how to sequentially run the same script more than once, if necessary.
     | Script Name | Description | How to Run | Passed Arguments
     | :---: | :---: | :---: | :---: |
     | `DownloadNASACMIP6.py` | Script to (1) create directories and (3) check that all files were successfully downloaded relating to the NASA projections | `python scripts/DownloadNASACMIP6.py` | `makedirs`, `checkdirs` |
