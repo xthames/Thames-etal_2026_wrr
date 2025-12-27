@@ -69,7 +69,7 @@ You may also follow the procedure outlined below to retrieve and pre-process the
     | Rifle | `Rifle_NOAAClimateDaily.csv` |
     | Yampa | `Yampa_NOAAClimateDaily.csv` |
 
-2. Download regional daily precipitation and temperature CMIP6 projections from the [NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6)](https://www.nccs.nasa.gov/services/data-collections/land-based-products/nex-gddp-cmip6) and the [US Department of Energy SECURE Water Act Assessment (Section 9505)](https://hydrosource.ornl.gov/data/datasets/9505v3flow-1/). The following scripts assist in this process. Note numerical orderings in the Description which define how to sequentially run the same script more than once, if necessary.
+2. Download regional daily precipitation and temperature CMIP6 projections from the [NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6)](https://www.nccs.nasa.gov/services/data-collections/land-based-products/nex-gddp-cmip6) and the [US Department of Energy SECURE Water Act Assessment (Section 9505)](https://hydrosource.ornl.gov/data/datasets/9505v3flow-1/). The following scripts to assist in this process can be found in `workflow/scripts/`. Note that filepaths must be changed to reflect the local environment. Numerical orderings in the Description section of the table below define how to sequentially run related scripts, if necessary.
     | Script Name | Description | How to Run | Passed Arguments
     | :---: | :---: | :---: | :---: |
     | `DownloadNASACMIP6.py` | Script to (1) create directories and (3) check that all files were successfully downloaded relating to the NASA projections | `python scripts/DownloadNASACMIP6.py` | `makedirs`, `checkdirs` |
