@@ -36,10 +36,10 @@ Thames, A. B., Hadjimichael, A., & Quinn, J. D. Climate Sensitivity of Agricultu
 ### Input data
 Input data can be found here: Human, I.M. (2021). My input dataset name [Data set]. DataHub. https://doi.org/some-doi-number
 
-You may also follow the procedure outlined below:
-1. Download daily precipitation and temperature observations from [NOAA NCEI](https://www.ncei.noaa.gov/cdo-web/search) for the Upper Colorado River Basin in the state of Colorado. The following are the climate stations used in this experiment, reflecting the key climate stations used from the historic consumptive use analysis [(Garrison, 2015)](https://cdss.colorado.gov/modeling-data/consumptive-use-statecu). Note that some climate stations are missing observations within the period of analysis (1950-2013), and if so nearby secondary stations are used for in-filling.
+You may also follow the procedure outlined below to retrieve and pre-process the input files directly. Note that a prerequisite to this is to establish a directory hierarchy that mirrors what's in the Input data repository and in the [Reproduce my experiment](#reproduce-my-experiment) section:
+1. Download daily precipitation and temperature observations from [NOAA NCEI](https://www.ncei.noaa.gov/cdo-web/search) for the Upper Colorado River Basin in the state of Colorado. The following are the climate stations used in this experiment, reflecting the key climate stations used from the historic consumptive use analysis [(Garrison, 2015)](https://cdss.colorado.gov/modeling-data/consumptive-use-statecu). Note that some climate stations are missing observations, and if so nearby secondary stations are used for in-filling.
     | NOAA NCEI Key ID | Key Climate Station Name | Secondary Station ID(s) |
-    | --- | --- | --- |
+    | :---: | :---: | :---: |
     | USC00050214 | Altenbern | USC00056266 |
     | USC00051741 | Collbran | US1COME0133, USC00051743, USC00051745 |
     | USW00023063 | Eagle County AP | US1COEG0006, US1COEG0018, US1COEG0025, USC00057618, USR0000CGYP, USW00003098 |
@@ -53,6 +53,13 @@ You may also follow the procedure outlined below:
     | USC00057031 | Rifle | USC00057033, USW00003016 |
     | USC00059265 | Yampa | USC00056797, USC00057936, USC00059103 |
 
+2. Download regional daily precipitation and temperature CMIP6 projections from the [NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6)](https://www.nccs.nasa.gov/services/data-collections/land-based-products/nex-gddp-cmip6) and the [US Department of Energy SECURE Water Act Assessment (Section 9505)](https://hydrosource.ornl.gov/data/datasets/9505v3flow-1/). The following scripts were used to create the necessary directories and filepaths, download these regional hydroclimatic observations, and check that the download process has completed.
+    | Script Name | Description | How to Run | Passed Arguments
+    | :---: | :---: | :---: | :---: |
+    | `DownloadNASACMIP6.py` | Script to (1) create directories and (3) check that all files were successfully downloaded relating to the NASA projections | `python scripts/DownloadNASACMIP6.py` | `makedirs`, `checkdirs` |
+    | `DownloadNASACMIP6.sh` | Script to (2) parallelize downloading NASA CMIP6 projections | `sbatch scripts/DownloadNASACMIP6.sh` | - |
+    | `DownloadHydroCMIP6.py` | Script to (1) reduce links, (2) create directories, and (4) check that all files were successfully downloaded relating to the DoE/ORNL projections | `python scripts/DownloadHydroCMIP6.py | `reducelinks`, `createdirs`, `checkdirs` |
+    | `DownloadHydroCMIP6.sh` | Script to (3) parallelize downloading Doe/ORNL CMIP6 projections | `sbatch scripts/DownloadHydroCMIP6.sh` | - |
 
 ### Output data
 Reference for each minted data source for your output data.  For example:
@@ -64,7 +71,7 @@ _your output data references here_
 
 ## Contributing modeling software
 | Model | Version | Repository Link | DOI |
-|-------|---------|-----------------|-----|
+| :---: | :---: | :---: | :---: |
 | StateCU | 14.0.1 | https://github.com/OpenCDSS/cdss-app-statecu-fortran | - |
 
 ## Reproduce our experiment
