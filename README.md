@@ -34,9 +34,9 @@ Thames, A. B., Hadjimichael, A., & Quinn, J. D. Climate Sensitivity of Agricultu
 ## Data reference
 
 ### Input data
-Input data can be found here: Human, I.M. (2021). My input dataset name [Data set]. DataHub. https://doi.org/some-doi-number
+Thames, A. (2025). Input Data for Thames et al. -- Climate Sensitivity of Agricultural Water Demand (1.0.0) [Dataset]. Zenodo. https://doi.org/10.5281/zenodo.18071209
 
-You may also follow the procedure outlined below to retrieve and pre-process the input files directly. Note that a prerequisite to this is to establish a directory hierarchy that mirrors what's in the Input data repository and in the [Reproduce my experiment](#reproduce-my-experiment) section:
+You may also follow the procedure outlined below to retrieve and pre-process the input files directly. Note that a prerequisite to this is to establish a directory hierarchy that mirrors what's in the Input data repository and in the [Reproduce our experiment](#reproduce-our-experiment) section. Shell scripting references the SLURM job manager where approriate:
 1. Download daily precipitation and temperature observations from [NOAA NCEI](https://www.ncei.noaa.gov/cdo-web/search) for the Upper Colorado River Basin in the state of Colorado. The following are the climate stations used in this experiment, reflecting the key climate stations used from the historic consumptive use analysis [(Garrison, 2015)](https://cdss.colorado.gov/modeling-data/consumptive-use-statecu). Note that some climate stations are missing observations, and if so nearby secondary stations are used for in-filling.
     | NOAA NCEI Key ID | Key Climate Station Name | Secondary Station ID(s) |
     | :---: | :---: | :---: |
