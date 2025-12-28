@@ -1,0 +1,43 @@
+# cm2015.str.StateDMI
+# Creates structure file to include irrigated acreage from 2005 and 2010 acreage assessments
+# cmstrlist.lst includes list of all explicit and aggregate structures
+#
+ReadCULocationsFromList(ListFile="cmstrlist.lst",IDCol=1,AWCCol=2)
+# Set county and HUC for climate station assignment from HydroBase
+FillCULocationsFromHydroBase(ID="*",CULocType=Structure,Region1Type=County,Region2Type=HUC)
+SetCULocationsFromList(ListFile="plateau.lst",IDCol=1,Region1Col=2)
+# Fill missing AWC values with WD average
+FillCULocation(ID="36*",AWC=0.09)
+FillCULocation(ID="37*",AWC=0.09)
+FillCULocation(ID="38*",AWC=0.11)
+FillCULocation(ID="39*",AWC=0.10)
+FillCULocation(ID="45*",AWC=0.12)
+FillCULocation(ID="50*",AWC=0.12)
+FillCULocation(ID="51*",AWC=0.11)
+FillCULocation(ID="52*",AWC=0.09)
+FillCULocation(ID="53*",AWC=0.09)
+FillCULocation(ID="70*",AWC=0.11)
+FillCULocation(ID="72*",AWC=0.12)
+#Assign climate weights based on county and HUC.
+FillCULocationClimateStationWeights(ID="7200646_I",Weights="USC00053146,0.68,0.68,USC00053489,0.32,0.32")
+FillCULocationClimateStationWeights(ID="7200645",Weights="USC00053146,0.68,0.68,USC00053489,0.32,0.32")
+SetCULocationClimateStationWeightsFromList(ListFile="cowts.lst",StationIDCol=1,Region1Col=2,Region2Col=3,TempWtCol=4,PrecWtCol=5)
+# Assign climate stations for aggregates.
+FillCULocationClimateStationWeights(ID="72_ADC065",Weights="USC00053146,0.68,0.68,USC00053489,0.32,0.32")
+FillCULocationClimateStationWeights(ID="72_AND065",Weights="USC00053146,0.68,0.68,USC00053489,0.32,0.32")
+FillCULocationClimateStationWeights(ID="36*",Weights="USC00054664,1.0,0,USC00053592,0,1.0")
+FillCULocationClimateStationWeights(ID="37*",Weights="USW00023063,1.0,1.0")
+FillCULocationClimateStationWeights(ID="38*",Weights="USC00053359,1.0,1.0")
+FillCULocationClimateStationWeights(ID="39*",Weights="USC00057031,1.0,1.0")
+FillCULocationClimateStationWeights(ID="45*",Weights="USC00057031,1.0,1.0")
+FillCULocationClimateStationWeights(ID="50*",Weights="USC00053500,0.5,0.5,USC00054664,0.5,0.5")
+FillCULocationClimateStationWeights(ID="51*",Weights="USC00053500,0.5,0.5,USC00054664,0.5,0.5")
+FillCULocationClimateStationWeights(ID="52*",Weights="USC00059265,1.0,1.0")
+FillCULocationClimateStationWeights(ID="53*",Weights="USC00059265,1.0,1.0")
+FillCULocationClimateStationWeights(ID="70*",Weights="USC00050214,1.0,1.0")
+FillCULocationClimateStationWeights(ID="72*",Weights="USC00051741,1.0,1.0")
+# Note that 4200541_I is also represented in the Gunnison model, if climate station is changed, represent the same change in the gm2015 scenario
+FillCULocationClimateStationWeights(ID="4200541_I",Weights="USC00053489,1.0,1.0")
+SortCULocations()
+WriteCULocationsToStateCU(OutputFile="..\StateCU\cm2015.str",WriteHow=OverwriteFile)
+WriteCULocationsToStateCU(OutputFile="..\StateMod\cm2015.str",WriteHow=OverwriteFile)

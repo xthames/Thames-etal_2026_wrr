@@ -91,21 +91,27 @@ _your output data references here_
 | StateCU | 14.0.1 | https://github.com/OpenCDSS/cdss-app-statecu-fortran | - |
 
 ## Reproduce our experiment
-1. Install the software components required to conduct the experiment from [contributing modeling software](#contributing-modeling-software)
-2. Download and install the supporting [input data](#input-data) required to conduct the experiment
-3. Run the following scripts in the `workflow` directory to re-create this experiment:
+1. Create an empty directory and populate it with the hierarchy included in `workflow/`. Both `workflow/configs/` and `workflow/scripts/` are already filled; these contain configuration files or scripts relevant to execute the rest of our experiment
+2. Go through all files in `workflow/scripts/` and change any filepaths to reflect your local environment. The scripts included reflect the original Linux/SLURM environment of the first author
+3. Populate `workflow/noaa/` with the NOAA observations from the [input data](#input-data). Populate `workflow/cmip6/` with the regional CMIP6 downscales from the [input data](#input-data)   
+4. Follow the guidelines (especially the **Development Envionment** section) in the [contributing modeling software](#contributing-modeling-software) to clone the StateCU repository on GitHub to `workflow/cdss-dev/`. After cloning, continue following the instructions to compile the StateCU executable
+5. Once StateCU is compiled, change your directory to `cdss-dev/cm2015_StateCU/StateCU/` and create a [symbolic link](https://stackoverflow.com/questions/1951742/how-can-i-symlink-a-file-in-linux) called `statecu_exe` to the executable. Confirm that StateCU is operating nominally by executing it using `./statecu_exe` from the `cdss-dev/cm2015_StateCU/StateCU/` directory and inputting `cm2015B` when prompted. *Note the size of the outputs from running StateCU; make sure you have enough memory to accommodate at least 10,000x this value* 
+6. The experiment uses the script and arguments outlined below:
+    | Script Name | Description | How to Run |
+    | :---: | :---: | :---: |
+    | `SWGManager.py` | Script that manages processing of inputs and generation of hydroclimatology via stochastic weather generator | `python scripts/SWGManager.py source numSOWs numRealizations` |
+    * `source`: can be `noaa` or `cmip6`. Determines which source of input data to use, the NOAA-based observations or the regional CMIP6 downscales
+    * `numSOWs`: optional, can be any positive integer that is the square of a prime number larger than 5<sup>2</sup>. Determines the number of states of the world to consider. If paired with `source=noaa` then it is only permitted that `numSOWs=1`; this experiment considers `numSOWs=1369` in the main text and `numSOWs=121` in the supplement with `source=cmip6`
+    * `numRealizations`: optional, can be any positive integer. Determines the number of samples of internal variability for each state of the world. With `source=noaa` we use `numRealizations=1000` and with `source=cmip6` we use `numRealizations=10`
 
-| Script Name | Description | How to Run |
-| --- | --- | --- |
-| `step_one.py` | Script to run the first part of my experiment | `python3 step_one.py -f /path/to/inputdata/file_one.csv` |
-| `step_two.py` | Script to run the second part of my experiment | `python3 step_two.py -o /path/to/my/outputdir` |
-
-4. Download and unzip the [output data](#output-data) from my experiment 
-5. Run the following scripts in the `workflow` directory to compare my outputs to those from the publication
-
-| Script Name | Description | How to Run |
-| --- | --- | --- |
-| `compare.py` | Script to compare my outputs to the original | `python3 compare.py --orig /path/to/original/data.csv --new /path/to/new/data.csv` |
+    Explicitly, the following commands were used to run the experiment:
+    | Step | Command | Description |
+    | :---: | :---: | :---: |
+    | I | `python scripts/SWGManager.py noaa` | Process the NOAA observations, extract statistical parameters |
+    | II | `python scripts/SWGManager.py noaa 1 1000` | Create stationary, synthetically-generated precipitation, temperature, and frost dates from NOAA observations and run StateCU using them |
+    | III | `python scripts/SWGManager.py cmip6` | Process the regional CMIP6 downscaled projections, extract statistical parameters per SSP/model |
+    | IV | `python scripts/SWGManager.py cmip6 1369 10` | Create the synthetically-generated precipitation, temperature, and frost dates from the regional CMIP6 downscaled projections and run StateSU using them |
+7. Out of the 13,690 realizations processed by StateCU in this way, fewer than 5 fail to be processed. You can check this exact value by running `python scripts/AnalysisManager.py checkdirs`. If any realizations have failed, rerun 6.IV until none do 
 
 ## Reproduce our figures
 Use the scripts found in the `figures` directory to reproduce the figures used in this publication.

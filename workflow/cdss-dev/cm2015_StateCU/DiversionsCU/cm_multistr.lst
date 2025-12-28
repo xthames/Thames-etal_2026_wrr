@@ -1,0 +1,11 @@
+#cm_multistr.lst
+# This file identifies all of the multistructures represented in the model. 
+# Structures in a multi-structure are located on the different tributaries, but irrigate the same acreage. 
+# Multi-structure systems have the combined acreage and demand assigned to a primary structure; 
+# however, the water rights are represented at each individual structure, and the model meets the demand 
+# from each structure when their water right is in priority. 
+#
+#Multistructures (only primary ID in cmlist)
+5100941,Vail Irr Multi,5100941,5101231
+5300883,WILSON AND DOLL DITCH,5300883,5200731
+3600801,SMITH DITCH,3600801,3600832

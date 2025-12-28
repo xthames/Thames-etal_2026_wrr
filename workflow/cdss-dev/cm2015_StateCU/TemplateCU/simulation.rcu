@@ -1,0 +1,14 @@
+# StateCU response file for the Colorado basin
+#
+# Filename
+CUControl =                      /storage/work/ayt5134/research/StateCU/cdss-dev/cm2015_StateCU/TemplateCU/simulation.ccu
+ClimateStation =                 /storage/work/ayt5134/research/StateCU/cdss-dev/cm2015_StateCU/TemplateCU/simulation.cli
+MeanTemperature_Monthly =        simulation.tem
+Precipitation_Monthly =          simulation.prc
+FrostDate_Yearly =               simulation.fd
+CropCharacteristic =             /storage/work/ayt5134/research/StateCU/cdss-dev/cm2015_StateCU/TemplateCU/simulation.CCH
+Blaney-Criddle_CropCoefficient = /storage/work/ayt5134/research/StateCU/cdss-dev/cm2015_StateCU/TemplateCU/simulation.KBC
+Structure =                      /storage/work/ayt5134/research/StateCU/cdss-dev/cm2015_StateCU/TemplateCU/simulation.str
+CropDistribution_Yearly =        /storage/work/ayt5134/research/StateCU/cdss-dev/cm2015_StateCU/TemplateCU/simulation.cds
+Diversion_Historic_Monthly =     /storage/work/ayt5134/research/StateCU/cdss-dev/cm2015_StateCU/TemplateCU/simulation.ddh
+IrrigationParameter_Yearly =     /storage/work/ayt5134/research/StateCU/cdss-dev/cm2015_StateCU/TemplateCU/simulation.ipy

@@ -1,0 +1,21 @@
+#  control file
+Historic Potential Consumptive Use Analysis for the Colorado River Basin
+Aug 2025 - Run 1950 through 2013 for StateMod *.def & *.ddc input
+Simulation of cm2015.rcu
+1950   2013            - nyr1, nyr2 - begin year, end year of simulation
+1                      - flag1 - consumptive use option (1=BC, 2=" other uses", 3=PM, 4=Hargreaves, 5=ASCE Standardized Penman-Monteith)
+1                      - rn_xco - monthly precipitation method (0=none, 1=SCS method, 2=USBR method)
+1                      - iclim - model analysis type (0=climate station scenario (unit CU), 1=structure scenario)
+1                      - isuply - water supply option (0=none (PCU only), 1=water supply limited by structure, 2=water rights considered, 3=return flows, 4=groundwater)
+1                      - sout - type of input summary (*.sum) output file (0 = basic, 1 = detailed)
+1                      - ism - consider soil moisture (0=do not consider soil mosture, 1=consider-user initialized, 2=consider-run presimulation to initialize)
+0.5  0.0  0.0          - initial soil moisture content for senior, junior, other parcels (fraction of capacity for each type)
+0                      - iprytsm - operate soil moisture (0=by proration, 1=by priority)
+0                      - ismcar - default annual carry over soil moisture coefficient (percent)
+13                     - typout - output report level (0=*.sum, 1=0 + *.iwr, *.wsl, 2=1 + *swb, 3=2 + *.dwb)
+0                      - iflood - number of subirrigated crops; if iflood>1 then read iflood lines of crop names
+1                      - ddscw - switch to create StateMod format output (0=no, 1=yes-in calendar year)
+5                      - idaily - operate daily precprocessor (1=daily diversions w/ daily admin, 2=daily div w/ mo admin, 3=daily div w/ single admin, 4=mo div w/ mo admin, 5=mo div w/ single admin)
+399398.00000           - administration number for CU by priority
+0                      - idrain, consider supply from drains
+1                      - imiss2, prorate CU for missing diversions: 0=none, 1=Fill div using avg shortage, 2=Fill clim w/ hist avg & div w/ hist avg, 3=Fill clim w/ hist avg & div w/ 0, 4=Fill clim w/ hist avg & do not fill div, 5=Fill div w/ 0 & do not fill clim

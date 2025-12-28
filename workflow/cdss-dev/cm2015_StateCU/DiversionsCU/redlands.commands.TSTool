@@ -1,0 +1,24 @@
+# redlands.commands.TSTool
+#     Redlands Irrigation = 4200541_I; Redlands Power = 4200541
+#     Sources for total Redlands diversions:
+#     Task 11.2 memo, data 1930 through 1975 (Total Diversion through Headgate)
+#     HydroBase data 1976 through present (total Diversion through Headtate)
+#
+#       Irrigation diversions estimated as average monthly for short period recorded as source 1 use 1
+#       Starting January, irrigation demand average =  0,0,0,2231,4612,4463,4612,4612,4463,2231,0,0
+#
+#       Power diversions estimated as DivTotal - Average Monthly Irrigation diverisons
+SetInputPeriod(InputStart="10/1908",InputEnd="09/2013")
+# 4200541 - REDLANDS POWER CANAL
+4200541.DWR.DivTotal.Month~HydroBase
+# Read Task 11.2 data
+4200541...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=AllMatchingTSID,TSID="4200541.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="4200541...MONTH")
+NewTimeSeries(Alias="4200541_I%A",NewTSID="4200541_I...Month",SetStart="10/1908",SetEnd="09/2013",Units="ACFT")
+SetConstant(TSList=AllMatchingTSID,TSID="4200541_I",MonthValues="0,0,0,2231,4612,4463,4612,4612,4463,2231,0,0")
+Subtract(TSID="4200541.DWR.DivTotal.Month",SubtractTSList=AllMatchingTSID,SubtractTSID="4200541_I",HandleMissingHow="SetMissingIfAnyMissing")
+ReplaceValue(TSList=AllMatchingTSID,TSID="4200541.DWR.DivTotal.Month",MinValue=-5000,MaxValue=-1000,NewValue=0)
+ReplaceValue(TSList=AllMatchingTSID,TSID="4200541.DWR.DivTotal.Month",MinValue=-998,MaxValue=-1,NewValue=0)
+Free(TSList=AllMatchingTSID,TSID="4200541...MONTH")
+SetOutputYearType(OutputYearType=Water)
+WriteStateMod(TSList=AllTS,OutputFile="redlands.stm",Precision=0)

@@ -1,0 +1,66 @@
+#cm_divsys_crop.lst
+# This file identifies all of the diversion systems in the model.
+# Structures in a diversion system are located on the same tributary and irrigate the same acreage.
+# Diversion systems combine acreage, headgate demands, and water rights; and the model treats them as a single structure.
+#
+#the following are all DivSystems
+3600649_D,Hamilton Davidson DivSys,3600649,3600541,3600849,3600850,3600851,3600800,3600659
+5100529_D,Big Lake DivSys,5100529,5100584
+7200512_D,Arbogast Pump DivSys,7200512,7201072
+7200852_D,RMG DivSys,7200852,7200555
+5000653_D,Tom Ennis DivSys,5000653,5000741,5000756
+4500576_D,Divide Creek Highline DivSys,4500576,4500828
+4500693_D,Mineota DivSys,4500693,4500585,4500574
+7200730_D,Kiggins Salisbury DivSys,7200730,7200810
+7000583_D,Roan Creek No 2 DivSys,7000583,7000507
+5300767_D,HMS Relocated DivSys,5300767,5301059
+5100880_D,Selak Larrabee Ditch DivSys,5100880,5100922
+4500632_D,Holmes DivSys,4500632,4500558
+3900546_D,Davenport DivSys,3900546,3900666
+3801096_D,Williams No 2 DivSys,3801096,3801095
+3600776_D,Pharo Bauer DivSys,3600776,3600777
+3600868_D,Westlake DivSys,3600868,3600555
+3600662_D,Hoagland DivSys,3600662,3600946,3601018,3601047,3601020,3601019,3600945,3601048,3601049
+3800880_D,Mt. Sopris DivSys,3800880,3801633
+5000734_D,Deberard DivSys,5000734,5000548
+5300555_D,Derby DivSys,5300555,5300519,5300521
+# Irrigation Demands
+4200541_I,Redlands Power Canal Irr,7204713
+7200766_I,Mason and Eddy Irr,7200766
+# The following are used for crop files only, diversion files use *.stm's for these structures
+7200646_I,Grand Valley Project,7200646
+3900563_I,Dry Elk Valley Irr,3900563
+3903505_I,Farmers Irrig,3903505
+# Carrier Structures only, no crop irrigation (not used for CU)
+#5101309_D,FRASER RIVER DIVR PROJ,5101309,5100593
+#7201329_D,Rapid Creek PP DivSys,7201329,7201235
+#7200820_D,Park Creek DivSys,7200820,7200819
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

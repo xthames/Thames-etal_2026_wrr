@@ -1,0 +1,129 @@
+# Created by the StateCU Wizard on: 10/17/2008 1:21:45 PM by user: KARA\Kara
+# created from HydroBase web service query (GetCropsAll)
+# ------------------------------------------------ 
+#Crop Characteristics File
+#
+# Column    Description
+#-------------------------------------------------------------------------------
+#   (1)     Crop Name
+#   (2)     Consumptive Use Model Crop Number
+#   (3)     Planting Month
+#   (4)     Planting Day
+#   (5)     Harvest Month
+#   (6)     Harvest Day
+#   (7)     Days to Full Cover (not used by Blaney-Criddle, used by PM)
+#   (8)     Length of Season
+#   (9)     Temperature Early Moisture (F) (source: generally SCS TR-21) 
+#  (10)     Temperature Late Moisture (F) (source: generally SCS TR-21)
+#  (11)     Management Allowable Deficit Level (source: ASCE Manual 70; parameter not used in StateCU)
+#  (12)     Initial Root Zone Depth (ft) (source: ASCE Manual 70)
+#  (13)     Maximum Root Zone Depth (ft) (source: ASCE Manual 70)
+#  (14)     Available Water Holding Capacity (not used in StateCU, always set to 0.0)
+#  (15)     Maximum Application Depth (inch)
+#  (16)     Spring Frost Date Flag (0-mean,1-28 deg,2-32 deg)
+#  (17)     Fall Frost Date Flag (0-mean,1-28 deg,2-32 deg)
+#  (18)     Days between 1st 2nd cuts for alfalfa
+#  (19)     Days between 2nd 3rd cuts for alfalfa
+#  -999 	indicates missing data
+#
+#Sources for crop coefficients are as follows:
+#
+#SCS TR-21 - Modified B-C coefficients:
+#  ALFALFA.TR21
+#  GRASS_PASTURE.TR21
+#  GRAPES.TR21
+#  ORCHARD_WITH_COVER.TR21
+#  ORCHARD_WO_COVER.TR21
+#  CORN_GRAIN.TR21
+#  CORN_SILAGE.TR21
+#  COTTON.TR21
+#  DRY_BEANS.TR21
+#  SNAP_BEANS.TR21
+#  SPRING_GRAIN.TR21
+#  SMALL_GRAINS.TR21 (under RGDSS, SMALL_GRAINS category was created for barley, oats, and wheat because difficult to distinguish)
+#  SUGAR_BEETS.TR21
+#  SWEET_CORN.TR21
+#  VEGETABLES.TR21 (cols 9 & 10 temp early/late moisture adopted from USBR CU model (XCONS)
+#                   used to create CU and Losses Report)
+#  WHEAT_FALL.TR21 (fall component of winter wheat, must also include spring component)
+#  WHEAT_SPRING.TR21 (spring component of winter wheat, must also include fall component)
+#  POTATOES.TR21
+#  SORGHUM_GRAIN.TR21
+#
+#SPDSS - Modified B-C coefficients calibrated to ASCE PM Method:
+# CCUP refers to Upper Platte
+# CCLP refers to Lower Platte
+#  ALFALFA.CCUP
+#  ALFALFA.CCLP
+#  CORN_GRAIN.CCUP
+#  CORN_GRAIN.CCLP
+#  DRY_BEANS.CCUP
+#  DRY_BEANS.CCLP
+#  GRASS_PASTURE.CCUP
+#  GRASS_PASTURE.CCLP
+#  SPRING_GRAIN.CCUP
+#  SPRING_GRAIN.CCLP
+#  SUGAR_BEETS.CCUP
+#  SUGAR_BEETS.CCLP
+#
+#RGDSS Modified B-C coefficients calibrated to Hargreaves Method:
+#  ALFALFA_CCRG
+#  GRASS_PASTURE.CCRG
+#  SMALL_GRAINS.CCRG
+#  POTATOES.CCRG
+#
+#Denver Water South Park Lysimeter Study original B-C calibrated coefficients:
+#  GRASS_PASTURE.DWHA
+#
+#Pochop's Method for Bluegrass:
+#  BLUEGRASS.POCHOP
+#
+#CRWCD/UGRWCD report: Subordination of the Wayne N. Aspenall Unit Water Rights
+# Within the Upper Gunnison Basin, based on StateCU. - original B-C coefficients:
+#  GRASS_PASTURE.UGHA
+#
+#
+#Crop coefficients for Winter Wheat are based on two separate curves; 
+#  WHEAT_FALL represents the fall portion of the growing season and WHEAT_SPRING represents the spring portion.  
+#  SCS TR-21 specifies a 45 deg mean temp for the end of the fall growing season and beginning of the spring growing season.
+#  Average growing dates for beginning of the fall growing season (9/1) and the end of the spring growing season (7/15) were taken from the Colorado Irrigation Guide. 
+#----------------------------------------------------------------------------------------------
+#
+#              (1)                 (2)  (3)   (4)   (5)   (6)   (7)   (8)   (9)  (10)  (11)  (12)  (13)  (14)  (15)  (16)  (17)  (18)  (19)
+ALFALFA.TR21                        1     1     1    12    31    75   365    50    28    55   4.9   4.9   0.0   3.0     0     1    45    45
+GRASS_PASTURE.TR21                  2     1     1    12    31   110   365    45    45    50   3.3   3.3   0.0   3.0     0     0            
+ORCHARD_WITH_COVER.TR21             3     1     1    12    31    66   365    50    45    60   5.0   5.0   0.0   3.0     0     0            
+ORCHARD_WO_COVER.TR21               4     1     1    12    31    66   365    50    45    60   5.0   5.0   0.0   3.0     0     0            
+GRAPES.TR21                         5     1     1    12    31    30   365    55    50    50   4.1   4.1   0.0   3.0     0     0            
+DRY_BEANS.TR21                      6     1     1    12    31    55   112    60    32    60   2.5   2.5   0.0   3.0     0     2            
+SPRING_GRAIN.TR21                   7     1     1    12    31    52   137    45    32    60   3.5   3.5   0.0   3.0     0     2            
+CORN_SILAGE.TR21                    8     1     1    12    31    72   140    55    32    60   3.9   3.9   0.0   3.0     0     2            
+SUGAR_BEETS.TR21                    9     1     1    12    31    87   184    28    28    50   2.6   2.6   0.0   3.0     1     1            
+CORN_GRAIN.TR21                    10     1     1    12    31    72   140    55    32    50   3.3   3.3   0.0   3.0     0     2            
+SWEET_CORN.TR21                    11     1     1    12    31    72   110    55    32    60   3.9   3.9   0.0   3.0     0     2            
+SNAP_BEANS.TR21                    12     1     1    12    31    55   112    60    32    45   2.5   2.5   0.0   3.0     0     2            
+COTTON.TR21                        13     1     1    12    31  -999   240    62    32    55   3.5   3.5   0.0   3.0     0     2            
+WHEAT_FALL.TR21                    14     9     1    12    31   100   122    45    45    55   5.4   5.4   0.0   3.0     0     0            
+WHEAT_SPRING.TR21                  15     1     1     7    15   100   152    45    45    55   4.1   4.1   0.0   3.0     0     0            
+VEGETABLES.TR21                    16     1     1    12    31    45   146    55    45    35   1.6   1.6   0.0   3.0     0     0            
+ALFALFA.CCRG                       31     1     1    12    31    75   365    45    28    55   4.9   4.9   0.0   3.0     0     1    45    45
+GRASS_PASTURE.CCRG                 32     1     1    12    31   110   365    45    45    50   3.3   3.3   0.0   3.0     0     0            
+POTATOES.CCRG                      33     1     1    12    31    45   130    50    32    35   1.6   1.6   0.0   3.0     0     2            
+SMALL_GRAINS.CCRG                  34     1     1    12    31    70   130    45    32    55   4.1   4.1   0.0   3.0     0     2            
+GRASS_PASTURE.UGHA                 40     1     1    12    31   110   365    45    45    50   3.3   3.3   0.0   3.0     0     0            
+DRY_BEANS.CCLP                     41     1     1    12    31    55   112    60    32    60   2.5   2.5   0.0   3.0     0     2            
+GRASS_PASTURE.CCLP                 42     1     1    12    31   110   365    45    45    50   3.3   3.3   0.0   3.0     0     0            
+SPRING_GRAIN.CCLP                  43     1     1    12    31    52   137    45    32    60   3.5   3.5   0.0   3.0     0     2            
+SUGAR_BEETS.CCLP                   44     1     1    12    31    87   184    28    28    50   2.6   2.6   0.0   3.0     1     1            
+ALFALFA.CCLP                       45     1     1    12    31    75   365    50    28    55   4.9   4.9   0.0   3.0     0     1    45    45
+CORN_GRAIN.CCLP                    46     1     1    12    31    72   140    55    32    50   3.3   3.3   0.0   3.0     0     2            
+POTATOES.TR21                      47     1     1    12    31     0   130    60    32    35   1.6   1.6   0.0   3.0     0     2            
+ALFALFA.CCUP                       49     1     1    12    31    75   365    50    28    55   4.9   4.9   0.0   3.0     0     1    45    45
+CORN_GRAIN.CCUP                    50     1     1    12    31    72   140    55    32    50   3.3   3.3   0.0   3.0     0     2            
+DRY_BEANS.CCUP                     51     1     1    12    31    55   112    60    32    60   2.5   2.5   0.0   3.0     0     2            
+GRASS_PASTURE.CCUP                 52     1     1    12    31   110   365    45    45    50   3.3   3.3   0.0   3.0     0     0            
+SPRING_GRAIN.CCUP                  53     1     1    12    31    52   137    45    32    60   3.5   3.5   0.0   3.0     0     2            
+SUGAR_BEETS.CCUP                   54     1     1    12    31    87   184    28    28    50   2.6   2.6   0.0   3.0     1     1            
+GRASS_PASTURE.DWHA                 55     1     1    12    31   110   365    42    42    50   3.3   3.3   0.0   3.0     0     0            
+BLUEGRASS.POCHOP                   57     1     1    12    31    75   365    50    28    55   0.5   0.5   0.0   0.5     0     1            
+SORGHUM_GRAIN.TR21                 58     1     1    12    31     0   130    60    32    55   4.9   4.9   0.0   3.0     0     2            

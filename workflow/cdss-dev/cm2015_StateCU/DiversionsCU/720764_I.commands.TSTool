@@ -1,0 +1,10 @@
+#  MARTIN CRAWFORD DITCH IRRIGATION DIVERSIONS 7200764_I
+#    7200764_I only includes the irrigation diversions at 7200764
+#    7200764 represents the municipal diversion by Ute WCD at 7200764
+#
+SetOutputPeriod(OutputStart="10/1950",OutputEnd="9/2013")
+SetOutputYearType(OutputYearType=Water)
+7200764.DWR.DivClass-S:1 F: U:1 T:.Month~HydroBase
+Copy(TSID="7200764.DWR.DivClass-S:1 F: U:1 T:.Month",NewTSID="7200764_I...Month",Alias="7200764_I")
+Free(TSList=LastMatchingTSID,TSID="7200764.DWR.DivClass-S:1 F: U:1 T:.Month")
+WriteStateMod(TSList=AllMatchingTSID,TSID="7200764_I",OutputFile="7200764_I.stm",Precision=0)

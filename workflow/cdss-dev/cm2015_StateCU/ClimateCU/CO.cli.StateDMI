@@ -1,0 +1,12 @@
+ReadClimateStationsFromList(ListFile="climsta.lst",IDCol=1)
+FillClimateStationsFromHydroBase(ID="*")
+# The following counties and HUCs are set to allow climate stations to be assigned to smaller tributaries in the White basin.
+# Other basins have climate stations assigned by Water District.
+SetClimateStation(ID="USC00053016",Region2="14080106",IfNotFound=Warn)
+SetClimateStation(ID="USC00051018",Region2="14040106",IfNotFound=Warn)
+SetClimateStation(ID="USC00054254",Region2="14080101",IfNotFound=Warn)
+SetClimateStation(ID="USC00056259",Region2="14080101",IfNotFound=Warn)
+SetClimateStation(ID="USC00052196",Region2="14020005",IfNotFound=Warn)
+SetClimateStation(ID="USC00056520",Region2="14030003",IfNotFound=Warn)
+SetClimateStation(ID="USC00480484",Region1="MOFFAT",IfNotFound=Add)
+WriteClimateStationsToStateCU(OutputFile="COclim2015.cli")

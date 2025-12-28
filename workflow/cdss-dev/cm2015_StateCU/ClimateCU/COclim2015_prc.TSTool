@@ -1,0 +1,205 @@
+SetOutputPeriod(OutputStart="01/1950",OutputEnd="12/2013")
+SetOutputYearType(OutputYearType=Calendar)
+#
+## Altenbern (USC00050214)
+USC00050214.NOAA.Precip.Month~HydroBase
+## Baggs (USC00480484)
+# Note Baggs is a Wyoming Station, read from HB
+USC00480484.NOAA.Precip.Month~HydroBase
+## Browns Park Store (USC00051018)
+# Combine Browns Park Store stations (USC00051018 and USC00051020 and USC00051017)
+USC00051017.NOAA.Precip.Month~HydroBase
+USC00051018.NOAA.Precip.Month~HydroBase
+USC00051020.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051020.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051017.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00051017.NOAA.Precip.Month~HydroBase")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051018.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051020.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00051020.NOAA.Precip.Month~HydroBase")
+## Cedaredge (USC00051440)
+# Combine Cedaredge Stations (USC00051440 and USC00051443)
+USC00051440.NOAA.Precip.Month~HydroBase
+USC00051443.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051440.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051443.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00051443.NOAA.Precip.Month~HydroBase")
+## Cimarron (USC00051609)
+USC00051609.NOAA.Precip.Month~HydroBase
+## Cochetopa Creek (USC00051713)
+USC00051713.NOAA.Precip.Month~HydroBase
+## Collbran (USC00051741)
+# Combine Collbran stations (USC00051741 and USC00051745)
+USC00051741.NOAA.Precip.Month~HydroBase
+USC00051745.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051741.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051745.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00051745.NOAA.Precip.Month")
+## Cortez (USC00051886)
+USC00051886.NOAA.Precip.Month~HydroBase
+## Craig (USC00051928)
+# Combine Craig stations (USC00051932 and USC00051928)
+USC00051928.NOAA.Precip.Month~HydroBase
+USC00051932.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051928.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051932.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00051932.NOAA.Precip.Month")
+## Crested Butte (USC00051959)
+USC00051959.NOAA.Precip.Month~HydroBase
+## Delta 3 E (USC00052196)
+# Combine Delta stations (USC00052196 and USC00052192)
+USC00052196.NOAA.Precip.Month~HydroBase
+USC00052192.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00052196.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00052192.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00052192.NOAA.Precip.Month")
+## Dillon (USC00052281)
+USC00052281.NOAA.Precip.Month~HydroBase
+## Dinosour (USC00052286)
+# Combine Dinosaur stations (USC00052286 and USC00050354)
+USC00052286.NOAA.Precip.Month~HydroBase
+USC00050354.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00052286.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00050354.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00050354.NOAA.Precip.Month")
+## Durango (USC00052432)
+# Combine Durango stations (USC00052432 and USC00052441)
+USC00052432.NOAA.Precip.Month~HydroBase
+USC00052441.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00052432.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00052441.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00052441.NOAA.Precip.Month")
+## Dolores (USC00052326)
+# Note - Precipitation only
+USC00052326.NOAA.Precip.Month~HydroBase
+## Eagle County (USW00023063)
+USW00023063.NOAA.Precip.Month~HydroBase
+## Ft. Lewis (USC00053016)
+USC00053016.NOAA.Precip.Month~HydroBase
+## Fruita (USC00053146)
+# Combine Fruita stations (USC00053146 and USC00053147)
+USC00053146.NOAA.Precip.Month~HydroBase
+USC00053147.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00053146.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00053147.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00053147.NOAA.Precip.Month")
+##  Gateway (USC00053246)
+USC00053246.NOAA.Precip.Month~HydroBase
+## Glenwood Springs (USC00053359)
+USC00053359.NOAA.Precip.Month~HydroBase
+## Grand Junction (USC00053489)
+USC00053489.NOAA.Precip.Month~HydroBase
+## Grand Lake (USC00053500)
+USC00053500.NOAA.Precip.Month~HydroBase
+## Green Mountain Dam (USC00053592)
+USC00053592.NOAA.Precip.Month~HydroBase
+## Gunnison (USC00053662)
+USC00053662.NOAA.Precip.Month~HydroBase
+## Hamilton (USC00053738)
+USC00053738.NOAA.Precip.Month~HydroBase
+## Hayden (USC00053867)
+USC00053867.NOAA.Precip.Month~HydroBase
+## Ignacio (USC00054254)
+# Combine Ignacio stations (USC00054254 and USC00054250)
+USC00054254.NOAA.Precip.Month~HydroBase
+USC00054250.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00054254.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00054250.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00054250.NOAA.Precip.Month")
+## Kremmling (USC00054664)
+USC00054664.NOAA.Precip.Month~HydroBase
+## Lake City (USC00054734)
+# Combine Lake City stations (USC00054734, USC00054735, and USC00054736)
+USC00054734.NOAA.Precip.Month~HydroBase
+USC00054735.NOAA.Precip.Month~HydroBase
+USC00054736.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00054734.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00054735.NOAA.Precip.Month")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00054734.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00054736.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00054735.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00054736.NOAA.Precip.Month")
+## Little Hills (USC00055048)
+USC00055048.NOAA.Precip.Month~HydroBase
+## Marvine Ranch (USC00055414)
+USC00055414.NOAA.Precip.Month~HydroBase
+## Maybell (USC00055446)
+USC00055446.NOAA.Precip.Month~HydroBase
+## Meeker (USC00055484)
+# Combine Meeker stations (USC00055484 and USC00055487)
+USC00055484.NOAA.Precip.Month~HydroBase
+USC00055487.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00055484.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00055487.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00055487.NOAA.Precip.Month")
+## Meredith (USC00055507)
+# Combine Meredith stations (USC00055507 and USC00055513)
+USC00055507.NOAA.Precip.Month~HydroBase
+USC00055513.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00055507.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00055513.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00055513.NOAA.Precip.Month")
+## Montrose (USC00055722)
+USC00055722.NOAA.Precip.Month~HydroBase
+## Northdale (USC00055970)
+USC00055970.NOAA.Precip.Month~HydroBase
+## Norwood (USC00056012)
+# Combine Norwood stations (USC00056012 and USC00056013)
+USC00056012.NOAA.Precip.Month~HydroBase
+USC00056013.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056012.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056013.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00056013.NOAA.Precip.Month")
+## Pagosa Springs (USC00056259)
+# Combine Pagosa Springs stations (USC00056259, USC00056258, and USC00056263)
+USC00056259.NOAA.Precip.Month~HydroBase
+USC00056258.NOAA.Precip.Month~HydroBase
+USC00056263.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056259.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056258.NOAA.Precip.Month")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056259.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056263.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00056258.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00056263.NOAA.Precip.Month")
+## Paonia (USC00056306)
+# Combine Paonia stations (USC00056306 and USC00056307)
+USC00056306.NOAA.Precip.Month~HydroBase
+USC00056307.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056306.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056307.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00056307.NOAA.Precip.Month")
+## Parachute (USC00056311)
+USC00056311.NOAA.Precip.Month~HydroBase
+## Paradox (USC00056315)
+# Combine Paradox stations (USC00056315, USC00056318 and USC00056320)
+USC00056315.NOAA.Precip.Month~HydroBase
+USC00056318.NOAA.Precip.Month~HydroBase
+USC00056320.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056315.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056318.NOAA.Precip.Month")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056315.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056320.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00056318.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00056320.NOAA.Precip.Month")
+## Placerville (USC00056520)
+# Combine Placerville stations (USC00056520 and USC00056524)
+USC00056520.NOAA.Precip.Month~HydroBase
+USC00056524.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056520.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056524.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00056524.NOAA.Precip.Month")
+## Pyramid (USC00056797)
+USC00056797.NOAA.Precip.Month~HydroBase
+## Rangely (USC00056832)
+USC00056832.NOAA.Precip.Month~HydroBase
+## Rico (USC00057017)
+USC00057017.NOAA.Precip.Month~HydroBase
+## Ridgway (USC00057020)
+USC00057020.NOAA.Precip.Month~HydroBase
+## Rifle (USC00057031)
+# Combine Rifle stations (USC00057031 and USC00057033)
+USC00057031.NOAA.Precip.Month~HydroBase
+USC00057033.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00057031.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00057033.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00057033.NOAA.Precip.Month")
+## Steamboat Springs (USC00057936)
+USC00057936.NOAA.Precip.Month~HydroBase
+## Taylor Park (USC00058184)
+USC00058184.NOAA.Precip.Month~HydroBase
+## Telluride (USC00058204)
+USC00058204.NOAA.Precip.Month~HydroBase
+## Uravan (USC00058560)
+USC00058560.NOAA.Precip.Month~HydroBase
+## Vallecito Dam (USC00058582)
+USC00058582.NOAA.Precip.Month~HydroBase
+## Yampa (USC00059265)
+USC00059265.NOAA.Precip.Month~HydroBase
+## Yellow Jacket (USC00059275)
+# Combine Yellow Jacket stations (USC00059275 and USC00059278)
+USC00059275.NOAA.Precip.Month~HydroBase
+USC00059278.NOAA.Precip.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00059275.NOAA.Precip.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00059278.NOAA.Precip.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00059278.NOAA.Precip.Month")
+#
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="*")
+SortTimeSeries()
+WriteStateMod(TSList=AllTS,OutputFile="..\StateCU\COclim2015.prc",Precision=2)

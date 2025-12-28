@@ -1,0 +1,229 @@
+#   Task11.2.commands.TSTool
+#   Reads data digitized from records (NOT in HydroBase) from Task11.2_original.stm
+#   Reads current data from HydroBase and "merges" the datasets.  Output file = Task11.2.stm
+#
+#     Task 11.2 digitized larger and key administrative structures
+#
+SetInputPeriod(InputStart="10/1908",InputEnd="09/2013")
+SetOutputPeriod(OutputStart="10/1908",OutputEnd="09/2013")
+SetOutputYearType(OutputYearType=Water)
+# 3600829 - STRAIGHT CREEK DITCH
+3600829.DWR.IDivTotal.Month~HydroBase
+3600829...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=AllMatchingTSID,TSID="3600829.DWR.IDivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="3600829...MONTH")
+Free(TSList=AllMatchingTSID,TSID="3600829...MONTH")
+# 3600908 - STRAIGHT CREEK DITCH
+3600908.DWR.iDivTotal.Month~HydroBase
+3600908...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=AllMatchingTSID,TSID="3600908.DWR.IDivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="3600908...MONTH")
+SetConstant(TSList=LastMatchingTSID,TSID="3600908.DWR.iDivTotal.Month",ConstantValue=0,SetStart="10/1985",SetEnd="09/1987")
+Free(TSList=AllMatchingTSID,TSID="3600908...MONTH")
+# 3800757 - HOME SUPPLY DITCH
+3800757.DWR.DivTotal.Month~HydroBase
+3800757...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=AllMatchingTSID,TSID="3800757.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="3800757...MONTH")
+Free(TSList=AllMatchingTSID,TSID="3800757...MONTH")
+# 4500969 - BLUESTONE VALLEY DITCH
+4500969.DWR.DivTotal.Month~HydroBase
+4500969...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=AllMatchingTSID,TSID="4500969.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="4500969...MONTH")
+Free(TSList=AllMatchingTSID,TSID="4500969...MONTH")
+# 5100529 - BIG LAKE DITCH
+5100529.DWR.DivTotal.Month~HydroBase
+5100529...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=AllMatchingTSID,TSID="5100529.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="5100529...MONTH")
+# Data appears errant in HB - set to missing and fill with pattern in DDH
+SetConstant(TSList=LastMatchingTSID,TSID="5100529.DWR.DivTotal.Month",ConstantValue=-999,SetStart="10/1958",SetEnd="9/1959")
+SetConstant(TSList=LastMatchingTSID,TSID="5100529.DWR.DivTotal.Month",ConstantValue=-999,SetStart="10/1979",SetEnd="9/1980")
+Free(TSList=AllMatchingTSID,TSID="5100529...MONTH")
+# 7200628 - GALBRAITH DITCH
+7200628.DWR.DivTotal.Month~HydroBase
+7200628...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=AllMatchingTSID,TSID="7200628.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="7200628...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7200628...MONTH")
+# Jun-Aug data in WY 1995 appears errant, set to missing
+SetConstant(TSList=LastMatchingTSID,TSID="7200628.DWR.DivTotal.Month",ConstantValue=-999,SetStart="06/1995",SetEnd="08/1995")
+# 3601008 - BRECKENRIDGE PIPELINE
+3601008.DWR.iDivTotal.Month~HydroBase
+3601008.DWR.DivTotal.Month~HydroBase
+3601008...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=LastMatchingTSID,TSID="3601008.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="3601008.DWR.iDivTotal.Month")
+SetFromTS(TSList=LastMatchingTSID,TSID="3601008.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="3601008...MONTH",SetEnd="10/1992",TransferHow=ByDateTime)
+Free(TSList=AllMatchingTSID,TSID="3601008...MONTH")
+# 5100958 - WILLOW CREEK FEEDER
+5100958.DWR.DivTotal.Month~HydroBase
+5100958...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=AllMatchingTSID,TSID="5100958.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="5100958...MONTH")
+Free(TSList=AllMatchingTSID,TSID="5100958...MONTH")
+# 5300584 - SHOSHONE POWER PLANT
+5300584.DWR.DivTotal.Month~HydroBase
+5300584...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=AllMatchingTSID,TSID="5300584.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="5300584...MONTH")
+Free(TSList=AllMatchingTSID,TSID="5300584...MONTH")
+# 7200542 -  BONHAM BRANCH P/L
+7200542.DWR.DivTotal.Month~HydroBase
+7200542...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=AllMatchingTSID,TSID="7200542.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="7200542...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7200542...MONTH")
+# 7200583 - COTTONWOOD BRANCH P/L
+7200583.DWR.DivTotal.Month~HydroBase
+7200583...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=AllMatchingTSID,TSID="7200583.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="7200583...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7200583...MONTH")
+# 7200644 - GRAND JCT COLO R PL
+7200644.DWR.DivTotal.Month~HydroBase
+7200644.DWR.iDivTotal.Month~HydroBase
+7200644...MONTH~StateMod~Task11.2_original.stm
+##Combine to two HydroBase records (DivTotal and IDivTotal)
+FillFromTS(TSList=LastMatchingTSID,TSID="7200644.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="7200644.DWR.iDivTotal.Month")
+Free(TSList=LastMatchingTSID,TSID="7200644.DWR.iDivTotal.Month")
+##Combine user provided record with the HydroBase combined record
+FillFromTS(TSList=AllMatchingTSID,TSID="7200644.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="7200644...MONTH")
+Free(TSList=LastMatchingTSID,TSID="7200644...MONTH")
+# 7200746 - Leon Creek Diversions
+7200746.DWR.DivTotal.Month~HydroBase
+7200746...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=AllMatchingTSID,TSID="7200746.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="7200746...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7200746...MONTH")
+# 7200758 -  LEON TUNNEL CANAL
+#   Recorded under 7204715 in HB
+7204715.DWR.DivTotal.Month~HydroBase
+7204715.DWR.IDivTotal.Month~HydroBase
+7200758...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=LastMatchingTSID,TSID="7204715.DWR.DivTotal.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="7204715.DWR.iDivTotal.Month")
+Free(TSList=LastMatchingTSID,TSID="7204715.DWR.iDivTotal.Month")
+FillFromTS(TSList=AllMatchingTSID,TSID="7204715.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="7200758...MONTH")
+Free(TSList=LastMatchingTSID,TSID="7200758...MONTH")
+Copy(TSID="7204715.DWR.DivTotal.Month",NewTSID="7200758...Month",Alias="%L")
+Free(TSList=LastMatchingTSID,TSID="7204715.DWR.DivTotal.Month")
+SetAveragePeriod(AverageStart="10/1985",AverageEnd="09/2000")
+FillHistMonthAverage(TSList=LastMatchingTSID,TSID="7200758",FillStart="10/1974",FillEnd="9/2013")
+# 7200816 - PALISADE TOWN PIPELINE
+7200816.DWR.DivTotal.Month~HydroBase
+7200815.DWR.DivTotal.Month~HydroBase
+# From the diversion comments and records it appears that WDID 7200815 has become the diversion point
+# of choice for Palisade on Rapid Creek and therefore the diversions for the two structures have been added (James Heath)
+Add(TSID="7200816.DWR.DivTotal.Month",AddTSList=SpecifiedTSID,AddTSID="7200815.DWR.DivTotal.Month",HandleMissingHow="IgnoreMissing")
+Free(TSList=LastMatchingTSID,TSID="7200815.DWR.DivTotal.Month")
+7200816...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=AllMatchingTSID,TSID="7200816.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="7200816...MONTH")
+Free(TSList=LastMatchingTSID,TSID="7200816...MONTH")
+# 7200879 -  Southside Canal Diversions
+7200879.DWR.DivTotal.Month~HydroBase
+7200879...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=AllMatchingTSID,TSID="7200879.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="7200879...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7200879...MONTH")
+# 7200920 - GRAND MESA PIPELINE
+7200920.DWR.DivClass-S:1 F:766 U:2 T:A.Month~HydroBase
+7200920.DWR.DivClass-S:R F:766 U:2 T:A.Month~HydroBase
+7200920.DWR.DivClass-S:R F:1339 U:2 T:.Month~HydroBase
+7200920.DWR.DivClass-S:R F:1334 U:2 T:.Month~HydroBase
+7200920.DWR.DivClass-S:9 F: U:2 T:.Month~HydroBase
+7200920.DWR.DivClass-S:2 F:4901 U:2 T:.Month~HydroBase
+7200920.DWR.DivClass-S:2 F:3962 U:2 T:.Month~HydroBase
+7200920.DWR.DivClass-S:2 F:3961 U:2 T:.Month~HydroBase
+7200920.DWR.DivClass-S:1 F:4900 U:2 T:1.Month~HydroBase
+7200920.DWR.DivClass-S:1 F:4900 U:2 T:.Month~HydroBase
+7200920.DWR.DivClass-S:1 F:1487 U:2 T:.Month~HydroBase
+7200920.DWR.DivClass-S:1 F: U:2 T:.Month~HydroBase
+721487.DWR.DivClass-S:1 F: U:2 T:3.Month~HydroBase
+Add(TSID="7200920.DWR.DivClass-S:1 F:766 U:2 T:A.Month",AddTSList=SpecifiedTSID,AddTSID="7200920.DWR.DivClass-S:R F:766 U:2 T:A.Month,7200920.DWR.DivClass-S:R F:1339 U:2 T:.Month,7200920.DWR.DivClass-S:R F:1334 U:2 T:.Month,7200920.DWR.DivClass-S:9 F: U:2 T:.Month,7200920.DWR.DivClass-S:2 F:4901 U:2 T:.Month,7200920.DWR.DivClass-S:2 F:3962 U:2 T:.Month,7200920.DWR.DivClass-S:2 F:3961 U:2 T:.Month,7200920.DWR.DivClass-S:1 F:4900 U:2 T:1.Month,7200920.DWR.DivClass-S:1 F:4900 U:2 T:.Month,7200920.DWR.DivClass-S:1 F:1487 U:2 T:.Month,7200920.DWR.DivClass-S:1 F: U:2 T:.Month,721487.DWR.DivClass-S:1 F: U:2 T:3.Month",HandleMissingHow="IgnoreMissing")
+7200920...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=AllMatchingTSID,TSID="7200920.DWR.DivClass-S:1 F:766 U:2 T:A.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="7200920...MONTH")
+Free(TSList=LastMatchingTSID,TSID="7200920.DWR.DivClass-S:R F:766 U:2 T:A.Month")
+Free(TSList=LastMatchingTSID,TSID="7200920.DWR.DivClass-S:R F:1339 U:2 T:.Month")
+Free(TSList=LastMatchingTSID,TSID="7200920.DWR.DivClass-S:R F:1334 U:2 T:.Month")
+Free(TSList=LastMatchingTSID,TSID="7200920.DWR.DivClass-S:9 F: U:2 T:.Month")
+Free(TSList=LastMatchingTSID,TSID="7200920.DWR.DivClass-S:2 F:4901 U:2 T:.Month")
+Free(TSList=LastMatchingTSID,TSID="7200920.DWR.DivClass-S:2 F:3962 U:2 T:.Month")
+Free(TSList=LastMatchingTSID,TSID="7200920.DWR.DivClass-S:2 F:3961 U:2 T:.Month")
+Free(TSList=LastMatchingTSID,TSID="7200920.DWR.DivClass-S:1 F:4900 U:2 T:1.Month")
+Free(TSList=LastMatchingTSID,TSID="7200920.DWR.DivClass-S:1 F:4900 U:2 T:.Month")
+Free(TSList=LastMatchingTSID,TSID="7200920.DWR.DivClass-S:1 F:1487 U:2 T:.Month")
+Free(TSList=LastMatchingTSID,TSID="7200920.DWR.DivClass-S:1 F: U:2 T:.Month")
+Free(TSList=LastMatchingTSID,TSID="721487.DWR.DivClass-S:1 F: U:2 T:3.Month")
+Free(TSList=AllMatchingTSID,TSID="7200920...MONTH")
+# 3801052 - CARBONDALE WATER SYSTEM AND PL
+3801052.DWR.iDivTotal.Month~HydroBase
+3801052.DWR.DivTotal.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="3801052.DWR.DivTotal.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="3801052.DWR.iDivTotal.Month")
+Free(TSList=LastMatchingTSID,TSID="3801052.DWR.iDivTotal.Month")
+3801052...MONTH~StateMod~Task11.2_original.stm
+SetFromTS(TSList=LastMatchingTSID,TSID="3801052.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="3801052...MONTH",SetStart="10/1974",SetEnd="9/1986",TransferHow=ByDateTime)
+Free(TSList=AllMatchingTSID,TSID="3801052...MONTH")
+# 3801441 - EAST SNOWMASS BRUSH C PL
+3801441.DWR.iDivTotal.Month~HydroBase
+3801441.DWR.DivTotal.Month~HydroBase
+FillFromTS(TSList=AllMatchingTSID,TSID="3801441.DWR.DivTotal.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="3801441.DWR.iDivTotal.Month~HydroBase")
+Free(TSList=AllMatchingTSID,TSID="3801441.DWR.iDivTotal.Month~HydroBase")
+3801441...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=AllMatchingTSID,TSID="3801441.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="3801441...MONTH")
+Free(TSList=AllMatchingTSID,TSID="3801441...MONTH")
+# 3700708 - METCALF DITCH
+3700708.DWR.iDivTotal.Month~HydroBase
+3700708.DWR.DivTotal.Month~HydroBase
+FillFromTS(TSList=AllMatchingTSID,TSID="3700708.DWR.DivTotal.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="3700708.DWR.iDivTotal.Month~HydroBase")
+Free(TSList=AllMatchingTSID,TSID="3700708.DWR.iDivTotal.Month~HydroBase")
+3700708...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=AllMatchingTSID,TSID="3700708.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="3700708...MONTH")
+Free(TSList=AllMatchingTSID,TSID="3700708...MONTH")
+# 5100941 - VAIL IRRIGATION SYSTEM
+5100941.DWR.DivTotal.Month~HydroBase
+5100941...MONTH~StateMod~Task11.2_original.stm
+FillFromTS(TSList=AllMatchingTSID,TSID="5100941.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="5100941...MONTH")
+Free(TSList=AllMatchingTSID,TSID="5100941...MONTH")
+# 3704614 - HOMESTAKE TUNNEL
+#  Historical Diversions for Homestake Tunnel from Heather Thompson as part of her CSU work 1967-2005
+3704614...MONTH~StateMod~Task11.2_original.stm
+09063700.DWR.Streamflow.Month~HydroBase
+FillFromTS(TSList=AllMatchingTSID,TSID="3704614...MONTH",IndependentTSList=AllMatchingTSID,IndependentTSID="09063700.DWR.Streamflow.Month")
+Free(TSList=AllMatchingTSID,TSID="09063700.DWR.Streamflow.Month")
+# 5104700 - WINDY GAP PUMP
+5104700...MONTH~StateMod~Task11.2_original.stm
+5104700.DWR.DivTotal.Month~HydroBase
+FillFromTS(TSList=AllMatchingTSID,TSID="5104700.DWR.DivTotal.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="5104700...MONTH")
+Free(TSList=AllMatchingTSID,TSID="5104700...MONTH")
+FillUsingDiversionComments(TSList=LastMatchingTSID,TSID="5104700.DWR.DivTotal.Month",RecalcLimits=True)
+# 7200646 - ROLLER DAM/GRAND VALLEY PROJECT
+7200646...MONTH~StateMod~Task11.2_original.stm
+7200646.DWR.DivTotal.Month~HydroBase
+FillFromTS(TSList=AllMatchingTSID,TSID="7200646.DWR.DivTotal.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="7200646...MONTH")
+SetFromTS(TSList=LastMatchingTSID,TSID="7200646.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="7200646...MONTH",SetStart="11/1969",SetEnd="10/1970",TransferHow=ByDateTime)
+Free(TSList=AllMatchingTSID,TSID="7200646...MONTH")
+# 7200764 - Municipal diversions by the Ute WCD at 7200764
+7200764...MONTH~StateMod~Task11.2_original.stm
+7200764.DWR.DivClass-S:1 F: U:2 T: G:.Month~HydroBase
+FillFromTS(TSList=AllMatchingTSID,TSID="7200764.DWR.DivClass-S:1 F: U:2 T: G:.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="7200764...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7200764...MONTH")
+# 5104603 - GUMLICK TUNNEL
+#  WY 97-05 filled by James Heath (heath@lrcwe.com) data from HydroBase under same conditions as the xbd.commands.TSTool file.
+#  this was done to keep consistancy within the different datasets. This transbasin diversion is added into the Williams Fork
+#  River near Leal gage (09036000) in the determination of daily pattern gages. The only difference in the calculations is
+#  here the time period is in months whereas the pattern gage calculations are in days.
+#  Updated through WY 2013 by Logan Callihan
+5104603...MONTH~StateMod~Task11.2_original.stm
+5104603.DWR.DivTotal.Month~HydroBase
+APGTUNCO.DWR.Streamflow.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="5104603.DWR.DivTotal.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="APGTUNCO.DWR.Streamflow.Month")
+Free(TSList=LastMatchingTSID,TSID="APGTUNCO.DWR.Streamflow.Month")
+FillFromTS(TSList=AllMatchingTSID,TSID="5104603.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="5104603...MONTH")
+Free(TSList=AllMatchingTSID,TSID="5104603...MONTH")
+Copy(TSID="5104603.DWR.DivTotal.Month",NewTSID="5104603...Month",Alias="5104603")
+Free(TSList=LastMatchingTSID,TSID="5104603.DWR.DivTotal.Month")
+# 7201339 - COON CREEK PIPELINE
+# 7201339.Task11.2_original.stm includes data provided by Ute Water Conservancy District via Heather Thompson
+7201339...MONTH~StateMod~Task11.2_original.stm
+7201339.DWR.DivTotal.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="7201339...MONTH",IndependentTSList=LastMatchingTSID,IndependentTSID="7201339.DWR.DivTotal.Month",FillStart="11/1990")
+Free(TSList=AllMatchingTSID,TSID="7201339.DWR.DivTotal.Month")
+#
+# 7200813CH - ORCHARD MESA CHECK
+7200813CH...MONTH~StateMod~Task11.2_original.stm
+7207401.DWR.DivTotal.Month~HydroBase
+7201681.DWR.DivTotal.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="7201681.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="7207401.DWR.DivTotal.Month")
+Free(TSList=LastMatchingTSID,TSID="7207401.DWR.DivTotal.Month")
+FillFromTS(TSList=LastMatchingTSID,TSID="7200813CH...MONTH",IndependentTSList=AllMatchingTSID,IndependentTSID="7201681.DWR.DivTotal.Month")
+Free(TSList=LastMatchingTSID,TSID="7201681.DWR.DivTotal.Month")
+#
+WriteStateMod(TSList=AllTS,OutputFile="Task11.2.stm",Precision=0)

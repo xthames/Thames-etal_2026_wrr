@@ -1,0 +1,308 @@
+SetOutputPeriod(OutputStart="01/1950",OutputEnd="12/2013")
+SetOutputYearType(OutputYearType=Calendar)
+#
+## Grand Junction Airport (USW00023066) used to fill with regression for multiple stations
+USW00023066.NOAA.TempMean.Month~HydroBase
+## Altenbern (USC00050214)
+# Fill Altenbern (USC00050214) with Grand Junction (USW00023066)
+USC00050214.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00050214.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Baggs (USC00480484)
+# Fill Baggs (USC00480484) with Hayden (USC00053867)
+# Note Baggs is a Wyoming Station, read from HB
+USC00480484.NOAA.TempMean.Month~HydroBase
+USC00053867.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00480484.NOAA.TempMean.MONTH",IndependentTSID="USC00053867.NOAA.TempMean.Month",NumberOfEquations=OneEquation)
+Free(TSList=LastMatchingTSID,TSID="USC00053867.NOAA.TempMean.Month")
+## Browns Park Store (USC00051018)
+# Combine Browns Park Store stations (USC00051018 and USC00051020 and USC00051017) and fill with Hayden (USC00053867)
+USC00051018.NOAA.TempMean.Month~HydroBase
+USC00051017.NOAA.TempMean.Month~HydroBase
+USC00051020.NOAA.TempMean.Month~HydroBase
+USC00053867.NOAA.TempMean.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051020.NOAA.TempMean.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="USC00051017.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00051017.NOAA.TempMean.Month~HydroBase")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051018.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051020.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00051020.NOAA.TempMean.Month~HydroBase")
+FillRegression(TSID="USC00051018.NOAA.TempMean.Month",IndependentTSID="USC00053867.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+Free(TSList=LastMatchingTSID,TSID="USC00053867.NOAA.TempMean.Month")
+## Cedaredge (USC00051440)
+# Combine Cedaredge Stations (USC00051440 and USC00051443) and fill with Grand Junction (USW00023066)
+USC00051440.NOAA.TempMean.Month~HydroBase
+USC00051443.NOAA.TempMean.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051440.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051443.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00051443.NOAA.TempMean.Month")
+FillRegression(TSID="USC00051440.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Cimarron (USC00051609)
+# Fill Cimarron (USC00051609) with Cochetopa Creek (USC00051713)
+USC00051609.NOAA.TempMean.Month~HydroBase
+USC00051713.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00051609.NOAA.TempMean.Month",IndependentTSID="USC00051713.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+Free(TSList=LastMatchingTSID,TSID="USC00051713.NOAA.TempMean.Month")
+## Cochetopa Creek (USC00051713)
+# Fill Cochetopa Creek (USC00051713) with Gunnison (USC00053662)
+USC00051713.NOAA.TempMean.Month~HydroBase
+USC00053662.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00051713.NOAA.TempMean.Month",IndependentTSID="USC00053662.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+Free(TSList=LastMatchingTSID,TSID="USC00053662.NOAA.TempMean.Month")
+## Collbran (USC00051741)
+# Combine Collbran stations (USC00051741 and USC00051745) and fill with Grand Junction (USW00023066)
+USC00051741.NOAA.TempMean.Month~HydroBase
+USC00051745.NOAA.TempMean.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051741.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051745.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00051745.NOAA.TempMean.Month")
+FillRegression(TSID="USC00051741.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Cortez (USC00051886)
+# Fill Cortez (USC00051886) with Grand Junction (USW00023066)
+USC00051886.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00051886.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Craig (USC00051928)
+# Combine Craig stations (USC00051932 and USC00051928) and fill with Hayden (USC00053867)
+USC00051928.NOAA.TempMean.Month~HydroBase
+USC00051932.NOAA.TempMean.Month~HydroBase
+USC00053867.NOAA.TempMean.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051928.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051932.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00051932.NOAA.TempMean.Month")
+FillRegression(TSID="USC00051928.NOAA.TempMean.Month",IndependentTSID="USC00053867.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+Free(TSList=LastMatchingTSID,TSID="USC00053867.NOAA.TempMean.Month")
+## Crested Butte (USC00051959)
+# Fill Crested Butte (USC00051959) with Taylor Park (USC00058184)
+USC00051959.NOAA.TempMean.Month~HydroBase
+USC00058184.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00051959.NOAA.TempMean.Month",IndependentTSID="USC00058184.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+Free(TSList=LastMatchingTSID,TSID="USC00058184.NOAA.TempMean.Month")
+## Delta 3 E (USC00052196)
+# Combine Delta stations (USC00052196 and USC00052192) and fill with Grand Junction (USW00023066)
+USC00052196.NOAA.TempMean.Month~HydroBase
+USC00052192.NOAA.TempMean.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00052196.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00052192.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00052192.NOAA.TempMean.Month")
+FillRegression(TSID="USC00052196.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Dillon (USC00052281)
+# Fill Dillon (USC00052281) with Telluride (USC00058204)
+USC00052281.NOAA.TempMean.Month~HydroBase
+USC00058204.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00052281.NOAA.TempMean.Month",IndependentTSID="USC00058204.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+Free(TSList=LastMatchingTSID,TSID="USC00058204.NOAA.TempMean.Month")
+## Dinosour (USC00052286)
+# Combine Dinosaur stations (USC00052286 and USC00050354) and fill with Hayden (USC00053867)
+USC00052286.NOAA.TempMean.Month~HydroBase
+USC00050354.NOAA.TempMean.Month~HydroBase
+USC00053867.NOAA.TempMean.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00052286.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00050354.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00050354.NOAA.TempMean.Month")
+FillRegression(TSID="USC00052286.NOAA.TempMean.Month",IndependentTSID="USC00053867.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+Free(TSList=LastMatchingTSID,TSID="USC00053867.NOAA.TempMean.Month")
+## Durango (USC00052432)
+# Combine Durango stations (USC00052432 and USC00052441) and fill with Grand Junction (USW00023066)
+USC00052432.NOAA.TempMean.Month~HydroBase
+USC00052441.NOAA.TempMean.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00052432.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00052441.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00052441.NOAA.TempMean.Month")
+FillRegression(TSID="USC00052432.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Eagle County (USW00023063)
+# Fill Eagle County (USW00023063) with Hayden (USC00053867)
+USW00023063.NOAA.TempMean.Month~HydroBase
+USC00053867.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USW00023063.NOAA.TempMean.Month",IndependentTSID="USC00053867.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+Free(TSList=LastMatchingTSID,TSID="USC00053867.NOAA.TempMean.Month")
+## Ft. Lewis (USC00053016)
+# Fill Ft. Lewis (USC00053016) with Dillon (USC00052281)
+USC00053016.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00053016.NOAA.TempMean.Month",IndependentTSID="USC00052281.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Fruita (USC00053146)
+# Combine Fruita stations (USC00053146 and USC00053147) and fill with Grand Junction (USW00023066)
+USC00053146.NOAA.TempMean.Month~HydroBase
+USC00053147.NOAA.TempMean.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00053146.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00053147.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00053147.NOAA.TempMean.Month")
+FillRegression(TSID="USC00053146.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Gateway (USC00053246)
+# Fill Gateway (USC00053246) with Grand Junction (USW00023066)
+USC00053246.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00053246.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Glenwood Springs (USC00053359)
+# Fill Glenwood Springs (USC00053359) with Grand Junction (USW00023066)
+USC00053359.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00053359.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Grand Junction 6 ESE (USC00053489)
+# Fill Grand Junction 6 ESE (USC00053489) with Grand Junction Airport (USW00023066)
+USC00053489.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00053489.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=None)
+## Grand Lake (USC00053500)
+# Fill Grand Lake (USC00053500) with Dillon (USC00052281)
+USC00053500.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00053500.NOAA.TempMean.Month",IndependentTSID="USC00052281.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Green Mountain Dam (USC00053592)
+USC00053592.NOAA.TempMean.Month~HydroBase
+## Gunnison (USC00053662)
+# Fill Gunnison (USC00053662) with Cochetopa Creek (USC00051713)
+USC00053662.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00053662.NOAA.TempMean.Month",IndependentTSID="USC00051713.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Hayden (USC00053867)
+# Fill Hayden (USC00053867) with Dinosaur (USC00052286)
+USC00053867.NOAA.TempMean.Month~HydroBase
+USC00052286.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00053867.NOAA.TempMean.Month",IndependentTSID="USC00052286.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+Free(TSList=LastMatchingTSID,TSID="USC00052286.NOAA.TempMean.Month")
+## Ignacio (USC00054254)
+# Combine Ignacio stations (USC00054254 and USC00054250) and fill with Grand Junction (USW00023066)
+USC00054250.NOAA.TempMean.Month~HydroBase
+USC00054254.NOAA.TempMean.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00054254.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00054250.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00054250.NOAA.TempMean.Month")
+FillRegression(TSID="USC00054254.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Kremmling (USC00054664)
+# Fill Kremmling (USC00054664) with Hayden (USC00053867)
+USC00054664.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00054664.NOAA.TempMean.Month",IndependentTSID="USC00053867.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Lake City (USC00054734)
+# Combine Lake City stations (USC00054734, USC00054735, and USC00054736) and fill with Telluride (USC00058204)
+USC00054734.NOAA.TempMean.Month~HydroBase
+USC00054735.NOAA.TempMean.Month~HydroBase
+USC00054736.NOAA.TempMean.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00054734.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00054735.NOAA.TempMean.Month")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00054734.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00054736.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00054735.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00054736.NOAA.TempMean.Month")
+USC00058204.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00054734.NOAA.TempMean.Month",IndependentTSID="USC00058204.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+Free(TSList=LastMatchingTSID,TSID="USC00058204.NOAA.TempMean.Month")
+## Little Hills (USC00055048)
+# Fill Little Hills (USC00055048) with Grand Junction (USW00023066)
+USC00055048.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00055048.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Marvine Ranch (USC00055414)
+# Fill Marvine Ranch (USC00055414) with Dilon (USC00052281)
+USC00055414.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00055414.NOAA.TempMean.Month",IndependentTSID="USC00052281.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Maybell (USC00055446)
+# Fill Maybell (USC00055446) with Hayden (USC00053867)
+USC00055446.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00055446.NOAA.TempMean.Month",IndependentTSID="USC00053867.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Meeker (USC00055484)
+# Combine Meeker stations (USC00055484 and USC00055487) and fill with Hayden (USC00053867)
+USC00055484.NOAA.TempMean.Month~HydroBase
+USC00055487.NOAA.TempMean.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00055484.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00055487.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00055487.NOAA.TempMean.Month")
+FillRegression(TSID="USC00055484.NOAA.TempMean.Month",IndependentTSID="USC00053867.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Meredith (USC00055507)
+# Fill Meredith (USC00055507) with Dillon (USC00052281)
+USC00055507.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00055507.NOAA.TempMean.Month",IndependentTSID="USC00052281.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Montrose (USC00055722)
+USC00055722.NOAA.TempMean.Month~HydroBase
+## Northdale (USC00055970)
+# Fill Northdale (USC00055970) with Grand Junction (USW00023066)
+USC00055970.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00055970.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Norwood (USC00056012)
+# Combine Norwood stations (USC00056012 and USC00056013) and fill with Grand Junction (USW00023066)
+USC00056012.NOAA.TempMean.Month~HydroBase
+USC00056013.NOAA.TempMean.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056012.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056013.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00056013.NOAA.TempMean.Month")
+FillRegression(TSID="USC00056012.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Pagosa Springs (USC00056258)
+# Combine Pagosa Springs stations (USC00056259, USC00056258 and USC00056263) and fill with Hayden (USC00053867)
+USC00056259.NOAA.TempMean.Month~HydroBase
+USC00056258.NOAA.TempMean.Month~HydroBase
+USC00056263.NOAA.TempMean.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056259.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056258.NOAA.TempMean.Month")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056259.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056263.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00056258.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00056263.NOAA.TempMean.Month")
+FillRegression(TSID="USC00056259.NOAA.TempMean.Month",IndependentTSID="USC00053867.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Paonia (USC00056306)
+# Combine Paonia stations (USC00056306 and USC00056307) and fill with Grand Junction (USW00023066)
+USC00056306.NOAA.TempMean.Month~HydroBase
+USC00056307.NOAA.TempMean.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056306.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056307.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00056307.NOAA.TempMean.Month")
+FillRegression(TSID="USC00056306.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Parachute (USC00056311)
+USC00056311.NOAA.TempMean.Month~HydroBase
+## Paradox (USC00056315)
+# Combine Paradox stations (USC00056315, USC00056318 and USC00056320) and fill with Grand Junction (USW00023066)
+USC00056315.NOAA.TempMean.Month~HydroBase
+USC00056318.NOAA.TempMean.Month~HydroBase
+USC00056320.NOAA.TempMean.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056315.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056318.NOAA.TempMean.Month")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056315.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056320.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00056318.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00056320.NOAA.TempMean.Month")
+FillRegression(TSID="USC00056315.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Placerville (USC00056520)
+# Combine Placerville stations (USC00056520 and USC00056524)
+USC00056520.NOAA.TempMean.Month~HydroBase
+USC00056524.NOAA.TempMean.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056520.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056524.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00056524.NOAA.TempMean.Month")
+## Rangely (USC00056832)
+# Fill Rangely (USC00056832) with Dinosaur (USC00052286)
+USC00056832.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00056832.NOAA.TempMean.Month",IndependentTSID="USC00052286.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Rico (USC00057017)
+# Fill Rico (USC00057017) with Telluride (USC00058204)
+USC00057017.NOAA.TempMean.Month~HydroBase
+USC00058204.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00057017.NOAA.TempMean.Month",IndependentTSID="USC00058204.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+Free(TSList=LastMatchingTSID,TSID="USC00058204.NOAA.TempMean.Month")
+## Ridgway (USC00057020)
+# Fill Ridgway (USC00057020) with Grand Junction (USW00023066)
+USC00057020.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00057020.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Rifle (USC00057031)
+# Combine Rifle stations (USC00057031 and USC00057033) and fill with Grand Junction (USW00023066)
+USC00057031.NOAA.TempMean.Month~HydroBase
+USC00057033.NOAA.TempMean.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00057031.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00057033.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00057033.NOAA.TempMean.Month")
+FillRegression(TSID="USC00057031.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Steamboat Springs (USC00057936)
+# Fill Steamboat Springs (USC00057936) with Hayden (USC00053867)
+USC00057936.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00057936.NOAA.TempMean.Month",IndependentTSID="USC00053867.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Taylor Park (USC00058184)
+# Fill Taylor Park (USC00058184) with Crested Butte (USC00051959)
+USC00058184.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00058184.NOAA.TempMean.Month",IndependentTSID="USC00051959.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Telluride (USC00058204)
+# Fill Telluride (USC00058204) with Dillon (USC00052281)
+USC00058204.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00058204.NOAA.TempMean.Month",IndependentTSID="USC00052281.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Uravan (USC00058560)
+# Fill Uravan (USC00058560) with Grand Junction (USW00023066)
+USC00058560.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00058560.NOAA.TempMean.Month",IndependentTSID="USW00023066.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Vallecito Dam (USC00058582)
+# Fill Vallecito Dam (USC00058582) with Cortez (USC00051886)
+USC00058582.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00058582.NOAA.TempMean.Month",IndependentTSID="USC00051886.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Yampa (USC00059265)
+# Fill Yampa (USC00059265) with Dillon (USC00052281)
+USC00059265.NOAA.TempMean.Month~HydroBase
+FillRegression(TSID="USC00059265.NOAA.TempMean.Month",IndependentTSID="USC00052281.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Yellow Jacket (USC00059275)
+# Combine Yellow Jacket stations (USC00059275 and USC00059278) and fill with Telluride (USC00058204)
+USC00059275.NOAA.TempMean.Month~HydroBase
+USC00059278.NOAA.TempMean.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00059275.NOAA.TempMean.Month",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00059278.NOAA.TempMean.Month")
+Free(TSList=LastMatchingTSID,TSID="USC00059278.NOAA.TempMean.Month")
+FillRegression(TSID="USC00059275.NOAA.TempMean.Month",IndependentTSID="USC00058204.NOAA.TempMean.Month",NumberOfEquations=OneEquation,Transformation=Linear)
+## Free Grand Junction Airport (USW00023066) used to fill with regression for multiple stations
+Free(TSList=LastMatchingTSID,TSID="USW00023066.NOAA.TempMean.Month")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="*")
+#
+####### Dolores, Hamilton and Pyramid stations used for precipitation only. No temperature data available.
+####### Stations must be set to missing in temperature file.
+## Dolores (USC00052326)
+NewTimeSeries(Alias="USC00052326",NewTSID="USC00052326...Month",Units="F",InitialValue=-999)
+## Hamilton (USC00053738)
+NewTimeSeries(Alias="USC00053738",NewTSID="USC00053738...Month",Units="F",InitialValue=-999)
+## Pyramid (USC00056797)
+NewTimeSeries(Alias="USC00056797",NewTSID="USC00056797...Month",Units="F",InitialValue=-999)
+#
+SortTimeSeries()
+WriteStateMod(TSList=AllTS,OutputFile="..\StateCU\COclim2015.tem",Precision=2)

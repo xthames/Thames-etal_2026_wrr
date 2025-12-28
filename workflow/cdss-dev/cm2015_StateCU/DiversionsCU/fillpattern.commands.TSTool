@@ -1,0 +1,64 @@
+SetOutputYearType(OutputYearType=Water)
+SetInputPeriod(InputStart="10/1908",InputEnd="09/2013")
+# Use Colorado River at Hot Sulphur for pattern gage, fill recent period using Windy Gap regression
+# 09034500 - COLORADO RIVER AT HOT SULPHUR SPRINGS, CO.
+09034500.USGS.Streamflow.Month~HydroBase
+# 09034250 - COLORADO RIVER AT WINDY GAP, NEAR GRANBY, CO.
+09034250.USGS.Streamflow.Month~HydroBase
+FillRegression(TSID="09034500.USGS.Streamflow.Month",IndependentTSID="09034250.USGS.Streamflow.Month")
+Free(TSList=AllMatchingTSID,TSID="09034250.USGS.Streamflow.Month")
+# Use Williams Fork near Parshall, fill missing 10-year period (1925 to 1935) with Colorado River at Hot Sulphur Springs
+# 09037500 - WILLIAMS FORK NEAR PARSHALL, CO
+09037500.USGS.Streamflow.Month~HydroBase
+FillRegression(TSID="09037500.USGS.Streamflow.Month",IndependentTSID="09034500.USGS.Streamflow.Month")
+# 09085000 - ROARING FORK RIVER AT GLENWOOD SPRINGS, CO.
+09085000.USGS.Streamflow.Month~HydroBase
+# Use Colorado River near Cameo, fill missing 15-year period (1909 to 1924) with Colorado River at Glenwood Springs
+# 09095500 - COLORADO RIVER NEAR CAMEO, CO.
+09095500.USGS.Streamflow.Month~HydroBase
+FillRegression(TSID="09095500.USGS.Streamflow.Month",IndependentTSID="09085000.USGS.Streamflow.Month")
+# Use East River at Altmont, fill missing 10-year period (1915 to 1924) with Gunnison River near Gunnison
+# 09112500 - EAST RIVER AT ALMONT, CO
+09112500.USGS.Streamflow.Month~HydroBase
+# 09114500 - GUNNISON RIVER NEAR GUNNISON, CO.
+09114500.USGS.Streamflow.Month~HydroBase
+FillRegression(TSID="09112500.USGS.Streamflow.Month",IndependentTSID="09114500.USGS.Streamflow.Month")
+Free(TSList=LastMatchingTSID,TSID="09114500.USGS.Streamflow.Month")
+# 09147500 - UNCOMPAHGRE RIVER AT COLONA, CO.
+09147500.USGS.Streamflow.Month~HydroBase
+# Use Gunnison River near Grand Junction, fill missing 15-year period (1909 to 1916) with Gunison River bl Gunnison Tunnel
+# 09152500 - GUNNISON RIVER NEAR GRAND JUNCTION, CO.
+09152500.USGS.Streamflow.Month~HydroBase
+# 09127998 - GUNNISON RIVER ABOVE GUNNISON TUNNEL, CO.
+09127998.USGS.Streamflow.Month~HydroBase
+FillRegression(TSID="09152500.USGS.Streamflow.Month",IndependentTSID="09127998.USGS.Streamflow.Month")
+Free(TSList=LastMatchingTSID,TSID="09127998.USGS.Streamflow.Month")
+# 09166500 - DOLORES RIVER AT DOLORES, CO.
+09166500.USGS.Streamflow.Month~HydroBase
+# Use San Miguel River near Placerville, fill early missing data with San Miguel river at Naturita
+# 09172500 - SAN MIGUEL RIVER NEAR PLACERVILLE, CO
+09172500.USGS.Streamflow.Month~HydroBase
+# 09175500 - SAN MIGUEL RIVER AT NATURITA, CO.
+09175500.USGS.Streamflow.Month~HydroBase
+FillRegression(TSID="09172500.USGS.Streamflow.Month",IndependentTSID="09175500.USGS.Streamflow.Month")
+Free(TSList=LastMatchingTSID,TSID="09175500.USGS.Streamflow.Month")
+# 09239500 - YAMPA RIVER AT STEAMBOAT SPRINGS, CO
+09239500.USGS.Streamflow.Month~HydroBase
+# 09251000 - YAMPA RIVER NEAR MAYBELL, CO
+09251000.USGS.Streamflow.Month~HydroBase
+# Use Little Snake River nera Lily, fill early missing data with Yampa River near Maybell
+# 09260000 - LITTLE SNAKE RIVER NEAR LILY, CO
+09260000.USGS.Streamflow.Month~HydroBase
+FillRegression(TSID="09260000.USGS.Streamflow.Month",IndependentTSID="09251000.USGS.Streamflow.Month")
+# 09304500 - WHITE RIVER NEAR MEEKER, CO.
+09304500.USGS.Streamflow.Month~HydroBase
+# 09342500 - SAN JUAN RIVER AT PAGOSA SPRINGS, CO
+09342500.USGS.Streamflow.Month~HydroBase
+# 09361500 - ANIMAS RIVER AT DURANGO, CO
+09361500.USGS.Streamflow.Month~HydroBase
+# 09365500 - LA PLATA RIVER AT HESPERUS, CO
+09365500.DWR.Streamflow.Month~HydroBase
+# 09379500 - SAN JUAN RIVER NEAR BLUFF, UT
+09379500.USGS.Streamflow.Month~HydroBase
+FillHistMonthAverage(TSList=AllTS)
+AnalyzePattern(TSList=AllTS,Method=Percentile,Percentile=".25,.75",PatternID="DRY,AVG,WET",OutputFile="fill2015.pat")

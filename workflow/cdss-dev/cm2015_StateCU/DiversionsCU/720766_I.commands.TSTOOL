@@ -1,0 +1,17 @@
+#  MASON EDDY DITCH IRRIGATION DIVERSIONS 7200766
+#
+#   Documentation from the Phase III model update (Appendix B.4.5) was utilized to determine how this structure functions.
+#   Model ID 7200766 represents the municipal diversions by the Ute WCD at the 7200766 HG.
+#   After Talking with Tom Crumpton (Ute WCD, 970-464-5563) on 2/22/2006 it was determined the ditch (7200766) was
+#   no longer used for irrigation (represented by model ID 7200766_I) after 1983 when Ute transferred these rights
+#   to municipal use (represented by model ID 7200766). Thus, diversions were set to -999 from 11/1983 on so zeros
+#   for that period were not used when filling missing data prior to 1983.
+#   Furthermore, the junior water right associated with WDID 721334 is diverted at the same location; however it is modeled as a separate structure.
+#
+SetOutputPeriod(OutputStart="10/1950",OutputEnd="9/2013")
+SetOutputYearType(OutputYearType=Water)
+7200766.DWR.DivClass-S:1 F: U:1 T:.Month~HydroBase
+SetConstant(TSList=AllMatchingTSID,TSID="7200766.DWR.DivClass-S:1 F: U:1 T:.Month",ConstantValue=-999.,SetStart="11/1983",SetEnd="9/2013")
+Copy(TSID="7200766.DWR.DivClass-S:1 F: U:1 T:.Month",NewTSID="7200766_I...Month",Alias="%L")
+Free(TSList=LastMatchingTSID,TSID="7200766.DWR.DivClass-S:1 F: U:1 T:.Month")
+WriteStateMod(TSList=AllMatchingTSID,TSID="7200766_I",OutputFile="7200766_I.stm",Precision=0)

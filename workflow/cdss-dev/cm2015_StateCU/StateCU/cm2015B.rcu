@@ -1,0 +1,14 @@
+# StateCU response file for the Colorado basin
+#
+# Filename
+CUControl =                      cm2015.ccu
+ClimateStation =                 COclim_NOAA.cli
+MeanTemperature_Monthly =        COclim_NOAA.tem
+Precipitation_Monthly =          COclim_NOAA.prc
+FrostDate_Yearly =               COclim_NOAA.fd
+CropCharacteristic =             CDSS.CCH
+Blaney-Criddle_CropCoefficient = CDSS_wEA.KBC
+Structure =                      cm2015.str
+CropDistribution_Yearly =        cm2015B.cds
+Diversion_Historic_Monthly =     cm2015_cu.ddh
+IrrigationParameter_Yearly =     cm2015B.ipy

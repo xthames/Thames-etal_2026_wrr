@@ -1,0 +1,138 @@
+#     GVP.Disaggregation.commands.TSTool
+#
+#     This commands file disaggregates total Roller Dam diversions from various sources into
+#     individual components that receive water from the Roller Dam. The disaggregation is done
+#     in the following order of structures - GVP, OMID Irr, OMID Pump, USA Power Summer and then
+#     Winter. The analysis is based on previously analyses developed by USBR, which was summarized
+#     in the Phase IIIa documentation, Appendix C.8.4.2
+#
+#     The historical diversion values are disaggregated based on monthly precentages and then limited to
+#     monthly maxima that are generally based on water right amounts. Any water from the original
+#     disaggregation that is in excess of the monthly maxima is added to the next node analyzed.
+#     This approach results in unassigned water from the original total Roller Dam diversions in
+#     Dec-Feb of many years.
+#     This excess water is added to the last node analyzed - USA Power Winter - to maintain
+#     consistency with the original total Roller Dam diversions.
+#
+#
+# Read total diversions at Roller Dam, which includes missing data through September 1925 and all of USGS water year 1942
+# Task 11.2 data has been filled with data from HydroBase (7200646.DWR.DivTotal.Month~HydroBase)
+# The following demands are estimated based off the Roller Dam diversions:
+#    1. GVP Irrigation (7200646_I)
+#    2. OMID Irrigation - this includes OMID Irrigation Canal + Vinelands (7200813)
+#    3. OMID Pump (7200813PP)
+#    4. USA Power (7200646_PW)
+#
+SetInputPeriod(InputStart="10/1908",InputEnd="09/2013")
+7200646...MONTH~StateMod~Task11.2.stm
+#
+# A: Develop GVP Irrigation (7200646_I) demands
+# Step 1A: Copy the Roller Dam (7200646) diversions. This timeseries will represent the GVP irrigation demands.
+Copy(TSID="7200646...MONTH",NewTSID="7200646_I...Month",Alias="7200646_I")
+# Step 2A: Create a timeseries that contains the GVP Irrigation factors (based on a UBSR analysis)
+#          Note, the factors are represented as percentages due to limitations with significant figures
+Copy(TSID="7200646...MONTH",NewTSID="7200646_Ifactors...Month",Alias="7200646_Ifactors")
+SetConstant(TSList=LastMatchingTSID,TSID="7200646_Ifactors",MonthValues="0,0,2.5,43.5,50.5,52.9,58.4,56.5,47.1,46.3,42.2,0")
+# Step 3A: Apply the GVP irrigation factors and scale by 1/100 to account for the percentages
+#          As mentioned in Step 2A, this is done in two steps to address limitations with significant figures
+Multiply(TSID="7200646_I",MultiplierTSID="7200646_Ifactors")
+Scale(TSList=LastMatchingTSID,TSID="7200646_I",ScaleValue=0.01,NewUnits="ACFT")
+# Step 4A: Limit the irrigation demand (Step 3A) to the monthly maximum diversion (based on the water right 850 cfs)and
+#          calculate the amount of excess water
+Copy(TSID="7200646_I",NewTSID="7200646_Ileftover...Month",Alias="7200646_Ileftover")
+Copy(TSID="7200646...MONTH",NewTSID="7200646_Imax...Month",Alias="7200646_Imax")
+SetConstant(TSList=LastMatchingTSID,TSID="7200646_Imax",MonthValues="52265.2,47207.3,52265.2,50579.3,52265.2,50579.3,52265.2,52265.2,50579.3,52265.2,50579.3,52265.2")
+SetToMin(TSID="7200646_I",IndependentTSList=LastMatchingTSID,IndependentTSID="7200646_Imax")
+Subtract(TSID="7200646_Ileftover",SubtractTSList=LastMatchingTSID,SubtractTSID="7200646_I",HandleMissingHow="IgnoreMissing")
+Copy(TSID="7200646...MONTH",NewTSID="ZeroValues...Month",Alias="ZeroValues")
+SetConstant(TSList=LastMatchingTSID,TSID="ZeroValues",MonthValues="0,0,0,0,0,0,0,0,0,0,0,0")
+SetToMax(TSID="7200646_Ileftover",IndependentTSList=LastMatchingTSID,IndependentTSID="ZeroValues")
+# Step 5A: Reset missing data
+SetConstant(TSList=LastMatchingTSID,TSID="7200646_I",ConstantValue=-999,SetStart="01/1908",SetEnd="09/1925")
+SetConstant(TSList=LastMatchingTSID,TSID="7200646_I",ConstantValue=-999,SetStart="10/1941",SetEnd="09/1942")
+#
+# B: Develop OMID Irrigation (7200813) demands
+# Step 1B: Copy the Roller Dam (7200646) diversions. This timeseries will represent the OMID irrigation demands.
+Copy(TSID="7200646...MONTH",NewTSID="7200813...Month",Alias="7200813")
+# Step 2B: Create a timeseries that contains the OMID irrigation factors (based on a UBSR analysis)
+#         Note, the factors are represented as percentages due to limitations with significant figures
+Copy(TSID="7200646...MONTH",NewTSID="7200813factors...Month",Alias="7200813factors")
+SetConstant(TSList=LastMatchingTSID,TSID="7200813factors",MonthValues="0,0,0.4,8.7,10.4,10.9,11.2,11.3,9.8,7.3,0,0")
+# Step 3B: Apply the OMID irrigation factors and scale by 1/100 to account for the percentages
+#          As mentioned in Step 2B, this is done in two steps to address limitations with significant figures
+Multiply(TSID="7200813",MultiplierTSID="7200813factors")
+Scale(TSList=LastMatchingTSID,TSID="7200813",ScaleValue=0.01,NewUnits="ACFT")
+# Step 4B: Add excess from GVP Irr calculation (Step 4A) to OMID Irrigation demand (Step 3B)
+Add(TSID="7200813",AddTSList=SpecifiedTSID,AddTSID="7200646_Ileftover",HandleMissingHow="IgnoreMissing")
+# Step 5B: Limit the irrigation demand (Step 4B) to the monthly maximum diversion (based on the water right 188.2 cfs = 171 OMID Irrigatin + 17.2 Vinelands Irrigation)
+#          and calculate the amount of excess water
+Copy(TSID="7200813",NewTSID="7200813leftover...Month",Alias="7200813leftover")
+Copy(TSID="7200646...MONTH",NewTSID="7200813max...Month",Alias="7200813max")
+SetConstant(TSList=LastMatchingTSID,TSID="7200813max",MonthValues="11572.1,10452.3,11572.1,11198.8,11572.1,11198.8,11572.1,11572.1,11198.8,11572.1,11198.8,11572.1")
+SetToMin(TSID="7200813",IndependentTSList=LastMatchingTSID,IndependentTSID="7200813max")
+Subtract(TSID="7200813leftover",SubtractTSList=LastMatchingTSID,SubtractTSID="7200813",HandleMissingHow="IgnoreMissing")
+SetToMax(TSID="7200646_Ileftover",IndependentTSList=LastMatchingTSID,IndependentTSID="ZeroValues")
+# Step 6B: Reset missing data
+SetConstant(TSList=LastMatchingTSID,TSID="7200813",ConstantValue=-999,SetStart="01/1908",SetEnd="09/1925")
+SetConstant(TSList=LastMatchingTSID,TSID="7200813",ConstantValue=-999,SetStart="10/1941",SetEnd="09/1942")
+#
+# C: Develop OMID Pump (7200813PP) demands
+# Step 1C: Copy the Roller Dam (7200646) diversions. This timeseries will represent the OMID Pump demands.
+Copy(TSID="7200646...MONTH",NewTSID="7200813PP...Month",Alias="7200813PP")
+# Step 2C: Create a timeseries that contains the OMID Pump factors (based on a UBSR analysis)
+#          Note, the factors are represented as percentages due to limitations with significant figures
+Copy(TSID="7200646...MONTH",NewTSID="7200813PPfactors...Month",Alias="7200813PPfactors")
+SetConstant(TSList=LastMatchingTSID,TSID="7200813PPfactors",MonthValues="0,0,0.8,14.8,17.5,17.3,14.7,15.2,17.3,13.2,0,0")
+# Step 3C: Apply the OMID pump factors and scale by 1/100 to account for the percentages
+#          As mentioned in Step 2C, this is done in two steps to address limitations with significant figures
+Multiply(TSID="7200813PP",MultiplierTSID="7200813PPfactors")
+Scale(TSList=LastMatchingTSID,TSID="7200813PP",ScaleValue=0.01,NewUnits="ACFT")
+# Step 4C: Add excess from OMID Irr calculation (Step 5B) to OMID Pump demand
+Add(TSID="7200813PP",AddTSList=SpecifiedTSID,AddTSID="7200813leftover",HandleMissingHow="IgnoreMissing")
+# Step 5C: Limit the irrigation demand (Step 4C) to the monthly maximum diversion (based on the water right 272 cfs)
+#          and calculate the amount of excess water
+Copy(TSID="7200813PP",NewTSID="7200813PPleftover...Month",Alias="7200813PPleftover")
+Copy(TSID="7200646...MONTH",NewTSID="7200813PPmax...Month",Alias="7200813PPmax")
+SetConstant(TSList=LastMatchingTSID,TSID="7200813PPmax",MonthValues="16724.9,15106.3,16724.9,16185.4,16724.9,16185.4,16724.9,16724.9,16185.4,16724.9,16185.4,16724.9")
+SetToMin(TSID="7200813PP",IndependentTSList=LastMatchingTSID,IndependentTSID="7200813PPmax")
+Subtract(TSID="7200813PPleftover",SubtractTSList=LastMatchingTSID,SubtractTSID="7200813PP",HandleMissingHow="IgnoreMissing")
+SetToMax(TSID="7200813leftover",IndependentTSList=LastMatchingTSID,IndependentTSID="ZeroValues")
+# Step 6C: Reset missing data
+SetConstant(TSList=LastMatchingTSID,TSID="7200813PP",ConstantValue=-999,SetStart="01/1908",SetEnd="09/1925")
+SetConstant(TSList=LastMatchingTSID,TSID="7200813PP",ConstantValue=-999,SetStart="10/1941",SetEnd="09/1942")
+#
+# D: Develop USA Power demand
+#    rfp 7/27/09 USA Power historical diversions not limited (see note at top of commands file).
+# Step 1D: Copy the Roller Dam (7200646) diversions. This timeseries will represent the USA Power demands.
+Copy(TSID="7200646...MONTH",NewTSID="7200813PW...Month",Alias="7200813PW")
+# Step 2D: Create a timeseries that contains the USA Power factors (based on a UBSR analysis)
+#          Note, the factors are represented as percentages due to limitations with significant figures
+Copy(TSID="7200646...MONTH",NewTSID="7200813PWfactors...Month",Alias="7200813PWfactors")
+SetConstant(TSList=LastMatchingTSID,TSID="7200813PWfactors",MonthValues="100,100,96.3,33,21.6,18.9,15.7,17,25.8,33.2,57.8,100")
+# Step 3D: Apply the USA Power factors and scale by 1/100 to account for the percentages
+#          As mentioned in Step 2D, this is done in two steps to address limitations with significant figures
+Multiply(TSID="7200813PW",MultiplierTSID="7200813PWfactors")
+Scale(TSList=LastMatchingTSID,TSID="7200813PW",ScaleValue=0.01,NewUnits="ACFT")
+# Step 4D: Add excess from OMID Pump calculation (Step 5C) to USA Power demands
+Add(TSID="7200813PW",AddTSList=SpecifiedTSID,AddTSID="7200813PPleftover",HandleMissingHow="IgnoreMissing")
+#
+# Step 5D: Zero out historical diversions prior to start of record (1926).
+SetConstant(TSList=LastMatchingTSID,TSID="7200813PW",ConstantValue=0,SetStart="01/1908",SetEnd="12/1925")
+# Step 6D: Reset missing data
+SetConstant(TSList=LastMatchingTSID,TSID="7200813PW",ConstantValue=-999,SetStart="10/1941",SetEnd="09/1942")
+#
+#
+# Free temporary variables
+Free(TSList=LastMatchingTSID,TSID="ZeroValues")
+Free(TSList=AllMatchingTSID,TSID="*max")
+Free(TSList=AllMatchingTSID,TSID="*factors*")
+Free(TSList=AllMatchingTSID,TSID="*leftover")
+#
+#
+# Write historical diversions files of total Power diversions. These values will be limited for ultimate use in .ddh file
+SetOutputYearType(OutputYearType=Water)
+SelectTimeSeries(TSList=AllMatchingTSID,TSID="7200646_I")
+SelectTimeSeries(TSList=AllMatchingTSID,TSID="7200813")
+SelectTimeSeries(TSList=AllMatchingTSID,TSID="7200813PP")
+SelectTimeSeries(TSList=AllMatchingTSID,TSID="7200813PW")
+WriteStateMod(TSList=SelectedTS,OutputFile="GVP.stm",Precision=0)

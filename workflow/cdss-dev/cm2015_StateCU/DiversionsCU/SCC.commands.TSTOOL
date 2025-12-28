@@ -1,0 +1,529 @@
+# SSC_Combined.commands.TSTool
+#
+#  Adds the releases directly to irrigation from the Southside Canal to the tributary headgate diversions
+#    This makes sure the full supply is represented for each ditch's irrigated acreage
+#
+#     Original Headgate data plus information regarding which acreage was served by each HG rovided by Wes Hawkins (Collbran Conservancy District)
+#     Some data now stored in HydroBase under HG Identifiers
+#     Acreage and WR assigned to "tributary WDID"
+#
+#  1) Read information provided by HG (SSC_Original.stm) - 2004 through 2009
+#  2) Add new HG diversions from HydroBase (if available) (FillFrom command)
+#  3) Fill missing data
+#  4) Read tributary WDID diversions from HydroBase
+#  5) Fill missing data
+#  6) Add HG data to tributary WDID diversions to get full supply to WDID acreage
+#
+SetOutputPeriod(OutputStart="10/1908",OutputEnd="09/2013")
+SetOutputYearType(OutputYearType=Water)
+ReadPatternFile(PatternFile="fill2015.pat")
+#
+# HG01 = Galbraith Ditch
+# WDID = 7200628, HGWDID = 7204724 (no data available)
+#
+HG01...MONTH~StateMod~SSC_Original.stm
+FillPattern(TSList=AllMatchingTSID,TSID="HG01...MONTH",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="HG01...MONTH")
+# 7200628 - GALBRAITH DITCH
+7200628.DWR.DivTotal.Month~HydroBase
+SetConstant(TSList=AllMatchingTSID,TSID="7200628.DWR.DivTotal.Month",ConstantValue=-999,SetStart="10/1994",SetEnd="09/1995")
+FillPattern(TSList=AllMatchingTSID,TSID="7200628.DWR.DivTotal.Month",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="7200628.DWR.DivTotal.Month")
+Add(TSID="7200628.DWR.DivTotal.Month",AddTSList=AllMatchingTSID,AddTSID="HG01...MONTH",HandleMissingHow="IgnoreMissing")
+Free(TSList=AllMatchingTSID,TSID="HG01...MONTH")
+#
+# HG04 = Kiggins Salsbury Extension - included in aggregate
+# WDID = 72_ADC053, HGWDID = 7204726
+#
+HG04...MONTH~StateMod~SSC_Original.stm
+7204726.DWR.DivTotal.Month~HydroBase
+FillFromTS(TSList=AllMatchingTSID,TSID="HG04...MONTH",IndependentTSList=AllMatchingTSID,IndependentTSID="7204726.DWR.DivTotal.Month")
+FillPattern(TSList=AllMatchingTSID,TSID="HG04...MONTH",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="HG04...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7204726.DWR.DivTotal.Month")
+# Read the individual structures in 72_ADC053 aggrege and add together
+7200522.DWR.DivTotal.Month~HydroBase
+7200540.DWR.DivTotal.Month~HydroBase
+7200566.DWR.DivTotal.Month~HydroBase
+7200572.DWR.DivTotal.Month~HydroBase
+7200605.DWR.DivTotal.Month~HydroBase
+7200619.DWR.DivTotal.Month~HydroBase
+7200622.DWR.DivTotal.Month~HydroBase
+7200694.DWR.DivTotal.Month~HydroBase
+7200697.DWR.DivTotal.Month~HydroBase
+7200723.DWR.DivTotal.Month~HydroBase
+7200728.DWR.DivTotal.Month~HydroBase
+7200830.DWR.DivTotal.Month~HydroBase
+7200863.DWR.DivTotal.Month~HydroBase
+7200902.DWR.DivTotal.Month~HydroBase
+7200914.DWR.DivTotal.Month~HydroBase
+7200944.DWR.DivTotal.Month~HydroBase
+Copy(TSID="7200522.DWR.DivTotal.Month",NewTSID="72_ADC053...Month",Alias="72_ADC053")
+Add(TSID="72_ADC053...Month",AddTSList=SpecifiedTSID,AddTSID="7200540.DWR.DivTotal.Month,7200566.DWR.DivTotal.Month,7200572.DWR.DivTotal.Month,7200605.DWR.DivTotal.Month,7200619.DWR.DivTotal.Month,7200622.DWR.DivTotal.Month,7200694.DWR.DivTotal.Month,7200697.DWR.DivTotal.Month,7200723.DWR.DivTotal.Month,7200728.DWR.DivTotal.Month,7200830.DWR.DivTotal.Month,7200863.DWR.DivTotal.Month,7200902.DWR.DivTotal.Month,7200914.DWR.DivTotal.Month,7200944.DWR.DivTotal.Month",HandleMissingHow="IgnoreMissing")
+FillPattern(TSList=AllMatchingTSID,TSID="72_ADC053",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="72_ADC053")
+Add(TSID="72_ADC053...Month",AddTSList=AllMatchingTSID,AddTSID="HG04...MONTH",HandleMissingHow="IgnoreMissing")
+Free(TSList=AllMatchingTSID,TSID="HG04...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7200522.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200540.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200566.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200572.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200605.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200619.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200622.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200694.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200697.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200723.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200728.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200830.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200863.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200902.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200914.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200944.DWR.DivTotal.Month")
+#
+# HG08, HG09, HG10, HG11, HG12, HG13, HG14 - included in aggregate
+# WDID = 72_ADC056, HGWDID = 7204727, 7204728,7204729,7204730,7204731,7204732, 7204734
+#
+HG08...MONTH~StateMod~SSC_Original.stm
+HG09...MONTH~StateMod~SSC_Original.stm
+HG10...MONTH~StateMod~SSC_Original.stm
+HG11...MONTH~StateMod~SSC_Original.stm
+HG12...MONTH~StateMod~SSC_Original.stm
+HG13...MONTH~StateMod~SSC_Original.stm
+HG14...MONTH~StateMod~SSC_Original.stm
+HG18...MONTH~StateMod~SSC_Original.stm
+Add(TSID="HG08...MONTH",AddTSList=SpecifiedTSID,AddTSID="HG09...MONTH,HG10...MONTH,HG11...MONTH,HG12...MONTH,HG14...MONTH,HG18...MONTH",HandleMissingHow="SetMissingIfAnyMissing")
+7204727.DWR.DivTotal.Month~HydroBase
+7204728.DWR.DivTotal.Month~HydroBase
+7204729.DWR.DivTotal.Month~HydroBase
+7204730.DWR.DivTotal.Month~HydroBase
+7204731.DWR.DivTotal.Month~HydroBase
+7204732.DWR.DivTotal.Month~HydroBase
+7204733.DWR.DivTotal.Month~HydroBase
+7204734.DWR.DivTotal.Month~HydroBase
+Add(TSID="7204727.DWR.DivTotal.Month",AddTSList=SpecifiedTSID,AddTSID="7204728.DWR.DivTotal.Month,7204729.DWR.DivTotal.Month,7204730.DWR.DivTotal.Month,7204731.DWR.DivTotal.Month,7204732.DWR.DivTotal.Month,7204733.DWR.DivTotal.Month,7204734.DWR.DivTotal.Month",HandleMissingHow="SetMissingIfAnyMissing")
+FillFromTS(TSList=AllMatchingTSID,TSID="HG08...MONTH",IndependentTSList=AllMatchingTSID,IndependentTSID="7204727.DWR.DivTotal.Month")
+FillPattern(TSList=AllMatchingTSID,TSID="HG08...MONTH",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="HG08...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7204*.DWR.DivTotal.Month")
+# Read the individual structures in 72_ADC056 acreage and add together
+7200655.DWR.DivTotal.Month~HydroBase
+7200665.DWR.DivTotal.Month~HydroBase
+7200734.DWR.DivTotal.Month~HydroBase
+7200751.DWR.DivTotal.Month~HydroBase
+7200854.DWR.DivTotal.Month~HydroBase
+7200887.DWR.DivTotal.Month~HydroBase
+7200904.DWR.DivTotal.Month~HydroBase
+7200929.DWR.DivTotal.Month~HydroBase
+7201181.DWR.DivTotal.Month~HydroBase
+7201451.DWR.DivTotal.Month~HydroBase
+Copy(TSID="7200655.DWR.DivTotal.Month",NewTSID="72_ADC056...Month",Alias="72_ADC056")
+Add(TSID="72_ADC056...Month",AddTSList=SpecifiedTSID,AddTSID="7200665.DWR.DivTotal.Month,7200734.DWR.DivTotal.Month,7200751.DWR.DivTotal.Month,7200854.DWR.DivTotal.Month,7200887.DWR.DivTotal.Month,7200904.DWR.DivTotal.Month,7200929.DWR.DivTotal.Month,7201181.DWR.DivTotal.Month,7201451.DWR.DivTotal.Month",HandleMissingHow="IgnoreMissing")
+FillPattern(TSList=AllMatchingTSID,TSID="72_ADC056...Month",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="72_ADC056...Month")
+Add(TSID="72_ADC056...Month",AddTSList=AllMatchingTSID,AddTSID="HG08...MONTH",HandleMissingHow="IgnoreMissing")
+Free(TSList=AllMatchingTSID,TSID="HG*...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7200655.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200665.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200734.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200751.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200854.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200887.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200904.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200929.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7201181.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7201451.DWR.DivTotal.Month")
+#
+#
+# HG15, HG16, HG17, HG20 RMG Divsys
+# WDID = 7200852_D, HGWDID = 7204734, 7204735,7204736,7204739
+#
+HG15...MONTH~StateMod~SSC_Original.stm
+HG16...MONTH~StateMod~SSC_Original.stm
+HG17...MONTH~StateMod~SSC_Original.stm
+HG20...MONTH~StateMod~SSC_Original.stm
+Add(TSID="HG15...MONTH",AddTSList=SpecifiedTSID,AddTSID="HG16...MONTH,HG17...MONTH,HG20...MONTH",HandleMissingHow="SetMissingIfAnyMissing")
+7204734.DWR.DivTotal.Month~HydroBase
+7204735.DWR.DivTotal.Month~HydroBase
+7204736.DWR.DivTotal.Month~HydroBase
+7204739.DWR.DivTotal.Month~HydroBase
+Add(TSID="7204734.DWR.DivTotal.Month",AddTSList=SpecifiedTSID,AddTSID="7204735.DWR.DivTotal.Month,7204736.DWR.DivTotal.Month,7204739.DWR.DivTotal.Month",HandleMissingHow="SetMissingIfAnyMissing")
+FillFromTS(TSList=AllMatchingTSID,TSID="HG15...MONTH",IndependentTSList=AllMatchingTSID,IndependentTSID="7204734.DWR.DivTotal.Month")
+FillPattern(TSList=AllMatchingTSID,TSID="HG15...MONTH",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="HG15...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7204*.DWR.DivTotal.Month")
+# Read the individual structures in 7200852_D diversion system and add together
+7200852.DWR.DivTotal.Month~HydroBase
+7200555.DWR.DivTotal.Month~HydroBase
+Copy(TSID="7200852.DWR.DivTotal.Month",NewTSID="7200852_D...Month",Alias="7200852_D")
+Add(TSID="7200852_D...Month",AddTSList=SpecifiedTSID,AddTSID="7200555.DWR.DivTotal.Month,",HandleMissingHow="IgnoreMissing")
+FillPattern(TSList=AllMatchingTSID,TSID="7200852_D...Month",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="7200852_D...Month")
+Add(TSID="7200852_D...Month",AddTSList=AllMatchingTSID,AddTSID="HG15...MONTH",HandleMissingHow="IgnoreMissing")
+Free(TSList=AllMatchingTSID,TSID="HG*...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7200852.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200555.DWR.DivTotal.Month")
+#
+# HG21, HG22, HG21_22  = Kiggins and Goyn ditch
+# WDID = 7200729, HGWDID = 7204740, 7204741
+#
+HG21...MONTH~StateMod~SSC_Original.stm
+HG22...MONTH~StateMod~SSC_Original.stm
+HG21_22...MONTH~StateMod~SSC_Original.stm
+Add(TSID="HG21...MONTH",AddTSList=SpecifiedTSID,AddTSID="HG22...MONTH,HG21_22...MONTH",HandleMissingHow="SetMissingIfAnyMissing")
+7204740.DWR.DivTotal.Month~HydroBase
+7204741.DWR.DivTotal.Month~HydroBase
+Add(TSID="7204740.DWR.DivTotal.Month",AddTSList=SpecifiedTSID,AddTSID="7204741.DWR.DivTotal.Month",HandleMissingHow="SetMissingIfAnyMissing")
+FillFromTS(TSList=AllMatchingTSID,TSID="HG21...MONTH",IndependentTSList=AllMatchingTSID,IndependentTSID="7204740.DWR.DivTotal.Month")
+FillPattern(TSList=AllMatchingTSID,TSID="HG21...MONTH",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="HG21...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7204*.DWR.DivTotal.Month")
+# 7200729 - Kiggins and Goyne Ditch
+7200729.DWR.DivTotal.Month~HydroBase
+FillPattern(TSList=AllMatchingTSID,TSID="7200729.DWR.DivTotal.Month",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="7200729.DWR.DivTotal.Month")
+Add(TSID="7200729.DWR.DivTotal.Month",AddTSList=AllMatchingTSID,AddTSID="HG21...MONTH",HandleMissingHow="IgnoreMissing")
+Free(TSList=AllMatchingTSID,TSID="HG*...MONTH")
+#
+# HG25, HG26
+# WDID = 72_ADC059, HGWDID = 7204742, 7204743
+#
+HG25...MONTH~StateMod~SSC_Original.stm
+HG26...MONTH~StateMod~SSC_Original.stm
+Add(TSID="HG25...MONTH",AddTSList=SpecifiedTSID,AddTSID="HG26...MONTH",HandleMissingHow="SetMissingIfAnyMissing")
+7204742.DWR.DivTotal.Month~HydroBase
+7204743.DWR.DivTotal.Month~HydroBase
+Add(TSID="7204742.DWR.DivTotal.Month",AddTSList=SpecifiedTSID,AddTSID="7204743.DWR.DivTotal.Month",HandleMissingHow="SetMissingIfAnyMissing")
+FillFromTS(TSList=AllMatchingTSID,TSID="HG25...MONTH",IndependentTSList=AllMatchingTSID,IndependentTSID="7204742.DWR.DivTotal.Month")
+FillPattern(TSList=AllMatchingTSID,TSID="HG25...MONTH",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="HG25...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7204*.DWR.DivTotal.Month")
+# Read the individual structures in 72_ADC059 acreage and add together
+7200504.DWR.DivTotal.Month~HydroBase
+7200525.DWR.DivTotal.Month~HydroBase
+7200594.DWR.DivTotal.Month~HydroBase
+7200618.DWR.DivTotal.Month~HydroBase
+7200633.DWR.DivTotal.Month~HydroBase
+7200659.DWR.DivTotal.Month~HydroBase
+7200673.DWR.DivTotal.Month~HydroBase
+7200711.DWR.DivTotal.Month~HydroBase
+7200757.DWR.DivTotal.Month~HydroBase
+7200767.DWR.DivTotal.Month~HydroBase
+7200768.DWR.DivTotal.Month~HydroBase
+7200824.DWR.DivTotal.Month~HydroBase
+7200828.DWR.DivTotal.Month~HydroBase
+7200835.DWR.DivTotal.Month~HydroBase
+7200861.DWR.DivTotal.Month~HydroBase
+7200865.DWR.DivTotal.Month~HydroBase
+7200869.DWR.DivTotal.Month~HydroBase
+7200891.DWR.DivTotal.Month~HydroBase
+7201008.DWR.DivTotal.Month~HydroBase
+7201033.DWR.DivTotal.Month~HydroBase
+7201041.DWR.DivTotal.Month~HydroBase
+7201179.DWR.DivTotal.Month~HydroBase
+7201249.DWR.DivTotal.Month~HydroBase
+7201388.DWR.DivTotal.Month~HydroBase
+7201417.DWR.DivTotal.Month~HydroBase
+7201424.DWR.DivTotal.Month~HydroBase
+Copy(TSID="7200504.DWR.DivTotal.Month",NewTSID="72_ADC059...Month",Alias="72_ADC059")
+Add(TSID="72_ADC059...Month",AddTSList=SpecifiedTSID,AddTSID="7200525.DWR.DivTotal.Month,7200594.DWR.DivTotal.Month,7200618.DWR.DivTotal.Month,7200633.DWR.DivTotal.Month,7200659.DWR.DivTotal.Month,7200673.DWR.DivTotal.Month,7200711.DWR.DivTotal.Month,7200757.DWR.DivTotal.Month,7200767.DWR.DivTotal.Month,7200768.DWR.DivTotal.Month,7200824.DWR.DivTotal.Month,7200828.DWR.DivTotal.Month,7200835.DWR.DivTotal.Month,7200861.DWR.DivTotal.Month,7200865.DWR.DivTotal.Month,7200869.DWR.DivTotal.Month,7200891.DWR.DivTotal.Month,7201008.DWR.DivTotal.Month,7201033.DWR.DivTotal.Month,7201041.DWR.DivTotal.Month,7201179.DWR.DivTotal.Month,7201249.DWR.DivTotal.Month,7201388.DWR.DivTotal.Month,7201417.DWR.DivTotal.Month,7201424.DWR.DivTotal.Month",HandleMissingHow="IgnoreMissing")
+FillPattern(TSList=AllMatchingTSID,TSID="72_ADC059...Month",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="72_ADC059...Month")
+Add(TSID="72_ADC059...Month",AddTSList=AllMatchingTSID,AddTSID="HG25...MONTH",HandleMissingHow="IgnoreMissing")
+Free(TSList=AllMatchingTSID,TSID="HG*...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7200504.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200525.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200594.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200618.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200633.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200659.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200673.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200711.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200757.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200767.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200768.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200824.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200828.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200835.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200861.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200865.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200869.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200891.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7201008.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7201033.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7201041.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7201179.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7201249.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7201388.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7201417.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7201424.DWR.DivTotal.Month")
+#
+#
+# HG28, HG29, HG30, HG31 PARKER DITCH
+# WDID = 720821, HGWDID = 7204744, 7204745,7204746,7204747
+#
+HG28...MONTH~StateMod~SSC_Original.stm
+HG29...MONTH~StateMod~SSC_Original.stm
+HG30...MONTH~StateMod~SSC_Original.stm
+HG31...MONTH~StateMod~SSC_Original.stm
+Add(TSID="HG28...MONTH",AddTSList=SpecifiedTSID,AddTSID="HG29...MONTH,HG30...MONTH,HG31...MONTH",HandleMissingHow="SetMissingIfAnyMissing")
+7204744.DWR.DivTotal.Month~HydroBase
+7204745.DWR.DivTotal.Month~HydroBase
+7204746.DWR.DivTotal.Month~HydroBase
+7204747.DWR.DivTotal.Month~HydroBase
+Add(TSID="7204744.DWR.DivTotal.Month",AddTSList=SpecifiedTSID,AddTSID="7204745.DWR.DivTotal.Month,7204746.DWR.DivTotal.Month,7204747.DWR.DivTotal.Month",HandleMissingHow="SetMissingIfAnyMissing")
+FillFromTS(TSList=AllMatchingTSID,TSID="HG28...MONTH",IndependentTSList=AllMatchingTSID,IndependentTSID="7204744.DWR.DivTotal.Month")
+FillPattern(TSList=AllMatchingTSID,TSID="HG28...MONTH",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="HG28...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7204*.DWR.DivTotal.Month")
+7200821.DWR.DivTotal.Month~HydroBase
+FillPattern(TSList=AllMatchingTSID,TSID="7200821.DWR.DivTotal.Month",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="7200821.DWR.DivTotal.Month")
+Add(TSID="7200821.DWR.DivTotal.Month",AddTSList=AllMatchingTSID,AddTSID="HG28...MONTH",HandleMissingHow="IgnoreMissing")
+Free(TSList=AllMatchingTSID,TSID="HG*...MONTH")
+#
+#
+# HG32 MORMON MESA DITCH
+# WDID = 7200799, HGWDID = 7204748
+#
+HG32...MONTH~StateMod~SSC_Original.stm
+7204748.DWR.DivTotal.Month~HydroBase
+FillFromTS(TSList=AllMatchingTSID,TSID="HG32...MONTH",IndependentTSList=AllMatchingTSID,IndependentTSID="7204748.DWR.DivTotal.Month")
+FillPattern(TSList=AllMatchingTSID,TSID="HG32...MONTH",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="HG32...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7204748.DWR.DivTotal.Month")
+7200799.DWR.DivTotal.Month~HydroBase
+FillPattern(TSList=AllMatchingTSID,TSID="7200799.DWR.DivTotal.Month",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="7200799.DWR.DivTotal.Month")
+Add(TSID="7200799.DWR.DivTotal.Month",AddTSList=AllMatchingTSID,AddTSID="HG32...MONTH",HandleMissingHow="IgnoreMissing")
+Free(TSList=AllMatchingTSID,TSID="HG*...MONTH")
+#
+#
+# HG33, HG35, HG37, HG38, HG39, HG40, HG41, HG42
+# WDID = 72_ADC060, HGWDID = 7204749
+#
+HG33...MONTH~StateMod~SSC_Original.stm
+HG35...MONTH~StateMod~SSC_Original.stm
+HG37...MONTH~StateMod~SSC_Original.stm
+HG38...MONTH~StateMod~SSC_Original.stm
+HG39...MONTH~StateMod~SSC_Original.stm
+HG40...MONTH~StateMod~SSC_Original.stm
+HG41...MONTH~StateMod~SSC_Original.stm
+HG42...MONTH~StateMod~SSC_Original.stm
+Add(TSID="HG33...MONTH",AddTSList=SpecifiedTSID,AddTSID="HG35...MONTH,HG37...MONTH,HG38...MONTH,HG39...MONTH,HG40...MONTH,HG41...MONTH,HG42...MONTH",HandleMissingHow="SetMissingIfAnyMissing")
+7204749.DWR.DivTotal.Month~HydroBase
+7204750.DWR.DivTotal.Month~HydroBase
+7204751.DWR.DivTotal.Month~HydroBase
+7204752.DWR.DivTotal.Month~HydroBase
+7204753.DWR.DivTotal.Month~HydroBase
+7204754.DWR.DivTotal.Month~HydroBase
+7204755.DWR.DivTotal.Month~HydroBase
+7204756.DWR.DivTotal.Month~HydroBase
+Add(TSID="7204749.DWR.DivTotal.Month",AddTSList=SpecifiedTSID,AddTSID="7204750.DWR.DivTotal.Month,7204751.DWR.DivTotal.Month,7204752.DWR.DivTotal.Month,7204753.DWR.DivTotal.Month,7204754.DWR.DivTotal.Month,7204755.DWR.DivTotal.Month,7204756.DWR.DivTotal.Month",HandleMissingHow="SetMissingIfAnyMissing")
+FillFromTS(TSList=AllMatchingTSID,TSID="HG33...MONTH",IndependentTSList=AllMatchingTSID,IndependentTSID="7204749.DWR.DivTotal.Month")
+FillPattern(TSList=AllMatchingTSID,TSID="HG33...MONTH",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="HG33...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7204*.DWR.DivTotal.Month")
+# Read the individual structures in 72_ADC060 acreage and add together
+7200591.DWR.DivTotal.Month~HydroBase
+7200596.DWR.DivTotal.Month~HydroBase
+7200656.DWR.DivTotal.Month~HydroBase
+7200735.DWR.DivTotal.Month~HydroBase
+7200809.DWR.DivTotal.Month~HydroBase
+7200838.DWR.DivTotal.Month~HydroBase
+7200867.DWR.DivTotal.Month~HydroBase
+7200877.DWR.DivTotal.Month~HydroBase
+7200945.DWR.DivTotal.Month~HydroBase
+7200946.DWR.DivTotal.Month~HydroBase
+Copy(TSID="7200591.DWR.DivTotal.Month",NewTSID="72_ADC060...Month",Alias="72_ADC060")
+Add(TSID="72_ADC060...Month",AddTSList=SpecifiedTSID,AddTSID="7200596.DWR.DivTotal.Month,7200656.DWR.DivTotal.Month,7200735.DWR.DivTotal.Month,7200809.DWR.DivTotal.Month,7200838.DWR.DivTotal.Month,7200867.DWR.DivTotal.Month,7200877.DWR.DivTotal.Month,7200945.DWR.DivTotal.Month,7200946.DWR.DivTotal.Month",HandleMissingHow="IgnoreMissing")
+FillPattern(TSList=AllMatchingTSID,TSID="72_ADC060...Month",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="72_ADC060...Month")
+Add(TSID="72_ADC060...Month",AddTSList=AllMatchingTSID,AddTSID="HG33...MONTH",HandleMissingHow="IgnoreMissing")
+Free(TSList=AllMatchingTSID,TSID="HG*...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7200591.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200596.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200656.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200735.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200809.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200838.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200867.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200877.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200945.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200946.DWR.DivTotal.Month")
+#
+# HG43,HG45 PARK VIEW DITCH
+# WDID = 7200823, HGWDID = 7204757,7204758
+#
+HG43...MONTH~StateMod~SSC_Original.stm
+HG45...MONTH~StateMod~SSC_Original.stm
+Add(TSID="HG43...MONTH",AddTSList=SpecifiedTSID,AddTSID="HG45...MONTH",HandleMissingHow="SetMissingIfAnyMissing")
+7204757.DWR.DivTotal.Month~HydroBase
+7204758.DWR.DivTotal.Month~HydroBase
+Add(TSID="7204757.DWR.DivTotal.Month",AddTSList=SpecifiedTSID,AddTSID="7204758.DWR.DivTotal.Month",HandleMissingHow="SetMissingIfAnyMissing")
+FillFromTS(TSList=AllMatchingTSID,TSID="HG43...MONTH",IndependentTSList=AllMatchingTSID,IndependentTSID="7204757.DWR.DivTotal.Month")
+FillPattern(TSList=AllMatchingTSID,TSID="HG43...MONTH",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="HG43...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7204*.DWR.DivTotal.Month")
+7200823.DWR.DivTotal.Month~HydroBase
+FillPattern(TSList=AllMatchingTSID,TSID="7200823.DWR.DivTotal.Month",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="7200823.DWR.DivTotal.Month")
+Add(TSID="7200823.DWR.DivTotal.Month",AddTSList=AllMatchingTSID,AddTSID="HG43...MONTH",HandleMissingHow="IgnoreMissing")
+Free(TSList=AllMatchingTSID,TSID="HG*...MONTH")
+#
+# HG46 - included in aggregate
+# WDID = 72_ADC061, HGWDID = 7204759
+#
+HG46...MONTH~StateMod~SSC_Original.stm
+7204759.DWR.DivTotal.Month~HydroBase
+FillFromTS(TSList=AllMatchingTSID,TSID="HG46...MONTH",IndependentTSList=AllMatchingTSID,IndependentTSID="7204759.DWR.DivTotal.Month")
+FillPattern(TSList=AllMatchingTSID,TSID="HG46...MONTH",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="HG46...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7204759.DWR.DivTotal.Month")
+# Read the individual structures in 72_ADC061 acreage and add together
+7200625.DWR.DivTotal.Month~HydroBase
+7200718.DWR.DivTotal.Month~HydroBase
+7200756.DWR.DivTotal.Month~HydroBase
+7200850.DWR.DivTotal.Month~HydroBase
+7200878.DWR.DivTotal.Month~HydroBase
+7200885.DWR.DivTotal.Month~HydroBase
+7200894.DWR.DivTotal.Month~HydroBase
+7200895.DWR.DivTotal.Month~HydroBase
+SetConstant(TSList=AllMatchingTSID,TSID="7200895.DWR.DivTotal.Month",ConstantValue=146.6,SetStart="05/2005",SetEnd="05/2005")
+Copy(TSID="7200625.DWR.DivTotal.Month",NewTSID="72_ADC061...Month",Alias="72_ADC061")
+Add(TSID="72_ADC061...Month",AddTSList=SpecifiedTSID,AddTSID="7200718.DWR.DivTotal.Month,7200756.DWR.DivTotal.Month,7200850.DWR.DivTotal.Month,7200878.DWR.DivTotal.Month,7200885.DWR.DivTotal.Month,7200894.DWR.DivTotal.Month,7200895.DWR.DivTotal.Month",HandleMissingHow="IgnoreMissing")
+FillPattern(TSList=AllMatchingTSID,TSID="72_ADC061...Month",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="72_ADC061...Month")
+Add(TSID="72_ADC056...Month",AddTSList=AllMatchingTSID,AddTSID="HG46...MONTH",HandleMissingHow="IgnoreMissing")
+Free(TSList=AllMatchingTSID,TSID="HG*...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7200625.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200718.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200756.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200850.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200878.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200885.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200894.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200895.DWR.DivTotal.Month")
+#
+#
+# HG47, HG50, HG51, HG52
+# WDID = 72_ADC062, HGWDID = 7204760, 7204762,7204763,7204764
+#
+HG47...MONTH~StateMod~SSC_Original.stm
+HG50...MONTH~StateMod~SSC_Original.stm
+HG51...MONTH~StateMod~SSC_Original.stm
+HG52...MONTH~StateMod~SSC_Original.stm
+Add(TSID="HG47...MONTH",AddTSList=SpecifiedTSID,AddTSID="HG50...MONTH,HG51...MONTH,HG52...MONTH",HandleMissingHow="SetMissingIfAnyMissing")
+7204760.DWR.DivTotal.Month~HydroBase
+7204762.DWR.DivTotal.Month~HydroBase
+7204763.DWR.DivTotal.Month~HydroBase
+7204764.DWR.DivTotal.Month~HydroBase
+Add(TSID="7204760.DWR.DivTotal.Month",AddTSList=SpecifiedTSID,AddTSID="7204762.DWR.DivTotal.Month,7204763.DWR.DivTotal.Month,7204764.DWR.DivTotal.Month",HandleMissingHow="SetMissingIfAnyMissing")
+FillFromTS(TSList=AllMatchingTSID,TSID="HG47...MONTH",IndependentTSList=AllMatchingTSID,IndependentTSID="7204760.DWR.DivTotal.Month")
+FillPattern(TSList=AllMatchingTSID,TSID="HG47...MONTH",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="HG47...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7204*.DWR.DivTotal.Month")
+# Read the individual structures in 72_ADC062 acreage and add together
+7200526.DWR.DivTotal.Month~HydroBase
+7200587.DWR.DivTotal.Month~HydroBase
+7200600.DWR.DivTotal.Month~HydroBase
+7200663.DWR.DivTotal.Month~HydroBase
+7200682.DWR.DivTotal.Month~HydroBase
+7200776.DWR.DivTotal.Month~HydroBase
+7200779.DWR.DivTotal.Month~HydroBase
+7200829.DWR.DivTotal.Month~HydroBase
+7200862.DWR.DivTotal.Month~HydroBase
+7200882.DWR.DivTotal.Month~HydroBase
+7201404.DWR.DivTotal.Month~HydroBase
+SetConstant(TSList=AllMatchingTSID,TSID="7201404.DWR.DivTotal.Month",ConstantValue=11.9,SetStart="6/2004",SetEnd="6/2004")
+7201513.DWR.DivTotal.Month~HydroBase
+7201522.DWR.DivTotal.Month~HydroBase
+Copy(TSID="7200526.DWR.DivTotal.Month",NewTSID="72_ADC062...Month",Alias="72_ADC062")
+Add(TSID="72_ADC062...Month",AddTSList=SpecifiedTSID,AddTSID="7200587.DWR.DivTotal.Month,7200600.DWR.DivTotal.Month,7200663.DWR.DivTotal.Month,7200682.DWR.DivTotal.Month,7200776.DWR.DivTotal.Month,7200779.DWR.DivTotal.Month,7200829.DWR.DivTotal.Month,7200862.DWR.DivTotal.Month,7200882.DWR.DivTotal.Month,7201404.DWR.DivTotal.Month,7201513.DWR.DivTotal.Month,7201522.DWR.DivTotal.Month",HandleMissingHow="IgnoreMissing")
+FillPattern(TSList=AllMatchingTSID,TSID="72_ADC062...Month",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="72_ADC062...Month")
+Add(TSID="72_ADC062...Month",AddTSList=AllMatchingTSID,AddTSID="HG47...MONTH",HandleMissingHow="IgnoreMissing")
+Free(TSList=AllMatchingTSID,TSID="HG*...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7200526.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200587.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200600.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200663.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200682.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200776.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200779.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200829.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200862.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200882.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7201404.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7201513.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7201522.DWR.DivTotal.Month")
+#
+# HG56
+# WDID = 72_ADC063, HGWDID = 7204766
+#
+HG56...MONTH~StateMod~SSC_Original.stm
+7204766.DWR.DivTotal.Month~HydroBase
+FillFromTS(TSList=AllMatchingTSID,TSID="HG56...MONTH",IndependentTSList=AllMatchingTSID,IndependentTSID="7204766.DWR.DivTotal.Month")
+FillPattern(TSList=AllMatchingTSID,TSID="HG56...MONTH",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="HG56...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7204766.DWR.DivTotal.Month")
+# Read the individual structures in 72_ADC063 acreage and add together
+7200518.DWR.DivTotal.Month~HydroBase
+7200549.DWR.DivTotal.Month~HydroBase
+7200581.DWR.DivTotal.Month~HydroBase
+7200712.DWR.DivTotal.Month~HydroBase
+7200714.DWR.DivTotal.Month~HydroBase
+7200763.DWR.DivTotal.Month~HydroBase
+7200873.DWR.DivTotal.Month~HydroBase
+7200889.DWR.DivTotal.Month~HydroBase
+7200903.DWR.DivTotal.Month~HydroBase
+7200912.DWR.DivTotal.Month~HydroBase
+Copy(TSID="7200518.DWR.DivTotal.Month",NewTSID="72_ADC063...Month",Alias="72_ADC063")
+Add(TSID="72_ADC063...Month",AddTSList=SpecifiedTSID,AddTSID="7200549.DWR.DivTotal.Month,7200581.DWR.DivTotal.Month,7200712.DWR.DivTotal.Month,7200714.DWR.DivTotal.Month,7200763.DWR.DivTotal.Month,7200873.DWR.DivTotal.Month,7200889.DWR.DivTotal.Month,7200903.DWR.DivTotal.Month,7200912.DWR.DivTotal.Month",HandleMissingHow="IgnoreMissing")
+FillPattern(TSList=AllMatchingTSID,TSID="72_ADC063...Month",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="72_ADC063...Month")
+Add(TSID="72_ADC063...Month",AddTSList=AllMatchingTSID,AddTSID="HG56...MONTH",HandleMissingHow="IgnoreMissing")
+Free(TSList=AllMatchingTSID,TSID="HG56...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7200518.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200549.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200581.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200712.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200714.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200763.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200873.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200889.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200903.DWR.DivTotal.Month")
+Free(TSList=AllMatchingTSID,TSID="7200912.DWR.DivTotal.Month")
+#
+# HG49_5 = PIONEER OF PLATEAU DITCH
+# WDID = 7200831, HGWDID = 7204761
+#
+HG49_5...MONTH~StateMod~SSC_Original.stm
+7204761.DWR.DivTotal.Month~HydroBase
+FillFromTS(TSList=AllMatchingTSID,TSID="HG49_5...MONTH",IndependentTSList=AllMatchingTSID,IndependentTSID="7204761.DWR.DivTotal.Month")
+FillPattern(TSList=AllMatchingTSID,TSID="HG49_5...MONTH",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="HG49_5...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7204761.DWR.DivTotal.Month")
+# 7200831 - GALBRAITH DITCH
+7200831.DWR.DivTotal.Month~HydroBase
+FillPattern(TSList=AllMatchingTSID,TSID="7200831.DWR.DivTotal.Month",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="7200831.DWR.DivTotal.Month")
+Add(TSID="7200831.DWR.DivTotal.Month",AddTSList=AllMatchingTSID,AddTSID="HG49_5...MONTH",HandleMissingHow="IgnoreMissing")
+Free(TSList=AllMatchingTSID,TSID="HG49_5...MONTH")
+#
+# HG55 = MESA CREEK DITCH
+# WDID = 720784, HGWDID = 7204765
+#
+HG55...MONTH~StateMod~SSC_Original.stm
+7204765.DWR.DivTotal.Month~HydroBase
+FillFromTS(TSList=AllMatchingTSID,TSID="HG55...MONTH",IndependentTSList=AllMatchingTSID,IndependentTSID="7204765.DWR.DivTotal.Month")
+FillPattern(TSList=AllMatchingTSID,TSID="HG55...MONTH",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="HG55...MONTH")
+Free(TSList=AllMatchingTSID,TSID="7204765.DWR.DivTotal.Month")
+# 7200784 - MESA CREEK DITCH
+7200784.DWR.DivTotal.Month~HydroBase
+FillPattern(TSList=AllMatchingTSID,TSID="7200784.DWR.DivTotal.Month",PatternID="09095500")
+FillHistMonthAverage(TSList=AllMatchingTSID,TSID="7200784.DWR.DivTotal.Month")
+Add(TSID="7200784.DWR.DivTotal.Month",AddTSList=AllMatchingTSID,AddTSID="HG55...MONTH",HandleMissingHow="IgnoreMissing")
+Free(TSList=AllMatchingTSID,TSID="HG55...MONTH")
+WriteStateMod(TSList=AllTS,OutputFile="SSC_Combined.stm",Precision=0)

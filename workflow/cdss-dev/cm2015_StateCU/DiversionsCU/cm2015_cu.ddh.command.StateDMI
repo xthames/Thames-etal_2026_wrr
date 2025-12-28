@@ -1,0 +1,131 @@
+#cm2015_cu.ddh.StateDMI
+# This command file to create the historical diversion file used in the consumptive use analysis.
+# Note, the no-diversion aggregates ('AND') will not be filled with historic month average and a
+# warning will appear when this file is run. Other than the no-diversion aggregates, all other
+# diversions should have data.
+#
+#  Step 1 - set time-series period and year type.  StateCU runs on calendar year.
+#
+SetOutputPeriod(OutputStart="01/1950",OutputEnd="12/2013")
+SetOutputYearType(OutputYearType=Calendar)
+#
+#  Step 2 - read structure list from structure file list
+#
+ReadDiversionStationsFromList(ListFile="..\LocationCU\cmstrlist.lst",IDCol=1)
+#
+#  Step 3 - read aggregate and diversion system structure assignments.  Note that
+#        want to combine historical diversions for aggs and diversion systems, but
+#        historical diversions are separate for primary and secondary components of multistructures
+#
+#   Don't read no diversion aggregate file so StateDMI will set all *AND* structures
+#   to missing (-999) so the DDH won't fill the entire POR from a few years of available data.
+SetDiversionAggregateFromList(ListFile="cm_agg.lst",IDCol=1,PartIDsCol=2,PartsListedHow=InColumn)
+SetDiversionSystemFromList(ListFile="cm_divsys_crop.lst",IDCol=1,NameCol=2,PartIDsCol=3,PartsListedHow=InRow)
+SetDiversionSystemFromList(ListFile="cm_multistr.lst",IDCol=1,NameCol=2,PartIDsCol=3,PartsListedHow=InRow)
+#
+#  Step 4 - read historical diversions from HydroBase. Note that want individual structures
+#           in aggregates and diversion systems to be filled first, then diversions combined.
+#
+ReadDiversionHistoricalTSMonthlyFromHydroBase(ID="*",IncludeExplicit=True,IncludeCollections=False,UseDiversionComments=True)
+#
+#  Step 5 - read fill pattern file, and assign patterns to water districts
+#
+ReadPatternFile(InputFile="fill2015.pat")
+ReadDiversionHistoricalTSMonthlyFromHydroBase(ID="36*",IncludeExplicit=False,UseDiversionComments=True,PatternID="09037500",FillPatternOrder=1,FillAverageOrder=2)
+ReadDiversionHistoricalTSMonthlyFromHydroBase(ID="37*",IncludeExplicit=False,UseDiversionComments=True,PatternID="09085000",FillPatternOrder=1,FillAverageOrder=2)
+ReadDiversionHistoricalTSMonthlyFromHydroBase(ID="38*",IncludeExplicit=False,UseDiversionComments=True,PatternID="09085000",FillPatternOrder=1,FillAverageOrder=2)
+ReadDiversionHistoricalTSMonthlyFromHydroBase(ID="39*",IncludeExplicit=False,UseDiversionComments=True,PatternID="09085000",FillPatternOrder=1,FillAverageOrder=2)
+ReadDiversionHistoricalTSMonthlyFromHydroBase(ID="42*",IncludeExplicit=False,UseDiversionComments=True,PatternID="09152500",FillPatternOrder=1,FillAverageOrder=2)
+ReadDiversionHistoricalTSMonthlyFromHydroBase(ID="45*",IncludeExplicit=False,UseDiversionComments=True,PatternID="09095500",FillPatternOrder=1,FillAverageOrder=2)
+ReadDiversionHistoricalTSMonthlyFromHydroBase(ID="50*",IncludeExplicit=False,UseDiversionComments=True,PatternID="09034500",FillPatternOrder=1,FillAverageOrder=2)
+ReadDiversionHistoricalTSMonthlyFromHydroBase(ID="51*",IncludeExplicit=False,UseDiversionComments=True,PatternID="09034500",FillPatternOrder=1,FillAverageOrder=2)
+ReadDiversionHistoricalTSMonthlyFromHydroBase(ID="52*",IncludeExplicit=False,UseDiversionComments=True,PatternID="09085000",FillPatternOrder=1,FillAverageOrder=2)
+ReadDiversionHistoricalTSMonthlyFromHydroBase(ID="53*",IncludeExplicit=False,UseDiversionComments=True,PatternID="09085000",FillPatternOrder=1,FillAverageOrder=2)
+ReadDiversionHistoricalTSMonthlyFromHydroBase(ID="70*",IncludeExplicit=False,UseDiversionComments=True,PatternID="09095500",FillPatternOrder=1,FillAverageOrder=2)
+ReadDiversionHistoricalTSMonthlyFromHydroBase(ID="72*",IncludeExplicit=False,UseDiversionComments=True,PatternID="09095500",FillPatternOrder=1,FillAverageOrder=2)
+# District 51 structures not represented by 09034500
+ReadDiversionHistoricalTSMonthlyFromHydroBase(ID="5100788",IncludeExplicit=False,UseDiversionComments=True,PatternID="09037500",FillPatternOrder=1,FillAverageOrder=2)
+ReadDiversionHistoricalTSMonthlyFromHydroBase(ID="5100529_D",IncludeExplicit=False,UseDiversionComments=True,PatternID="09037500",FillPatternOrder=1,FillAverageOrder=2)
+ReadDiversionHistoricalTSMonthlyFromHydroBase(ID="51_ADC009",IncludeExplicit=False,UseDiversionComments=True,PatternID="09037500",FillPatternOrder=1,FillAverageOrder=2)
+ReadDiversionHistoricalTSMonthlyFromHydroBase(ID="51_ADC010",IncludeExplicit=False,UseDiversionComments=True,PatternID="09037500",FillPatternOrder=1,FillAverageOrder=2)
+#
+#  Step 6 - set diversions from external time-series files
+#
+# The following commands are added to access Task 11.2 which combined original user supplied data with HydroBase data
+SetDiversionHistoricalTSMonthly(ID="3800757",TSID="3800757...MONTH~StateMod~Task11.2.stm")
+SetDiversionHistoricalTSMonthly(ID="4500969",TSID="4500969...MONTH~StateMod~Task11.2.stm")
+SetDiversionHistoricalTSMonthly(ID="5100529_D",TSID="5100529...MONTH~StateMod~Task11.2.stm")
+#
+# The following structures are part of the Silt Project
+SetDiversionHistoricalTSMonthly(ID="3900563_I",TSID="3900563_I...MONTH~StateMod~SiltProject.stm")
+SetDiversionHistoricalTSMonthly(ID="3903505_I",TSID="3903505_I...MONTH~StateMod~SiltProject.stm")
+#
+# The following structures are part of the Collbran and Molina Projects
+SetDiversionHistoricalTSMonthly(ID="7200628",TSID="7200628...MONTH~StateMod~Task11.2.stm")
+#
+# The following structures are part of the Cameo Demand / Grand Valley Area
+SetDiversionHistoricalTSMonthly(ID="7200813",TSID="7200813...MONTH~StateMod~GVP.stm")
+#
+#       maintain diligence and has no diversion data in HydroBase.
+SetDiversionHistoricalTSMonthly(ID="7200646_I",TSID="7200646_I...MONTH~StateMod~GVP.stm")
+SetDiversionHistoricalTSMonthly(ID="4200541_I",TSID="4200541_I...MONTH~StateMod~redlands.stm")
+#
+# The following structures are miscellaneous structures
+SetDiversionHistoricalTSMonthly(ID="5100941",TSID="5100941...MONTH~StateMod~Task11.2.stm")
+SetDiversionHistoricalTSMonthly(ID="7200766_I",TSID="7200766_I...MONTH~StateMod~7200766_I.stm")
+SetDiversionHistoricalTSMonthly(ID="7200764_I",TSID="7200764_I...MONTH~StateMod~7200764_I.stm")
+#
+# Set historical demands to zero from 1984 on b/c the WR were transferred to municipal use by the Ute
+SetDiversionHistoricalTSMonthlyConstant(ID="7200766_I",Constant=0,SetStart="11/1983")
+#
+# SouthSide Canal Update
+# Performed by Adam Kremers - LRE 08/2011
+# SouthSide Canal HG Diversions added to Hydrobase diversions included period 2004-2009
+# Regress fill from 2003 back to 1908 based on Hydrobase diversions (Independent) and combined SSC HG diversions and associated Hydrobase diversions (dependent)
+#
+ReadDiversionHistoricalTSMonthlyFromStateMod(InputFile="SSC_Combined.stm")
+SetDiversionHistoricalTSMonthly(ID="7200628",TSID="7200628...Month~StateMod~SSC_Combined.stm")
+SetDiversionHistoricalTSMonthly(ID="7200852_D",TSID="7200852_D...Month~StateMod~SSC_Combined.stm")
+SetDiversionHistoricalTSMonthly(ID="7200729",TSID="7200729...Month~StateMod~SSC_Combined.stm")
+SetDiversionHistoricalTSMonthly(ID="7200821",TSID="7200821...Month~StateMod~SSC_Combined.stm")
+SetDiversionHistoricalTSMonthly(ID="7200799",TSID="7200799...Month~StateMod~SSC_Combined.stm")
+SetDiversionHistoricalTSMonthly(ID="7200823",TSID="7200823...Month~StateMod~SSC_Combined.stm")
+SetDiversionHistoricalTSMonthly(ID="7200831",TSID="7200831...Month~StateMod~SSC_Combined.stm")
+SetDiversionHistoricalTSMonthly(ID="7200784",TSID="7200784...Month~StateMod~SSC_Combined.stm")
+SetDiversionHistoricalTSMonthly(ID="72_ADC053",TSID="72_ADC053...Month~StateMod~SSC_Combined.stm")
+SetDiversionHistoricalTSMonthly(ID="72_ADC056",TSID="72_ADC056...Month~StateMod~SSC_Combined.stm")
+SetDiversionHistoricalTSMonthly(ID="72_ADC059",TSID="72_ADC059...Month~StateMod~SSC_Combined.stm")
+SetDiversionHistoricalTSMonthly(ID="72_ADC060",TSID="72_ADC060...Month~StateMod~SSC_Combined.stm")
+SetDiversionHistoricalTSMonthly(ID="72_ADC061",TSID="72_ADC061...Month~StateMod~SSC_Combined.stm")
+SetDiversionHistoricalTSMonthly(ID="72_ADC062",TSID="72_ADC062...Month~StateMod~SSC_Combined.stm")
+SetDiversionHistoricalTSMonthly(ID="72_ADC063",TSID="72_ADC063...Month~StateMod~SSC_Combined.stm")
+#
+#  Step 7 - fill historical diversion using pattern approach
+#
+FillDiversionHistoricalTSMonthlyPattern(ID="36*",PatternID="09034500")
+FillDiversionHistoricalTSMonthlyPattern(ID="37*",PatternID="09085000")
+FillDiversionHistoricalTSMonthlyPattern(ID="38*",PatternID="09085000")
+FillDiversionHistoricalTSMonthlyPattern(ID="39*",PatternID="09085000")
+# FillDiversionHistoricalTSMonthlyPattern(ID="42*",PatternID="09152500")
+FillDiversionHistoricalTSMonthlyPattern(ID="45*",PatternID="09095500")
+FillDiversionHistoricalTSMonthlyPattern(ID="50*",PatternID="09034500")
+FillDiversionHistoricalTSMonthlyPattern(ID="51*",PatternID="09034500")
+FillDiversionHistoricalTSMonthlyPattern(ID="52*",PatternID="09085000")
+FillDiversionHistoricalTSMonthlyPattern(ID="53*",PatternID="09085000")
+FillDiversionHistoricalTSMonthlyPattern(ID="70*",PatternID="09095500")
+FillDiversionHistoricalTSMonthlyPattern(ID="72*",PatternID="09095500")
+FillDiversionHistoricalTSMonthlyPattern(ID="3900563_I",PatternID="09085000")
+FillDiversionHistoricalTSMonthlyPattern(ID="3903505_I",PatternID="09085000")
+#
+#
+#
+#  Step 8 - Fill remaining missing with month average
+FillDiversionHistoricalTSMonthlyAverage(ID="*")
+#
+#  Step 9 - Limit filled diversion to water rights.
+#           Not necessary for StateCU analysis since only running supply-limited analysis from 1950 through 2010.
+#           Important to limit to water rights when running StateMod baseflows back to 1909
+#
+#  Step 10 - sort structures and create historical diversion file
+SortDiversionHistoricalTSMonthly(Order=Ascending)
+WriteDiversionHistoricalTSMonthlyToStateMod(OutputFile="..\StateCU\cm2015_cu.ddh")

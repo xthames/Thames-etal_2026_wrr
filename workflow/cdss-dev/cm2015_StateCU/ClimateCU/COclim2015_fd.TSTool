@@ -1,0 +1,559 @@
+SetOutputPeriod(OutputStart="1950",OutputEnd="2013")
+# Note - FillRegression Commands not currently functional in TSTool 10.21.00 Version,
+#  therefore revised commands to work with TSTool 10.00.04, including removing Recalc Limits = true
+#
+## Altenbern (USC00050214)
+USC00050214.NOAA.FrostDateL28S.Year~HydroBase
+USC00050214.NOAA.FrostDateL32S.Year~HydroBase
+USC00050214.NOAA.FrostDateF32F.Year~HydroBase
+USC00050214.NOAA.FrostDateF28F.Year~HydroBase
+## Baggs (USC00480484)
+USC00480484..FrostDateL32S.Year~HydroBase
+USC00480484..FrostDateL28S.Year~HydroBase
+USC00480484..FrostDateF32F.Year~HydroBase
+USC00480484..FrostDateF28F.Year~HydroBase
+## Browns Park Store (USC00051018)
+# Combine Browns Park Store stations (USC00051018 and USC00051020 and USC00051017)
+USC00051017.NOAA.FrostDateL28S.Year~HydroBase
+USC00051017.NOAA.FrostDateL32S.Year~HydroBase
+USC00051017.NOAA.FrostDateF32F.Year~HydroBase
+USC00051017.NOAA.FrostDateF28F.Year~HydroBase
+USC00051018.NOAA.FrostDateL28S.Year~HydroBase
+USC00051018.NOAA.FrostDateL32S.Year~HydroBase
+USC00051018.NOAA.FrostDateF32F.Year~HydroBase
+USC00051018.NOAA.FrostDateF28F.Year~HydroBase
+USC00051020.NOAA.FrostDateL28S.Year~HydroBase
+USC00051020.NOAA.FrostDateL32S.Year~HydroBase
+USC00051020.NOAA.FrostDateF32F.Year~HydroBase
+USC00051020.NOAA.FrostDateF28F.Year~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051020.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051017.NOAA.FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051020.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051017.NOAA.FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051020.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051017.NOAA.FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051020.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051017.NOAA.FrostDateF28F.Year")
+Free(TSList=LastMatchingTSID,TSID="USC00051017.NOAA.FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00051017.NOAA.FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00051017.NOAA.FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00051017.NOAA.FrostDateF28F.Year~HydroBase")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051018.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051020.NOAA.FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051018.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051020.NOAA.FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051018.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051020.NOAA.FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051018.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051020.NOAA.FrostDateF28F.Year")
+Free(TSList=LastMatchingTSID,TSID="USC00051020.NOAA.FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00051020.NOAA.FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00051020.NOAA.FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00051020.NOAA.FrostDateF28F.Year~HydroBase")
+## Cedaredge (USC00051440)
+# Combine Cedaredge Stations (USC00051440 and USC00051443)
+USC00051440.NOAA.FrostDateL28S.Year~HydroBase
+USC00051440.NOAA.FrostDateL32S.Year~HydroBase
+USC00051440.NOAA.FrostDateF32F.Year~HydroBase
+USC00051440.NOAA.FrostDateF28F.Year~HydroBase
+USC00051443.NOAA.FrostDateL28S.Year~HydroBase
+USC00051443.NOAA.FrostDateL32S.Year~HydroBase
+USC00051443.NOAA.FrostDateF32F.Year~HydroBase
+USC00051443.NOAA.FrostDateF28F.Year~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051440.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051443.NOAA.FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051440.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051443.NOAA.FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051440.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051443.NOAA.FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051440.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051443.NOAA.FrostDateF28F.Year")
+Free(TSList=LastMatchingTSID,TSID="USC00051443.NOAA.FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00051443.NOAA.FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00051443.NOAA.FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00051443.NOAA.FrostDateF28F.Year~HydroBase")
+## Cimarron (USC00051609)
+USC00051609.NOAA.FrostDateL28S.Year~HydroBase
+USC00051609.NOAA.FrostDateL32S.Year~HydroBase
+USC00051609.NOAA.FrostDateF32F.Year~HydroBase
+USC00051609.NOAA.FrostDateF28F.Year~HydroBase
+## Cochetopa Creek (USC00051713)
+USC00051713.NOAA.FrostDateL28S.Year~HydroBase
+USC00051713.NOAA.FrostDateL32S.Year~HydroBase
+USC00051713.NOAA.FrostDateF32F.Year~HydroBase
+USC00051713.NOAA.FrostDateF28F.Year~HydroBase
+## Collbran (USC00051741)
+# Combine Collbran stations (USC00051741 and USC00051745)
+USC00051741.NOAA.FrostDateL28S.Year~HydroBase
+USC00051741.NOAA.FrostDateL32S.Year~HydroBase
+USC00051741.NOAA.FrostDateF32F.Year~HydroBase
+USC00051741.NOAA.FrostDateF28F.Year~HydroBase
+USC00051745.NOAA.FrostDateL28S.Year~HydroBase
+USC00051745.NOAA.FrostDateL32S.Year~HydroBase
+USC00051745.NOAA.FrostDateF32F.Year~HydroBase
+USC00051745.NOAA.FrostDateF28F.Year~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051741.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051745.NOAA.FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051741.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051745.NOAA.FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051741.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051745.NOAA.FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051741.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051745.NOAA.FrostDateF28F.Year")
+Free(TSList=LastMatchingTSID,TSID="USC00051745.NOAA.FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00051745.NOAA.FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00051745.NOAA.FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00051745.NOAA.FrostDateF28F.Year~HydroBase")
+## Cortez (USC00051886)
+USC00051886.NOAA.FrostDateL28S.Year~HydroBase
+USC00051886.NOAA.FrostDateL32S.Year~HydroBase
+USC00051886.NOAA.FrostDateF32F.Year~HydroBase
+USC00051886.NOAA.FrostDateF28F.Year~HydroBase
+## Craig (USC00051928)
+# Combine Craig stations (USC00051932 and USC00051928)
+USC00051932.NOAA.FrostDateL28S.Year~HydroBase
+USC00051932.NOAA.FrostDateL32S.Year~HydroBase
+USC00051932.NOAA.FrostDateF32F.Year~HydroBase
+USC00051932.NOAA.FrostDateF28F.Year~HydroBase
+USC00051928.NOAA.FrostDateL28S.Year~HydroBase
+USC00051928.NOAA.FrostDateL32S.Year~HydroBase
+USC00051928.NOAA.FrostDateF32F.Year~HydroBase
+USC00051928.NOAA.FrostDateF28F.Year~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051928.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051932.NOAA.FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051928.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051932.NOAA.FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051928.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051932.NOAA.FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00051928.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00051932.NOAA.FrostDateF28F.Year")
+Free(TSList=LastMatchingTSID,TSID="USC00051932.NOAA.FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00051932.NOAA.FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00051932.NOAA.FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00051932.NOAA.FrostDateF28F.Year~HydroBase")
+## Crested Butte (USC00051959)
+USC00051959.NOAA.FrostDateL28S.Year~HydroBase
+USC00051959.NOAA.FrostDateL32S.Year~HydroBase
+USC00051959.NOAA.FrostDateF32F.Year~HydroBase
+USC00051959.NOAA.FrostDateF28F.Year~HydroBase
+## Delta 3 E (USC00052196)
+# Combine Delta stations (USC00052196 and USC00052192)
+USC00052192.NOAA.FrostDateL28S.Year~HydroBase
+USC00052192.NOAA.FrostDateL32S.Year~HydroBase
+USC00052192.NOAA.FrostDateF32F.Year~HydroBase
+USC00052192.NOAA.FrostDateF28F.Year~HydroBase
+USC00052196.NOAA.FrostDateL28S.Year~HydroBase
+USC00052196.NOAA.FrostDateL32S.Year~HydroBase
+USC00052196.NOAA.FrostDateF32F.Year~HydroBase
+USC00052196.NOAA.FrostDateF28F.Year~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00052196.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00052192.NOAA.FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00052196.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00052192.NOAA.FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00052196.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00052192.NOAA.FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00052196.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00052192.NOAA.FrostDateF28F.Year")
+Free(TSList=LastMatchingTSID,TSID="USC00052192.NOAA.FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00052192.NOAA.FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00052192.NOAA.FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00052192.NOAA.FrostDateF28F.Year~HydroBase")
+## Dillon (USC00052281)
+USC00052281.NOAA.FrostDateL28S.Year~HydroBase
+USC00052281.NOAA.FrostDateL32S.Year~HydroBase
+USC00052281.NOAA.FrostDateF32F.Year~HydroBase
+USC00052281.NOAA.FrostDateF28F.Year~HydroBase
+## Dinosour (USC00052286)
+# Combine Dinosaur stations (USC00052286 and USC00050354)
+USC00052286.NOAA.FrostDateL28S.Year~HydroBase
+USC00052286.NOAA.FrostDateL32S.Year~HydroBase
+USC00052286.NOAA.FrostDateF32F.Year~HydroBase
+USC00052286.NOAA.FrostDateF28F.Year~HydroBase
+USC00050354.NOAA.FrostDateL28S.Year~HydroBase
+USC00050354.NOAA.FrostDateL32S.Year~HydroBase
+USC00050354.NOAA.FrostDateF32F.Year~HydroBase
+USC00050354.NOAA.FrostDateF28F.Year~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00052286.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00050354.NOAA.FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00052286.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00050354.NOAA.FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00052286.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00050354.NOAA.FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00052286.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00050354.NOAA.FrostDateF28F.Year")
+Free(TSList=LastMatchingTSID,TSID="USC00050354.NOAA.FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00050354.NOAA.FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00050354.NOAA.FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00050354.NOAA.FrostDateF28F.Year~HydroBase")
+## Durango (USC00052432)
+# Combine Durango stations (USC00052432 and USC00052441)
+USC00052432.NOAA.FrostDateL28S.Year~HydroBase
+USC00052432.NOAA.FrostDateL32S.Year~HydroBase
+USC00052432.NOAA.FrostDateF32F.Year~HydroBase
+USC00052432.NOAA.FrostDateF28F.Year~HydroBase
+USC00052441.NOAA.FrostDateL28S.Year~HydroBase
+USC00052441.NOAA.FrostDateL32S.Year~HydroBase
+USC00052441.NOAA.FrostDateF32F.Year~HydroBase
+USC00052441.NOAA.FrostDateF28F.Year~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00052432.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00052441.NOAA.FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00052432.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00052441.NOAA.FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00052432.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00052441.NOAA.FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00052432.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00052441.NOAA.FrostDateF28F.Year")
+Free(TSList=LastMatchingTSID,TSID="USC00052441.NOAA.FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00052441.NOAA.FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00052441.NOAA.FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00052441.NOAA.FrostDateF28F.Year~HydroBase")
+## Eagle County (USW00023063)
+USW00023063.NOAA.FrostDateL28S.Year~HydroBase
+USW00023063.NOAA.FrostDateL32S.Year~HydroBase
+USW00023063.NOAA.FrostDateF32F.Year~HydroBase
+USW00023063.NOAA.FrostDateF28F.Year~HydroBase
+## Ft. Lewis (USC00053016)
+USC00053016.NOAA.FrostDateL28S.Year~HydroBase
+USC00053016.NOAA.FrostDateL32S.Year~HydroBase
+USC00053016.NOAA.FrostDateF32F.Year~HydroBase
+USC00053016.NOAA.FrostDateF28F.Year~HydroBase
+## Fruita (USC00053146)
+# Combine Fruita stations (USC00053146 and USC00053147)
+USC00053146.NOAA.FrostDateL28S.Year~HydroBase
+USC00053146.NOAA.FrostDateL32S.Year~HydroBase
+USC00053146.NOAA.FrostDateF32F.Year~HydroBase
+USC00053146.NOAA.FrostDateF28F.Year~HydroBase
+USC00053147..FrostDateL28S.Year~HydroBase
+USC00053147..FrostDateL32S.Year~HydroBase
+USC00053147..FrostDateF32F.Year~HydroBase
+USC00053147..FrostDateF28F.Year~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00053146.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00053147..FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00053146.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00053147..FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00053146.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00053147..FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00053146.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00053147..FrostDateF28F.Year")
+Free(TSList=LastMatchingTSID,TSID="USC00053147..FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00053147..FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00053147..FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00053147..FrostDateF28F.Year~HydroBase")
+##  Gateway (USC00053246)
+USC00053246.NOAA.FrostDateL28S.Year~HydroBase
+USC00053246.NOAA.FrostDateL32S.Year~HydroBase
+USC00053246.NOAA.FrostDateF32F.Year~HydroBase
+USC00053246.NOAA.FrostDateF28F.Year~HydroBase
+## Glenwood Springs (USC00053359)
+USC00053359.NOAA.FrostDateL28S.Year~HydroBase
+USC00053359.NOAA.FrostDateL32S.Year~HydroBase
+USC00053359.NOAA.FrostDateF32F.Year~HydroBase
+USC00053359.NOAA.FrostDateF28F.Year~HydroBase
+## Grand Junction (USC00053489)
+USC00053489.NOAA.FrostDateL28S.Year~HydroBase
+USC00053489.NOAA.FrostDateL32S.Year~HydroBase
+USC00053489.NOAA.FrostDateF32F.Year~HydroBase
+USC00053489.NOAA.FrostDateF28F.Year~HydroBase
+## Grand Lake (USC00053500)
+USC00053500.NOAA.FrostDateL28S.Year~HydroBase
+USC00053500.NOAA.FrostDateL32S.Year~HydroBase
+USC00053500.NOAA.FrostDateF32F.Year~HydroBase
+USC00053500.NOAA.FrostDateF28F.Year~HydroBase
+## Gunnison (USC00053662)
+USC00053662.NOAA.FrostDateL28S.Year~HydroBase
+USC00053662.NOAA.FrostDateL32S.Year~HydroBase
+USC00053662.NOAA.FrostDateF32F.Year~HydroBase
+USC00053662.NOAA.FrostDateF28F.Year~HydroBase
+## Green Mountain Dam (USC00053592)
+USC00053592.NOAA.FrostDateL28S.Year~HydroBase
+USC00053592.NOAA.FrostDateF32F.Year~HydroBase
+USC00053592.NOAA.FrostDateF28F.Year~HydroBase
+USC00053592.NOAA.FrostDateL32S.Year~HydroBase
+## Hayden (USC00053867)
+USC00053867.NOAA.FrostDateL28S.Year~HydroBase
+USC00053867.NOAA.FrostDateL32S.Year~HydroBase
+USC00053867.NOAA.FrostDateF32F.Year~HydroBase
+USC00053867.NOAA.FrostDateF28F.Year~HydroBase
+## Ignacio (USC00054254)
+# Combine Ignacio stations (USC00054254 and USC00054250)
+USC00054250.NOAA.FrostDateL28S.Year~HydroBase
+USC00054250.NOAA.FrostDateL32S.Year~HydroBase
+USC00054250.NOAA.FrostDateF32F.Year~HydroBase
+USC00054250.NOAA.FrostDateF28F.Year~HydroBase
+USC00054254.NOAA.FrostDateL28S.Year~HydroBase
+USC00054254.NOAA.FrostDateL32S.Year~HydroBase
+USC00054254.NOAA.FrostDateF32F.Year~HydroBase
+USC00054254.NOAA.FrostDateF28F.Year~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00054254.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00054250.NOAA.FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00054254.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00054250.NOAA.FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00054254.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00054250.NOAA.FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00054254.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00054250.NOAA.FrostDateF28F.Year")
+Free(TSList=LastMatchingTSID,TSID="USC00054250.NOAA.FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00054250.NOAA.FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00054250.NOAA.FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00054250.NOAA.FrostDateF28F.Year~HydroBase")
+## Kremmling (USC00054664)
+USC00054664.NOAA.FrostDateL28S.Year~HydroBase
+USC00054664.NOAA.FrostDateL32S.Year~HydroBase
+USC00054664.NOAA.FrostDateF32F.Year~HydroBase
+USC00054664.NOAA.FrostDateF28F.Year~HydroBase
+## Lake City (USC00054734)
+# Combine Lake City stations (USC00054734, USC00054735, and USC00054736)
+USC00054734.NOAA.FrostDateL28S.Year~HydroBase
+USC00054734.NOAA.FrostDateL32S.Year~HydroBase
+USC00054734.NOAA.FrostDateF32F.Year~HydroBase
+USC00054734.NOAA.FrostDateF28F.Year~HydroBase
+USC00054735..FrostDateL28S.Year~HydroBase
+USC00054735..FrostDateL32S.Year~HydroBase
+USC00054735..FrostDateF32F.Year~HydroBase
+USC00054735..FrostDateF28F.Year~HydroBase
+USC00054736..FrostDateL28S.Year~HydroBase
+USC00054736..FrostDateL32S.Year~HydroBase
+USC00054736..FrostDateF32F.Year~HydroBase
+USC00054736..FrostDateF28F.Year~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00054734.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00054735..FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00054734.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00054735..FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00054734.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00054735..FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00054734.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00054735..FrostDateF28F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00054734.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00054736..FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00054734.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00054736..FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00054734.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00054736..FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00054734.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00054736..FrostDateF28F.Year")
+Free(TSList=LastMatchingTSID,TSID="USC00054735..FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00054735..FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00054735..FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00054735..FrostDateF28F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00054736..FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00054736..FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00054736..FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00054736..FrostDateF28F.Year~HydroBase")
+## Little Hills (USC00055048)
+USC00055048.NOAA.FrostDateL28S.Year~HydroBase
+USC00055048.NOAA.FrostDateL32S.Year~HydroBase
+USC00055048.NOAA.FrostDateF32F.Year~HydroBase
+USC00055048.NOAA.FrostDateF28F.Year~HydroBase
+## Marvine Ranch (USC00055414)
+USC00055414.NOAA.FrostDateL28S.Year~HydroBase
+USC00055414.NOAA.FrostDateL32S.Year~HydroBase
+USC00055414.NOAA.FrostDateF32F.Year~HydroBase
+USC00055414.NOAA.FrostDateF28F.Year~HydroBase
+## Fill Maybell (USC00055446)
+USC00055446.NOAA.FrostDateL28S.Year~HydroBase
+USC00055446.NOAA.FrostDateL32S.Year~HydroBase
+USC00055446.NOAA.FrostDateF32F.Year~HydroBase
+USC00055446.NOAA.FrostDateF28F.Year~HydroBase
+## Meeker (USC00055484)
+# Combine Meeker stations (USC00055484 and USC00055487)
+# Note - 5484 has overlapping data with 5487 in 1970. Set to missing so overlapping data won't be added.
+USC00055484.NOAA.FrostDateL28S.Year~HydroBase
+USC00055484.NOAA.FrostDateL32S.Year~HydroBase
+USC00055484.NOAA.FrostDateF32F.Year~HydroBase
+USC00055484.NOAA.FrostDateF28F.Year~HydroBase
+USC00055487.NOAA.FrostDateL28S.Year~HydroBase
+USC00055487.NOAA.FrostDateL32S.Year~HydroBase
+USC00055487.NOAA.FrostDateF32F.Year~HydroBase
+USC00055487.NOAA.FrostDateF28F.Year~HydroBase
+SetDataValue(TSList=LastMatchingTSID,TSID="USC00055487.NOAA.FrostDateF32F.Year~HydroBase",SetDateTime="1970",NewValue=-999)
+SetDataValue(TSList=LastMatchingTSID,TSID="USC00055487.NOAA.FrostDateF28F.Year~HydroBase",SetDateTime="1970",NewValue=-999)
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00055484.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00055487.NOAA.FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00055484.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00055487.NOAA.FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00055484.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00055487.NOAA.FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00055484.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00055487.NOAA.FrostDateF28F.Year")
+Free(TSList=LastMatchingTSID,TSID="USC00055487.NOAA.FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00055487.NOAA.FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00055487.NOAA.FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00055487.NOAA.FrostDateF28F.Year~HydroBase")
+## Meredith (USC00055507)
+# Combine Meredith stations (USC00055507 and USC00055513)
+USC00055507.NOAA.FrostDateL28S.Year~HydroBase
+USC00055507.NOAA.FrostDateL32S.Year~HydroBase
+USC00055507.NOAA.FrostDateF32F.Year~HydroBase
+USC00055507.NOAA.FrostDateF28F.Year~HydroBase
+## Montrose (USC00055722)
+USC00055722.NOAA.FrostDateL28S.Year~HydroBase
+USC00055722.NOAA.FrostDateL32S.Year~HydroBase
+USC00055722.NOAA.FrostDateF32F.Year~HydroBase
+USC00055722.NOAA.FrostDateF28F.Year~HydroBase
+## Northdale (USC00055970)
+USC00055970.NOAA.FrostDateL28S.Year~HydroBase
+USC00055970.NOAA.FrostDateL32S.Year~HydroBase
+USC00055970.NOAA.FrostDateF32F.Year~HydroBase
+USC00055970.NOAA.FrostDateF28F.Year~HydroBase
+## Norwood (USC00056012)
+# Combine Norwood stations (USC00056012 and USC00056013)
+USC00056012.NOAA.FrostDateL28S.Year~HydroBase
+USC00056012.NOAA.FrostDateL32S.Year~HydroBase
+USC00056012.NOAA.FrostDateF32F.Year~HydroBase
+USC00056012.NOAA.FrostDateF28F.Year~HydroBase
+USC00056013..FrostDateL28S.Year~HydroBase
+USC00056013..FrostDateL32S.Year~HydroBase
+USC00056013..FrostDateF32F.Year~HydroBase
+USC00056013..FrostDateF28F.Year~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056012.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056013..FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056012.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056013..FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056012.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056013..FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056012.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056013..FrostDateF28F.Year")
+Free(TSList=LastMatchingTSID,TSID="USC00056013..FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056013..FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056013..FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056013..FrostDateF28F.Year~HydroBase")
+## Pagosa Springs (USC00056259)
+# Combine Pagosa Springs stations (USC00056259 and USC00056258 and USC00056263)
+USC00056258.NOAA.FrostDateL28S.Year~HydroBase
+USC00056258.NOAA.FrostDateL32S.Year~HydroBase
+USC00056258.NOAA.FrostDateF32F.Year~HydroBase
+USC00056258.NOAA.FrostDateF28F.Year~HydroBase
+USC00056259.NOAA.FrostDateL28S.Year~HydroBase
+USC00056259.NOAA.FrostDateL32S.Year~HydroBase
+USC00056259.NOAA.FrostDateF32F.Year~HydroBase
+USC00056259.NOAA.FrostDateF28F.Year~HydroBase
+USC00056263..FrostDateL28S.Year~HydroBase
+USC00056263..FrostDateL32S.Year~HydroBase
+USC00056263..FrostDateF32F.Year~HydroBase
+USC00056263..FrostDateF28F.Year~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056259.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056258.NOAA.FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056259.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056258.NOAA.FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056259.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056258.NOAA.FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056259.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056258.NOAA.FrostDateF28F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056259.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056263..FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056259.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056263..FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056259.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056263..FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056259.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056263..FrostDateF28F.Year")
+Free(TSList=LastMatchingTSID,TSID="USC00056258.NOAA.FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056258.NOAA.FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056258.NOAA.FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056258.NOAA.FrostDateF28F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056263..FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056263..FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056263..FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056263..FrostDateF28F.Year~HydroBase")
+## Paonia (USC00056306)
+# Combine Paonia stations (USC00056306 and USC00056307)
+USC00056307.NOAA.FrostDateL28S.Year~HydroBase
+USC00056307.NOAA.FrostDateL32S.Year~HydroBase
+USC00056307.NOAA.FrostDateF32F.Year~HydroBase
+USC00056307.NOAA.FrostDateF28F.Year~HydroBase
+USC00056306.NOAA.FrostDateL28S.Year~HydroBase
+USC00056306.NOAA.FrostDateL32S.Year~HydroBase
+USC00056306.NOAA.FrostDateF32F.Year~HydroBase
+USC00056306.NOAA.FrostDateF28F.Year~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056306.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056307.NOAA.FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056306.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056307.NOAA.FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056306.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056307.NOAA.FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056306.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056307.NOAA.FrostDateF28F.Year")
+Free(TSList=LastMatchingTSID,TSID="USC00056307.NOAA.FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056307.NOAA.FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056307.NOAA.FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056307.NOAA.FrostDateF28F.Year~HydroBase")
+## Parachute (USC00056311)
+USC00056311.NOAA.FrostDateL28S.Year~HydroBase
+USC00056311.NOAA.FrostDateL32S.Year~HydroBase
+USC00056311.NOAA.FrostDateF28F.Year~HydroBase
+USC00056311.NOAA.FrostDateF32F.Year~HydroBase
+## Paradox (USC00056315)
+# Combine Paradox stations (USC00056315 and USC00056318 and USC00056320)
+USC00056315.NOAA.FrostDateL28S.Year~HydroBase
+USC00056315.NOAA.FrostDateL32S.Year~HydroBase
+USC00056315.NOAA.FrostDateF32F.Year~HydroBase
+USC00056315.NOAA.FrostDateF28F.Year~HydroBase
+USC00056318.NOAA.FrostDateL28S.Year~HydroBase
+USC00056318.NOAA.FrostDateL32S.Year~HydroBase
+USC00056318.NOAA.FrostDateF32F.Year~HydroBase
+USC00056318.NOAA.FrostDateF28F.Year~HydroBase
+USC00056320..FrostDateL28S.Year~HydroBase
+USC00056320..FrostDateL32S.Year~HydroBase
+USC00056320..FrostDateF32F.Year~HydroBase
+USC00056320..FrostDateF28F.Year~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056315.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056318.NOAA.FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056315.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056318.NOAA.FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056315.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056318.NOAA.FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056315.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056318.NOAA.FrostDateF28F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056315.NOAA.FrostDateL28S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056320..FrostDateL28S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056315.NOAA.FrostDateL32S.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056320..FrostDateL32S.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056315.NOAA.FrostDateF32F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056320..FrostDateF32F.Year")
+FillFromTS(TSList=LastMatchingTSID,TSID="USC00056315.NOAA.FrostDateF28F.Year",IndependentTSList=LastMatchingTSID,IndependentTSID="USC00056320..FrostDateF28F.Year")
+Free(TSList=LastMatchingTSID,TSID="USC00056318.NOAA.FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056318.NOAA.FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056318.NOAA.FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056318.NOAA.FrostDateF28F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056320..FrostDateL28S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056320..FrostDateL32S.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056320..FrostDateF32F.Year~HydroBase")
+Free(TSList=LastMatchingTSID,TSID="USC00056320..FrostDateF28F.Year~HydroBase")
+## Placerville (USC00056520)
+# Combine Placerville stations (USC00056520 and USC00056524)
+USC00056524.NOAA.FrostDateL28S.Year~HydroBase
+USC00056524.NOAA.FrostDateL32S.Year~HydroBase
+USC00056524.NOAA.FrostDateF32F.Year~HydroBase
+USC00056524.NOAA.FrostDateF28F.Year~HydroBase
+USC00056520..FrostDateL28S.Year~HydroBase
+USC00056520..FrostDateL32S.Year~HydroBase
+USC00056520..FrostDateF32F.Year~HydroBase
+USC00056520..FrostDateF28F.Year~HydroBase
+FillFromTS(TSList=AllMatchingTSID,TSID="USC00056520..FrostDateL28S.Year",IndependentTSList=AllMatchingTSID,IndependentTSID="USC00056524.NOAA.FrostDateL28S.Year",RecalcLimits=True)
+FillFromTS(TSList=AllMatchingTSID,TSID="USC00056520..FrostDateL32S.Year",IndependentTSList=AllMatchingTSID,IndependentTSID="USC00056524.NOAA.FrostDateL32S.Year",RecalcLimits=True)
+FillFromTS(TSList=AllMatchingTSID,TSID="USC00056520..FrostDateF32F.Year",IndependentTSList=AllMatchingTSID,IndependentTSID="USC00056524.NOAA.FrostDateF32F.Year",RecalcLimits=True)
+FillFromTS(TSList=AllMatchingTSID,TSID="USC00056520..FrostDateF28F.Year",IndependentTSList=AllMatchingTSID,IndependentTSID="USC00056524.NOAA.FrostDateF28F.Year",RecalcLimits=True)
+Free(TSList=AllMatchingTSID,TSID="USC00056524.NOAA.FrostDateL28S.Year")
+Free(TSList=AllMatchingTSID,TSID="USC00056524.NOAA.FrostDateL32S.Year")
+Free(TSList=AllMatchingTSID,TSID="USC00056524.NOAA.FrostDateF32F.Year")
+Free(TSList=AllMatchingTSID,TSID="USC00056524.NOAA.FrostDateF28F.Year")
+## Rangely (USC00056832)
+USC00056832.NOAA.FrostDateL28S.Year~HydroBase
+USC00056832.NOAA.FrostDateL32S.Year~HydroBase
+USC00056832.NOAA.FrostDateF32F.Year~HydroBase
+USC00056832.NOAA.FrostDateF28F.Year~HydroBase
+## Rico (USC00057017)
+USC00057017.NOAA.FrostDateL28S.Year~HydroBase
+USC00057017.NOAA.FrostDateL32S.Year~HydroBase
+USC00057017.NOAA.FrostDateF32F.Year~HydroBase
+USC00057017.NOAA.FrostDateF28F.Year~HydroBase
+## Ridgway (USC00057020)
+USC00057020.NOAA.FrostDateL28S.Year~HydroBase
+USC00057020.NOAA.FrostDateL32S.Year~HydroBase
+USC00057020.NOAA.FrostDateF32F.Year~HydroBase
+USC00057020.NOAA.FrostDateF28F.Year~HydroBase
+## Rifle (USC00057031)
+# Combine Rifle stations (USC00057031 and USC00057033)
+USC00057031.NOAA.FrostDateL28S.Year~HydroBase
+USC00057031.NOAA.FrostDateL32S.Year~HydroBase
+USC00057031.NOAA.FrostDateF32F.Year~HydroBase
+USC00057031.NOAA.FrostDateF28F.Year~HydroBase
+USC00057033..FrostDateL28S.Year~HydroBase
+USC00057033..FrostDateL32S.Year~HydroBase
+USC00057033..FrostDateF32F.Year~HydroBase
+USC00057033..FrostDateF28F.Year~HydroBase
+FillFromTS(TSList=AllMatchingTSID,TSID="USC00057031.NOAA.FrostDateL28S.Year",IndependentTSList=AllMatchingTSID,IndependentTSID="USC00057033..FrostDateL28S.Year",RecalcLimits=True)
+FillFromTS(TSList=AllMatchingTSID,TSID="USC00057031.NOAA.FrostDateL32S.Year",IndependentTSList=AllMatchingTSID,IndependentTSID="USC00057033..FrostDateL32S.Year",RecalcLimits=True)
+FillFromTS(TSList=AllMatchingTSID,TSID="USC00057031.NOAA.FrostDateF32F.Year",IndependentTSList=AllMatchingTSID,IndependentTSID="USC00057033..FrostDateF32F.Year",RecalcLimits=True)
+FillFromTS(TSList=AllMatchingTSID,TSID="USC00057031.NOAA.FrostDateF28F.Year",IndependentTSList=AllMatchingTSID,IndependentTSID="USC00057033..FrostDateF28F.Year",RecalcLimits=True)
+Free(TSList=AllMatchingTSID,TSID="USC00057033..FrostDateL28S.Year")
+Free(TSList=AllMatchingTSID,TSID="USC00057033..FrostDateL32S.Year")
+Free(TSList=AllMatchingTSID,TSID="USC00057033..FrostDateF32F.Year")
+Free(TSList=AllMatchingTSID,TSID="USC00057033..FrostDateF28F.Year")
+## Steamboat Springs (USC00057936)
+USC00057936.NOAA.FrostDateL28S.Year~HydroBase
+USC00057936.NOAA.FrostDateL32S.Year~HydroBase
+USC00057936.NOAA.FrostDateF32F.Year~HydroBase
+USC00057936.NOAA.FrostDateF28F.Year~HydroBase
+## Taylor Park (USC00058184)
+USC00058184.NOAA.FrostDateL28S.Year~HydroBase
+USC00058184.NOAA.FrostDateL32S.Year~HydroBase
+USC00058184.NOAA.FrostDateF32F.Year~HydroBase
+USC00058184.NOAA.FrostDateF28F.Year~HydroBase
+## Telluride (USC00058204)
+USC00058204.NOAA.FrostDateL28S.Year~HydroBase
+USC00058204.NOAA.FrostDateL32S.Year~HydroBase
+USC00058204.NOAA.FrostDateF32F.Year~HydroBase
+USC00058204.NOAA.FrostDateF28F.Year~HydroBase
+## Uravan (USC00058560)
+USC00058560.NOAA.FrostDateL28S.Year~HydroBase
+USC00058560.NOAA.FrostDateL32S.Year~HydroBase
+USC00058560.NOAA.FrostDateF32F.Year~HydroBase
+USC00058560.NOAA.FrostDateF28F.Year~HydroBase
+## Vallecito Dam (USC00058582)
+USC00058582.NOAA.FrostDateL28S.Year~HydroBase
+USC00058582.NOAA.FrostDateL32S.Year~HydroBase
+USC00058582.NOAA.FrostDateF32F.Year~HydroBase
+USC00058582.NOAA.FrostDateF28F.Year~HydroBase
+## Yampa (USC00059265)
+USC00059265.NOAA.FrostDateL28S.Year~HydroBase
+USC00059265.NOAA.FrostDateL32S.Year~HydroBase
+USC00059265.NOAA.FrostDateF32F.Year~HydroBase
+USC00059265.NOAA.FrostDateF28F.Year~HydroBase
+## Yellow Jacket (USC00059275)
+# Combine Yellow Jacket stations (USC00059275 and USC00059278)
+USC00059275.NOAA.FrostDateL28S.Year~HydroBase
+USC00059275.NOAA.FrostDateL32S.Year~HydroBase
+USC00059275.NOAA.FrostDateF32F.Year~HydroBase
+USC00059275.NOAA.FrostDateF28F.Year~HydroBase
+USC00059278.NOAA.FrostDateL28S.Year~HydroBase
+USC00059278.NOAA.FrostDateL32S.Year~HydroBase
+USC00059278.NOAA.FrostDateF32F.Year~HydroBase
+USC00059278.NOAA.FrostDateF28F.Year~HydroBase
+FillFromTS(TSList=AllMatchingTSID,TSID="USC00059275.NOAA.FrostDateL28S.Year",IndependentTSList=AllMatchingTSID,IndependentTSID="USC00059278.NOAA.FrostDateL28S.Year",RecalcLimits=True)
+FillFromTS(TSList=AllMatchingTSID,TSID="USC00059275.NOAA.FrostDateL32S.Year",IndependentTSList=AllMatchingTSID,IndependentTSID="USC00059278.NOAA.FrostDateL32S.Year",RecalcLimits=True)
+FillFromTS(TSList=AllMatchingTSID,TSID="USC00059275.NOAA.FrostDateF32F.Year",IndependentTSList=AllMatchingTSID,IndependentTSID="USC00059278.NOAA.FrostDateF32F.Year",RecalcLimits=True)
+FillFromTS(TSList=AllMatchingTSID,TSID="USC00059275.NOAA.FrostDateF28F.Year",IndependentTSList=AllMatchingTSID,IndependentTSID="USC00059278.NOAA.FrostDateF28F.Year",RecalcLimits=True)
+Free(TSList=AllMatchingTSID,TSID="USC00059278.NOAA.FrostDateL28S.Year")
+Free(TSList=AllMatchingTSID,TSID="USC00059278.NOAA.FrostDateL32S.Year")
+Free(TSList=AllMatchingTSID,TSID="USC00059278.NOAA.FrostDateF32F.Year")
+Free(TSList=AllMatchingTSID,TSID="USC00059278.NOAA.FrostDateF28F.Year")
+#
+FillHistYearAverage(TSList=AllTS)
+#
+####### Dolores, Hamilton and Pyramid stations used for precipitation only. No frost date data available.
+####### Stations must be set to missing in frost date file.
+## Dolores (USC00052326)
+NewTimeSeries(Alias="USC00052326",NewTSID="USC00052326...Year",Units="F",InitialValue=-999)
+## Hamilton (USC00053738)
+NewTimeSeries(Alias="USC00053738",NewTSID="USC00053738...Year",Units="F",InitialValue=-999)
+## Pyramid (USC00056797)
+NewTimeSeries(Alias="USC00056797",NewTSID="USC00056797...Year",Units="F",InitialValue=-999)
+#
+SortTimeSeries()
+WriteStateCU(OutputFile="..\StateCU\COclim2015.fd")

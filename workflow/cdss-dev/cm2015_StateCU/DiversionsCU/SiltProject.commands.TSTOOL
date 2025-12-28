@@ -1,0 +1,117 @@
+# Off-channel demand command file created by Wilson Water Group
+#
+# The Grass Valley Canal (3900563) diverts water for irrigation and storage in Grass Valley Reservoir (aka Harvey Gap Reservoir).
+# Irrigated land in Dry Elk Valley, represented by model ID 3900563_I, only receives water from Grass Valley Canal.
+# Irrigated land owned by Farmers Irrigation CO, located below Harvey Gap Reservoir, is represented by model ID 3903505_I.
+#   This land receives water from Grass Valley Canal, releases from Grass Valley Reservoir (3903505) and the Silt Pump (3900663).
+# Grass Valley Canal diverts natural flow as well as water exchanged from Rifle Gap Reservoir(3903508).
+#    Of the water diverted for irrigation:
+#	57% goes to the Farmers Irrigation land (3903505_I)
+#	43% goes to the irrigated land in Dry Elk Valley (3900563_I).
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# File name - <SiltProject.commands.TSTool>
+# Output file name - <SiltProject.stm> includes
+#   3900563_I (irrigation diversions for Dry Elk Valley)
+#   3903505_I (irrigation diversions for Farmers Irrigation Co.)
+#
+SetInputPeriod(InputStart="10/1908",InputEnd="09/2014")
+SetOutputPeriod(OutputStart="10/1908",OutputEnd="09/2014")
+SetOutputYearType(OutputYearType=Water)
+ReadPatternFile(PatternFile="fill2015.pat")
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Step 1: Develop the DDH (diversions at the headgate)
+#
+# DDH for 3900563 equals total diversions at the headgate
+# Did not include IiDivTotal as it was user provided and appeared smaller than DivTotal
+# 3900563 - GRASS VALLEY CANAL
+ReadHydroBase(TSID="3900563.DWR.DivTotal.Month~HydroBase",Alias="563_DivTot")
+# Fill missing DivTotal data based on pattern
+FillPattern(TSList=AllMatchingTSID,TSID="563_DivTot",PatternID="09085000")
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Step 2: Estimate EOM for Grass Valley Reservoir.
+#  Note, the input peroiod (above) was set to include additional year so that last data point (e.g., Dec 2013)
+#  is shifted forward one month (e.g., January 2014) to allow for release/storage calculation in December
+#
+# GRASS VALLEY RESERVOIR
+# There was one data point, in April 1981, that was replaced with 5989 af (typo).
+3903505.DWR.ResMeasStorage.Day~HydroBase
+NewEndOfMonthTSFromDayTS(DayTSID="3903505.DWR.ResMeasStorage.Day",Alias="3903505_EOM",Bracket=16)
+Free(TSList=LastMatchingTSID,TSID="3903505.DWR.ResMeasStorage.Day")
+SetConstant(TSList=LastMatchingTSID,TSID="3903505_EOM",ConstantValue=5989,SetStart="04/1981",SetEnd="04/1981")
+FillInterpolate(TSList=LastMatchingTSID,TSID="3903505_EOM",MaxIntervals=4,Transformation=None)
+FillPattern(TSList=LastMatchingTSID,TSID="3903505_EOM",PatternID="09095500")
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Step 3: Shift the EOM, subtract evaporation and determine the amount stored and released
+Copy(TSID="3903505_EOM",NewTSID="Shift...Month",Alias="Shift")
+ShiftTimeByInterval(TSList=LastMatchingTSID,TSID="Shift",ShiftData="1,1.0")
+#
+# Set average monthly evaporation values in ac-ft
+NewPatternTimeSeries(Alias="3903505-Evap",NewTSID="3903505-Evap...Month",SetStart="01/1908",SetEnd="09/2014",Units="AF",PatternValues="-10.7,-21.5,-39.5,-78.9,-114.0,-146.8,-138.7,-114.2,-76.2,-40.8,-19.7,-7.0")
+#
+# Calculate change in storage for Grass Valley
+# Shift = positive = storage.  Delta = negative = releases
+Subtract(TSID="Shift",SubtractTSList=SpecifiedTSID,SubtractTSID="3903505_EOM,3903505-Evap",HandleMissingHow="IgnoreMissing")
+Free(TSList=AllMatchingTSID,TSID="3903505-Evap")
+Copy(TSID="Shift",NewTSID="Delta...Month",Alias="Delta")
+# Shift(storage) only contains positive values, therefore set all negative values to zero
+# Delta (releases) only contains negative values, therefore set all positive values to zero
+ReplaceValue(TSList=AllMatchingTSID,TSID="Shift",MinValue=-100000,MaxValue=0,NewValue=0)
+ReplaceValue(TSList=AllMatchingTSID,TSID="Delta",MinValue=0,MaxValue=100000,NewValue=0)
+Free(TSList=LastMatchingTSID,TSID="3903505_EOM")
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Step 4: Develop total diversions to irrigation
+#
+# DivIrr = DivTot - DivStor
+#  Note, did not incorporate Diversion Class Coding since it is not consistent over time.
+#  Do not have to ditch conveyance efficiency in West Slope; therefore do not need to account for losses.
+#
+Copy(TSID="563_DivTot",NewTSID="563_DivIrrTot...Month",Alias="563_DivIrrTot")
+Subtract(TSID="563_DivIrrTot",SubtractTSList=SpecifiedTSID,SubtractTSID="Shift",HandleMissingHow="IgnoreMissing")
+ReplaceValue(TSList=AllMatchingTSID,TSID="563_DivIrrTot",MinValue=-100000,MaxValue=0,NewValue=0)
+Free(TSList=LastMatchingTSID,TSID="563_DivTot")
+Free(TSList=LastMatchingTSID,TSID="Shift")
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Step 5: Distribute the total diversions to irrigation to 3903505_I and 3900563_I
+#
+#  Irrigated acreage located in the Dry Elk Valley (3900563_I),above Grass Valley Reservoir, receives water from the Grass Valley Canal
+#  According to Jason Spaulding, General Manager of the Silt Conservancy District, irrigated acreage in Dry Elk Valley receives
+#  approximately 43% of the water diverted for irrigation at the Grass Valley Canal headgate.
+#
+#  Irrigated land below the Grass Valley Reservoir (3903505_I), owned by the Farmers Irrigation Company (FIRCO), can be
+#  irrigated by the Grass Valley Canal, releases from Grass Valley Reservoir and the Silt Pump.
+#  According to Jason Spaulding, the FIRCO land receives approximately 57% of the water diverted for irrigation at the Grass Valley
+#  Canal HG.
+#
+# 43% of 563_DivIrrTot goes to 3900563_I
+# Note, do not have to ditch conveyance efficiency in West Slope; therefore do not need to account for losses.
+Copy(TSID="563_DivIrrTot",NewTSID="3900563_I...Month",Alias="3900563_I")
+Scale(TSList=LastMatchingTSID,TSID="3900563_I",ScaleValue=.43)
+#
+# 3903505_I = 57% of 563_DivIrrTot
+Copy(TSID="563_DivIrrTot",NewTSID="3903505_I...Month",Alias="3903505_I")
+Scale(TSList=LastMatchingTSID,TSID="3903505_I",ScaleValue=.57)
+Free(TSList=LastMatchingTSID,TSID="563_DivIrrTot")
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Step 6: Add the releases from storage and diversion from the Silt Pump to 3903505_I
+#
+# 3903505_I = 57% of 563_DivIrrTot + releases from Grass Valley Reservoir + diversions from Silt Pump
+#
+# Add releases from Grass Valley Reservoir
+#  Delta (negative values) = releases
+#  Scale the releases by -1 to reverse the signs on the data, therefore release will be positive
+Scale(TSList=LastMatchingTSID,TSID="Delta",ScaleValue=-1.0)
+Add(TSID="3903505_I",AddTSList=LastMatchingTSID,AddTSID="Delta",HandleMissingHow="IgnoreMissing")
+Free(TSList=LastMatchingTSID,TSID="Delta")
+#
+# Add diversions from Silt Pump Canal (3900663)
+#  Do not need to account for conveyance loss b/c water is pumped
+3900663.DWR.DivTotal.Month~HydroBase
+3900663.DWR.IDivTotal.Month~HydroBase
+FillFromTS(TSList=LastMatchingTSID,TSID="3900663.DWR.DivTotal.Month",IndependentTSList=AllMatchingTSID,IndependentTSID="3900663.DWR.IDivTotal.Month")
+Free(TSList=LastMatchingTSID,TSID="3900663.DWR.IDivTotal.Month")
+# Fill missing data based on pattern
+FillPattern(TSList=LastMatchingTSID,TSID="3900663.DWR.DivTotal.Month",PatternID="09085000")
+Add(TSID="3903505_I",AddTSList=LastMatchingTSID,AddTSID="3900663.DWR.DivTotal.Month",HandleMissingHow="IgnoreMissing")
+Free(TSList=LastMatchingTSID,TSID="3900663.DWR.DivTotal.Month")
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+WriteStateMod(TSList=AllTS,OutputFile="SiltProject.stm",Precision=0)
