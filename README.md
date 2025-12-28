@@ -110,7 +110,7 @@ Once all realizations successfully process through StateCU, figures from the mai
 
 | Figure Number(s) | Script Name | Description | How to Run | Location |
 | :---: | :---: | :---: | :---: | :---: |
-| 1, 4-8 | `AnalysisManager.py` | Map of UCRB, basin-wide changes, user- and crop- specific changes and sensitivities | `python scripts/AnalysisManager.py | `plots/analysis` |
+| 1, 4-8 | `AnalysisManager.py` | Map of UCRB, basin-wide changes, user- and crop- specific changes and sensitivities | `python scripts/AnalysisManager.py` | `plots/analysis` |
 | 2 | - | Experimental design of this study. Made in Adobe Illustrator | - | - |
 | 3 | - | Visual validation of observed vs. synthetically-generated precipitation and temperature | Already created in 6.II | `plots/swg/NOAA/Scenario1/` |
 
