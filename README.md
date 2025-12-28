@@ -77,14 +77,6 @@ You may also follow the procedure outlined below to retrieve and pre-process the
     | `DownloadHydroCMIP6.py` | Script to (1) reduce links, (2) create directories, and (4) check that all files were successfully downloaded relating to the DoE/ORNL projections | `python scripts/DownloadHydroCMIP6.py` | `reducelinks`, `createdirs`, `checkdirs` |
     | `DownloadHydroCMIP6.sh` | Script to (3) parallelize downloading Doe/ORNL CMIP6 projections | `sbatch scripts/DownloadHydroCMIP6.sh` | - |
 
-### Output data
-Reference for each minted data source for your output data.  For example:
-
-Human, I.M. (2021). My output dataset name [Data set]. DataHub. https://doi.org/some-doi-number
-
-_your output data references here_
-
-
 ## Contributing modeling software
 | Model | Version | Repository Link | DOI |
 | :---: | :---: | :---: | :---: |
@@ -111,13 +103,24 @@ _your output data references here_
     | II | `python scripts/SWGManager.py noaa 1 1000` | Create stationary, synthetically-generated precipitation, temperature, and frost dates from NOAA observations and run StateCU using them |
     | III | `python scripts/SWGManager.py cmip6` | Process the regional CMIP6 downscaled projections, extract statistical parameters per SSP/model |
     | IV | `python scripts/SWGManager.py cmip6 1369 10` | Create the synthetically-generated precipitation, temperature, and frost dates from the regional CMIP6 downscaled projections and run StateSU using them |
-7. Out of the 13,690 realizations processed by StateCU in this way, fewer than 5 fail to be processed. You can check this exact value by running `python scripts/AnalysisManager.py checkdirs`. If any realizations have failed, rerun 6.IV until none do 
+7. Out of the 13,690 realizations processed by StateCU in this way, fewer than 5 can fail to be processed. [This is a known issue when using StateCU and synthetically-generated hydroclimatology](https://github.com/OpenCDSS/cdss-app-statecu-fortran/issues/42). You can check the exact number of failures by running `python scripts/AnalysisManager.py checkdirs`. If any realizations have failed, rerun 6.IV until none do 
 
 ## Reproduce our figures
-Use the scripts found in the `figures` directory to reproduce the figures used in this publication.
+Once all realizations successfully process through StateCU, figures from the main text can be reproduced in the following way:
 
-| Figure Number(s) | Script Name | Description | How to Run |
-| --- | --- | --- | --- |
-| 1, 2 | `generate_plot.py` | Description of figure, ie. "Plots the difference between our two scenarios" | `python3 generate_plot.py -input /path/to/inputs -output /path/to/outuptdir` |
-| 3 | `generate_figure.py` | Description of figure, ie. "Shows how the mean and peak differences are calculated" | `python3 generate_figure.py -input /path/to/inputs -output /path/to/outuptdir` |
+| Figure Number(s) | Script Name | Description | How to Run | Location |
+| :---: | :---: | :---: | :---: | :---: |
+| 1, 4-8 | `AnalysisManager.py` | Map of UCRB, basin-wide changes, user- and crop- specific changes and sensitivities | `python scripts/AnalysisManager.py | `plots/analysis` |
+| 2 | - | Experimental design of this study. Made in Adobe Illustrator | - | - |
+| 3 | - | Visual validation of observed vs. synthetically-generated precipitation and temperature | Already created in 6.II | `plots/swg/NOAA/Scenario1/` |
+
+Figures from the Supporting Information are largely all produced at this point:
+
+| Figure Number(s) | Script Name | Description | How to Run | Location
+| :---: | :---: | :---: | :---: | :---: |
+| S1-S2 | - | Validating the GMHMM number of states and fit | Already created in 6.I | `plots/gmmhmm/NOAA/` |
+| S3-S5 | - | Validating the copula(s) fit | Already created in 6.I | `plots/copulae/NOAA` |
+| S6-S18 | - | Visual and statistical validation of observed vs. synthetically-generated precipitation and temperature | Already created in 6.II | `plots/swg/NOAA/Scenario1/` |
+| S19-S22 | - | Bias-correction of regional CMIP6 downscaled projections to observed data (for ACCESS-CM2 specifically) | Already created in 6.III | generally `plots/cmip6/`, specifically `plots/cmip6/historical/ACCESS-CM2/` | 
+| S23-S27 | `AnalysisManager.py` | Basin-wide changes, user- and crop-specific change and sensitivities | Rerun 6.IV using `python scripts/SWGManager.py cmip6 121 10` | `plots/analysis` |
 
