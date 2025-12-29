@@ -103,7 +103,7 @@ You may also follow the procedure outlined below to retrieve and pre-process the
     | II | `python scripts/SWGManager.py noaa 1 1000` | Create stationary, synthetically-generated precipitation, temperature, and frost dates from NOAA observations and run StateCU using them |
     | III | `python scripts/SWGManager.py cmip6` | Process the regional CMIP6 downscaled projections, extract statistical parameters per SSP/model |
     | IV | `python scripts/SWGManager.py cmip6 1369 10` | Create the synthetically-generated precipitation, temperature, and frost dates from the regional CMIP6 downscaled projections and run StateSU using them |
-7. Out of the 13,690 experimental realizations processed by StateCU in this way, some can fail to be processed (this number is almost always <5). [This is a known possibility when using StateCU and synthetically-generated hydroclimatology](https://github.com/OpenCDSS/cdss-app-statecu-fortran/issues/42). You can check the exact number of failures by running `python scripts/AnalysisManager.py checkdirs`. If any realizations have failed, rerun 6.IV until none fail 
+7. Out of the 13,690 experimental realizations processed by StateCU in this way, some can fail to be processed (this number is almost always <5). [This is a known possibility when using StateCU and synthetically-generated hydroclimatology](https://github.com/OpenCDSS/cdss-app-statecu-fortran/issues/42). You can check the exact number of failures by running `python scripts/AnalysisManager.py check`. If any realizations have failed, rerun 6.IV until none fail 
 
 ## Reproduce our figures
 Once all realizations successfully process through StateCU, figures from the main text can be reproduced in the following way:
