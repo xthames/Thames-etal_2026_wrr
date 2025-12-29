@@ -96,7 +96,7 @@ You may also follow the procedure outlined below to retrieve and pre-process the
     * `numSOWs`: optional, can be any positive integer that is the square of a prime number larger than 5<sup>2</sup>. Determines the number of states of the world to consider. If paired with `source=noaa` then it is only permitted that `numSOWs=1`; this experiment considers `numSOWs=1369` in the main text and `numSOWs=121` in the supplement with `source=cmip6`
     * `numRealizations`: optional, can be any positive integer. Determines the number of samples of internal variability for each state of the world. With `source=noaa` we use `numRealizations=1000` and with `source=cmip6` we use `numRealizations=10`
 
-    Explicitly, the following commands were used to run the experiment:
+    This managing script will run everything related to conducting the experiment, including naming and saving output files to their appropriate directories. Explicitly, the following commands were used to run the experiment:
     | Step | Command | Description |
     | :---: | :---: | :---: |
     | I | `python scripts/SWGManager.py noaa` | Process the NOAA observations, extract statistical parameters |
