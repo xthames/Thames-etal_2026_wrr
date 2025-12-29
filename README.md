@@ -36,7 +36,7 @@ Thames, A. B., Hadjimichael, A., & Quinn, J. D. Climate Sensitivity of Agricultu
 ### Input data
 Thames, A. (2025). Input Data for Thames et al. -- Climate Sensitivity of Agricultural Water Demand (1.0.0) [Dataset]. Zenodo. https://doi.org/10.5281/zenodo.18071209
 
-You may also follow the procedure outlined below to retrieve and pre-process the input files directly. Note that a prerequisite to this is to establish a directory hierarchy that mirrors what's in the Input data repository and in the [Reproduce our experiment](#reproduce-our-experiment) section. Shell scripting references the SLURM job manager where approriate:
+You may also follow the procedure outlined below to retrieve and pre-process the input files directly. Note that a prerequisite to this is to establish a directory hierarchy that mirrors what's in the Input data repository and in Step 1 of the [Reproduce our experiment](#reproduce-our-experiment) section. Shell scripting references the SLURM job manager where approriate:
 1. Download daily precipitation and temperature observations from [NOAA NCEI](https://www.ncei.noaa.gov/cdo-web/search) for the Upper Colorado River Basin in the state of Colorado. The following are the climate stations used in this experiment, reflecting the key climate stations used from the historic consumptive use analysis [(Garrison, 2015)](https://cdss.colorado.gov/modeling-data/consumptive-use-statecu). Note that some climate stations are missing observations, and if so nearby secondary stations are used for in-filling.
     | NOAA NCEI Key ID | Key Climate Station Name | Secondary Station ID(s) |
     | :---: | :---: | :---: |
@@ -92,7 +92,7 @@ You may also follow the procedure outlined below to retrieve and pre-process the
     | Script Name | Description | How to Run |
     | :---: | :---: | :---: |
     | `SWGManager.py` | Script that manages processing of inputs and generation of hydroclimatology via stochastic weather generator | `python scripts/SWGManager.py source numSOWs numRealizations` |
-    * `source`: can be `noaa` or `cmip6`. Determines which source of input data to use, the NOAA-based observations or the regional CMIP6 downscales
+    * `source`: can be `noaa` or `cmip6`. Determines which source of input data to use (to construct states of the world), only the NOAA-based observations or both the NOAA observations and the regional CMIP6 downscales
     * `numSOWs`: optional, can be any positive integer that is the square of a prime number larger than 5<sup>2</sup>. Determines the number of states of the world to consider. If paired with `source=noaa` then it is only permitted that `numSOWs=1`; this experiment considers `numSOWs=1369` in the main text and `numSOWs=121` in the supplement with `source=cmip6`
     * `numRealizations`: optional, can be any positive integer. Determines the number of samples of internal variability for each state of the world. With `source=noaa` we use `numRealizations=1000` and with `source=cmip6` we use `numRealizations=10`
 
@@ -103,7 +103,7 @@ You may also follow the procedure outlined below to retrieve and pre-process the
     | II | `python scripts/SWGManager.py noaa 1 1000` | Create stationary, synthetically-generated precipitation, temperature, and frost dates from NOAA observations and run StateCU using them |
     | III | `python scripts/SWGManager.py cmip6` | Process the regional CMIP6 downscaled projections, extract statistical parameters per SSP/model |
     | IV | `python scripts/SWGManager.py cmip6 1369 10` | Create the synthetically-generated precipitation, temperature, and frost dates from the regional CMIP6 downscaled projections and run StateSU using them |
-7. Out of the 13,690 realizations processed by StateCU in this way, fewer than 5 can fail to be processed. [This is a known issue when using StateCU and synthetically-generated hydroclimatology](https://github.com/OpenCDSS/cdss-app-statecu-fortran/issues/42). You can check the exact number of failures by running `python scripts/AnalysisManager.py checkdirs`. If any realizations have failed, rerun 6.IV until none do 
+7. Out of the 13,690 experimental realizations processed by StateCU in this way, some can fail to be processed (this number is almost always <5). [This is a known possibility when using StateCU and synthetically-generated hydroclimatology](https://github.com/OpenCDSS/cdss-app-statecu-fortran/issues/42). You can check the exact number of failures by running `python scripts/AnalysisManager.py checkdirs`. If any realizations have failed, rerun 6.IV until none fail 
 
 ## Reproduce our figures
 Once all realizations successfully process through StateCU, figures from the main text can be reproduced in the following way:
