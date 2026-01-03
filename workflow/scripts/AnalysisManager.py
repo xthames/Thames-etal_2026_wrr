@@ -124,7 +124,7 @@ if __name__ == "__main__":
         print("** ANALYZING, BUILDING, PLOTTING STATECU EXPERIMENT ** ")  
         StateCUDataReader.ReadCDS().to_csv(analysisDir + r"/CropInfo.csv", index=False)
         StateCUDataReader.ReadIPY().to_csv(analysisDir + r"/IrrigationInfo.csv", index=False)
-        StateCUDataReader.ReadSTR().to_csv(analysisDir + r"/ElevationInfo.csv", index=False)
+        StateCUDataReader.ReadSTR1().to_csv(analysisDir + r"/ElevationInfo.csv", index=False)
         gsCtrlDF = BuildControlGSIWR()
         gsCtrlDF.to_csv(analysisDir + r"/CtrlGSIWR.csv", index=False)
         os.system("bash {} {} {} {}".format(scriptsDir + r"/AnalysisJobChain.sh", nSOWs, nRealizations, len(set(gsCtrlDF["WDID"].values))))

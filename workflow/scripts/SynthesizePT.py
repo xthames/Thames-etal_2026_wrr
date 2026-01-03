@@ -179,6 +179,8 @@ def PTPairGenerator(prcpSample, prcpDict, copulaDict):
     synthDF["STATION"] = np.repeat(stations, nYears * nMonths)
     synthDF["YEAR"] = list(np.repeat(years, nMonths)) * nStations
     synthDF["MONTH"] = months * (nYears * nStations)
+    # -- (see below) known issue in StateCU with synthetically generated temps in some stations 
+    problemStations = ["Eagle County", "Grand Lake", "Green Mt Dam", "Kremmling", "Meredith", "Yampa"]
 
     # for each month in the sample...
     for m, month in enumerate(months):
@@ -220,23 +222,20 @@ def PTPairGenerator(prcpSample, prcpDict, copulaDict):
         # take the spatially-averaged temperatures and disaggregate to return per-station values
         tavgSample = kNNTavgDisaggregation(saSynthTAVG, monthlyDF, month)
         
-        # for StateCU... (finding this has made me partially insane)
-        # >> cold August temperatures (colder than July) are causing StateCU to occasionally crash
-        # >>> specifically affecting stations: Grand Lake, Kremmling, Meredith, Yampa
-        # >>>> more specifically, parcels: 3800545, 3800651, 5000517, 5200559, 5000653_D, 5300555_D
+        # for StateCU... (identifying this failure condition has made me partially insane)
+        # >> generated cold August temperatures (when below threshold and colder than July) are causing StateCU to occasionally crash (spoke with StateCU dev on GitHub about this)
+        # >>> specifically affecting a few WDIDs that use stations: Eagle County, Grand Lake, Green Mt Dam, Kremmling, Meredith, Yampa
         if month == "Aug":
-            problemStations = ["Grand Lake", "Kremmling", "Meredith", "Yampa"]
-            # -- don't let the August temperatures for these stations be colder than July and less than 50 degF (minimum bound on synthetics)
             for s, station in enumerate(stations): 
                 if station not in problemStations: continue
-                # -- check for all the stations
                 julFTemps = (synthDF.loc[(synthDF["MONTH"] == "Jul") & (synthDF["STATION"] == station), "TAVG"].astype(float).values)*(9./5.) + 32.
                 augFTemps = (tavgSample[:, s])*(9./5.) + 32.
+                # -- after picking through StateCU outputs, seems like Aug < 50degF is the threshold for potential issues across all problem stations
                 if np.any((julFTemps > augFTemps) & (augFTemps < 50.)):
-                    scuIdx = ((julFTemps > augFTemps) & (augFTemps < 50.))
-                    stdDiffFTemps = np.std(julFTemps - augFTemps)  
-                    for b in range(len(scuIdx)):
-                        if scuIdx[b]:
+                    problemIdxs = ((julFTemps > augFTemps) & (augFTemps < 50.))
+                    stdDiffFTemps = np.std(julFTemps - augFTemps)
+                    for b in range(len(problemIdxs)):
+                        if problemIdxs[b]:
                             augFTempResid = rng.normal(loc=0., scale=stdDiffFTemps) 
                             newAugFTemp = julFTemps[b] + abs(augFTempResid)
                             tavgSample[b, s] = (newAugFTemp - 32.)*(5./9.)
@@ -246,7 +245,34 @@ def PTPairGenerator(prcpSample, prcpDict, copulaDict):
             stationIdx = synthDF["STATION"] == station
             synthDF.loc[monthIdx & stationIdx, "PRCP"] = prcpSample[:, m, s]            
             synthDF.loc[monthIdx & stationIdx, "TAVG"] = tavgSample[:, s] 
-     
+    
+    # discovered another potential problem when generated temps yield an annual mean problem station temperature < ~25 degF 
+    # >> if this happens, explore an abnormally hot year at problem stations (more relevant to future projections) instead of an abnormally cold year
+    # >>> both fixes for problem stations together reduce likelihood of generating a year that crashes StateCU at ~0.01% 
+    flaggedYears = []
+    for problemStation in problemStations:
+        problemStationSynthIdx = synthDF["STATION"] == problemStation
+        problemStationSynthEntry = synthDF.loc[problemStationSynthIdx] 
+        for year in sorted(set(problemStationSynthEntry["YEAR"].values)):
+            yearSynthIdx = problemStationSynthEntry["YEAR"] == year
+            if (np.nanmean(problemStationSynthEntry.loc[yearSynthIdx, "TAVG"].values)*(9./5))+32. < 24.5:
+                flaggedYears.append(year)
+    if len(flaggedYears) > 0:
+        synthDFCopy = synthDF.copy()
+        for problemStation in problemStations:
+            problemStationSynthIdx = synthDFCopy["STATION"] == problemStation
+            problemStationSynthEntry = synthDFCopy.loc[problemStationSynthIdx] 
+            replacementTemps = []
+            for month in months:
+                monthIdx = synthDFCopy["MONTH"] == month
+                histTs = copulaDict[month]["TAVG"].astype(float)
+                maxT = max(np.nanmax(problemStationSynthEntry.loc[monthIdx, "TAVG"].values), np.nanmax(histTs))
+                minStd = min(np.nanstd(problemStationSynthEntry.loc[monthIdx, "TAVG"].values), np.nanstd(histTs))
+                replacementTemps.append(maxT + rng.normal(loc=0., scale=minStd))
+            for flaggedYear in flaggedYears:
+                flaggedYearIdx = synthDFCopy["YEAR"] == flaggedYear
+                synthDF.loc[problemStationSynthIdx & flaggedYearIdx, "TAVG"] = replacementTemps
+
     # return the synthDF
     return synthDF
 

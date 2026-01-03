@@ -8,7 +8,6 @@ import matplotlib as mpl
 import seaborn as sns
 from multiprocessing import Process
 import StateCUDataReader
-import ExtractParameters
 import warnings
 import cartopy.io.img_tiles as cimgt
 from cartopy.io.shapereader import Reader
@@ -223,7 +222,7 @@ def PlotExperimentDesign():
     paramsDF["PMEAN"] = 100. * np.power(10., paramsDF["PMEAN"].values)
 
     # design masks
-    maskColors = ["grey", "darkgoldenrod", "blueviolet", "black"]
+    maskColors = ["grey", (255./255, 183./255, 3./255), "blueviolet", "black"]
     maskSizes = [5, 5, 5, 20]
     histMask = designDF["REPO"] == "historical"
     nasaMask = designDF["REPO"] == "nasa"
@@ -290,8 +289,10 @@ def PlotUserWXDistributionChange():
     # load colormap info
     colorImg = mpl.image.imread(mapDir + r"/GMT_dem1.png")
     terrainCmap = mpl.colors.LinearSegmentedColormap.from_list("terrain", colorImg[0, :, :])
+    districts = [d for d, e in ascendingDEs] 
+    elevs = [e for d, e in ascendingDEs]
 
-    # load elev, control wx data
+    # load elev, control wx data, projection wx data
     wdids = sorted(set(elevDF["WDID"].values)) 
     controlWXDF = StateCUDataReader.ReadWXs("control")
     controlWXDtypes = {col: float for col in controlWXDF}
@@ -303,6 +304,9 @@ def PlotUserWXDistributionChange():
         rowEntry = controlWXDF.iloc[i]
         ctrlDistricts.append(int(rowEntry["WDID"][:2]))
     controlWXDF["DISTRICT"] = ctrlDistricts
+
+    # regional CMIP6 downscaled projection wx
+    cmip6WXDF = pd.read_csv(controlDir + r"/CMIP6_ProjWX.csv", dtype={"PATH": str, "WDID": str, "DISTRICT": int, "YEAR": int, "PRCP": float, "TEMP": float})
 
     # bin the annual precip/temp data
     wxDF, chunkDF, chunksize, counter = pd.DataFrame(), pd.DataFrame(), int(np.sqrt(nSOWs * nRealizations)), 0
@@ -317,14 +321,12 @@ def PlotUserWXDistributionChange():
                 counter, chunkDF = 0, pd.DataFrame()
             else:
                 chunkDF = srEntry if chunkDF.empty else pd.concat([chunkDF, srEntry])
-    
+
     # plot change in precip/temp by elevation/district as boxes
     wxPlot, axes = plt.subplots(nrows=1, ncols=2, figsize=(16, 9))
     wxPlot.suptitle("Change in Precip, Temp Relative to Historical Average")
     # -- boxplots
-    boxWidth = 0.25
-    districts = [d for d, e in ascendingDEs] 
-    elevs = [e for d, e in ascendingDEs]
+    boxWidth = 0.20
     for i, axis in enumerate(axes.flat):
         if i == 0:
             axis.set_xlabel(r"Change in Precipitation Relative to Hist. Average [%]")
@@ -337,25 +339,34 @@ def PlotUserWXDistributionChange():
             ctrlCol, dataCol = "TEMAVG", "TEMP"
         for d, distr in enumerate(districts):
             ctrlEntry = controlWXDF.loc[controlWXDF["DISTRICT"] == distr]
+            projEntry = cmip6WXDF.loc[cmip6WXDF["DISTRICT"] == distr]
             userEntry = wxDF.loc[wxDF["DISTRICT"] == distr]
-            histAvg = np.nanmean(100.*ctrlEntry[ctrlCol].values) if i == 0 else np.nanmean(ctrlEntry[ctrlCol].values)
-            ctrl = 100. * ((100.*ctrlEntry[ctrlCol].values - histAvg) / histAvg) if i == 0 else ctrlEntry[ctrlCol] - histAvg
+            histAvg = np.nanmean(ctrlEntry[ctrlCol].values)
+            ctrl = 100. * ((ctrlEntry[ctrlCol].values - histAvg) / histAvg) if i == 0 else ctrlEntry[ctrlCol] - histAvg
+            proj = 100. * ((projEntry[dataCol].values - histAvg) / histAvg) if i == 0 else projEntry[dataCol] - histAvg
             exp = 100. * ((userEntry[dataCol].values - histAvg) / histAvg) if i == 0 else userEntry[dataCol] - histAvg
             cdistrictBox = {"whislo": np.nanpercentile(ctrl, 0), 
                             "q1": np.nanpercentile(ctrl, 25), 
                             "med": np.nanpercentile(ctrl, 50),
                             "q3": np.nanpercentile(ctrl, 75),
                             "whishi": np.nanpercentile(ctrl, 100)}
+            pdistrictBox = {"whislo": np.nanpercentile(proj, 0), 
+                            "q1": np.nanpercentile(proj, 25), 
+                            "med": np.nanpercentile(proj, 50),
+                            "q3": np.nanpercentile(proj, 75),
+                            "whishi": np.nanpercentile(proj, 100)}
             districtBox = {"whislo": np.nanpercentile(exp, 0), 
                             "q1": np.nanpercentile(exp, 25), 
                             "med": np.nanpercentile(exp, 50),
                             "q3": np.nanpercentile(exp, 75),
                             "whishi": np.nanpercentile(exp, 100)}
-            axis.bxp([cdistrictBox], showfliers=False, positions=[d-0.5*boxWidth], widths=[boxWidth], zorder=10, vert=False, 
+            axis.bxp([cdistrictBox], showfliers=False, positions=[d-boxWidth], widths=[boxWidth], zorder=10, vert=False, 
                      patch_artist=True, boxprops={"facecolor": wcolor}, medianprops={"color": mcolor})
-            axis.bxp([districtBox], showfliers=False, positions=[d+0.5*boxWidth], widths=[boxWidth], zorder=10, vert=False, 
+            axis.bxp([pdistrictBox], showfliers=False, positions=[d], widths=[boxWidth], zorder=10, vert=False, 
+                    patch_artist=True, boxprops={"facecolor": (255./255, 183./255, 3./255)}, medianprops={"color": "blueviolet"})
+            axis.bxp([districtBox], showfliers=False, positions=[d+boxWidth], widths=[boxWidth], zorder=10, vert=False, 
                      patch_artist=True, boxprops={"facecolor": "grey"}, medianprops={"color": mcolor})
-        axis.vlines(0, -boxWidth, (len(districts)-1)+boxWidth, linestyle="dashed", colors="black", zorder=12)
+        axis.vlines(0, -1.5*boxWidth, (len(districts)-1)+1.5*boxWidth, linestyle="dashed", colors="black", zorder=12)
         if i == 0:
             axis.set_yticks([d for d in range(len(districts))])
             axis.set_yticklabels(["WD{}".format(d) for d in districts])
@@ -558,7 +569,7 @@ def PlotUserIWRChangeSA():
     # load the SA
     saRawDict = np.load(analysisDir + r"/SAUserRaw.npy", allow_pickle=True).item()
     saNormDict = np.load(analysisDir + r"/SAUserNorm.npy", allow_pickle=True).item()
- 
+
     # plot change in IWR by elevation against SA by elevation 
     elevRank = [i+1 for i in range(len(wdids))]
     for j, p in enumerate(plottingKeys):
@@ -577,10 +588,9 @@ def PlotUserIWRChangeSA():
                                    color=mpl.colors.to_rgba(expColor, alpha=0.2), edgecolor=mpl.colors.to_rgba(expColor, alpha=0.2), zorder=10)
                 axis.fill_betweenx(elevRank, plottingDict[p]["P25"].values, plottingDict[p]["P75"].values, 
                                    color=mpl.colors.to_rgba(expColor, alpha=0.6), edgecolor=mpl.colors.to_rgba(expColor, alpha=0.6), zorder=11)
-                axis.plot(plottingDict[p]["MEDIAN"].values, elevRank, color=(255./255, 183./255, 3./255), linewidth=0.75, zorder=13)
+                axis.plot(plottingDict[p]["MEDIAN"].values, elevRank, color=(245./255, 129./255, 32./255), linewidth=0.75, zorder=13)
                 axis.vlines(0., min(elevRank), max(elevRank), colors="black", linestyles="dashed", zorder=12)
-                if p == "NORM CHANGE":
-                    axis.set_xlim([-115, 250])
+                axis.set_xlim([-115, 250])
             # sa axis
             if i >= 1:
                 if i == 1: 

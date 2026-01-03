@@ -6,6 +6,7 @@ import pandas as pd
 from scipy.stats import norm, qmc
 from scipy import optimize
 from matplotlib import pyplot as plt
+import StateCUDataReader
 
 
 # environment arguments
@@ -18,6 +19,7 @@ configsDir = os.path.dirname(os.path.dirname(__file__)) + r"/configs"
 processedDir = os.path.dirname(os.path.dirname(__file__)) + r"/processed"
 syntheticDir = os.path.dirname(os.path.dirname(__file__)) + r"/synthetic"
 plotsDir = os.path.dirname(os.path.dirname(__file__)) + r"/plots"
+controlDir = os.path.dirname(os.path.dirname(__file__)) + r"/cdss-dev/cm2015_StateCU/StateCU"
 
 
 # load all of the GMMHMM, copulae data into a two dataframes in one dict
@@ -200,6 +202,55 @@ def kNNProfileDisaggregation():
 
     # return the profile dictionary
     return profileDict
+
+
+def AggregateCMIP6WX():
+    # climate station ID to name dict
+    stationDict = {"USC00050214": "Altenbern", "USC00051741": "Collbran",
+                   "USW00023063": "Eagle County", "USC00053146": "Fruita",
+                   "USC00053359": "Glenwood Springs", "USC00053489": "Grand Junction",
+                   "USC00053500": "Grand Lake", "USC00053592": "Green Mt Dam",
+                   "USC00054664": "Kremmling", "USC00055507": "Meredith",
+                   "USC00057031": "Rifle", "USC00059265": "Yampa"}
+    
+    # structural climate station weight for each WDID dict
+    strDict = StateCUDataReader.ReadSTR2()
+    wdids = sorted(list(strDict.keys()))
+
+    # getting CMIP6 projections filepaths
+    processedPaths = []
+    for stem, dirs, files in os.walk(processedDir):
+        for name in files:
+            processedPaths.append(os.path.join(stem, name))
+    projWXPaths = [path for path in processedPaths if ("NOAA" not in path) and ("historical" not in path) and (not any([True if model in path else False for model in skipModels])) and ("UCRBMonthly.csv" in path)]
+    
+    # load and save the projection wx
+    cmip6WXDict = {}
+    for path in projWXPaths:
+        projDF = pd.read_csv(path, dtype={"NAME": str, "YEAR": int, "MONTH": str, "PRCP": float, "TAVG": float})
+        for wdid in wdids:
+            distr = int(wdid[:2])
+            stationIDs = list(strDict[wdid].keys())
+            prcpWeights = [strDict[wdid][stationID][0] for stationID in stationIDs]
+            tempWeights = [strDict[wdid][stationID][1] for stationID in stationIDs]
+            for year in sorted(set(projDF["YEAR"].values)): 
+                yearIdx = projDF["YEAR"] == year
+                yearEntry = projDF.loc[yearIdx]
+                prcptot, tempavg = [], []
+                for stationID in stationIDs:
+                    stationIdx = yearEntry["NAME"] == stationDict[stationID]
+                    stationEntry = yearEntry.loc[stationIdx]
+                    prcpAgg = np.nan if all(np.isnan(stationEntry["PRCP"].values)) else np.nansum(stationEntry["PRCP"].values)
+                    tempAgg = np.nan if all(np.isnan(stationEntry["TAVG"].values)) else np.nanmean(stationEntry["TAVG"].values)
+                    prcptot.append(prcpAgg)
+                    tempavg.append(tempAgg)
+                wdidPRCP = np.nan if any(np.isnan(prcptot)) else 100.*np.average(prcptot, weights=prcpWeights)
+                wdidTEMP = np.nan if any(np.isnan(tempavg)) else np.average(tempavg, weights=tempWeights)
+                cmip6WXDict[path, wdid, distr, year] = [path, wdid, distr, year, wdidPRCP, wdidTEMP]
+    cmip6WXDF = pd.DataFrame().from_dict(cmip6WXDict, orient="index", columns=["PATH", "WDID", "DISTRICT", "YEAR", "PRCP", "TEMP"])
+    cmip6WXDF.reset_index(drop=True, inplace=True)
+    cmip6WXDF.astype({"PATH": str, "WDID": str, "DISTRICT": int, "YEAR": int, "PRCP": float, "TEMP": float})
+    cmip6WXDF.to_csv(controlDir + "/CMIP6_ProjWX.csv", index=False)
 
 
 # plot annual temperature profile
@@ -569,6 +620,27 @@ def PlotParameters():
     PlotTempParams()
 
 
+# plot all of the chosen profiles
+def PlotChosenProfiles(): 
+    for var in ["meanP", "stdP", "meanT", "stdT", "hp"]:
+        xlabel = stations if var in ["meanP", "stdP"] else months
+        fixedline = 0. if var in ["meanT", "hp"] else 1.
+        profileCompPlot, axis = plt.subplots(nrows=1, ncols=1, figsize=(16, 9))
+        profileCompPlot.suptitle("Chosen Experimental Profiles of: {}".format(var.upper()))
+        for k in sowDict["profiles"].keys():
+            vprof = sowDict["profiles"][k][var]
+            vprof = (vprof - 1.) * 100. if var in ["meanP", "stdP", "stdT"] else vprof
+            axis.plot([i+1 for i in range(len(vprof))], vprof, color="grey", alpha=0.25)
+        axis.hlines(0, 1, len(xlabel), color="black", linestyle="dashed")
+        axis.set_xticks(np.arange(1, len(xlabel)+1))
+        axis.set_xticklabels(xlabel)
+        axis.tick_params(axis="x", labelsize=len(xlabel))
+        # post-plotting
+        plt.tight_layout()
+        profileCompPlot.savefig(plotsDir + r"/params/Chosen{}ProfileComparison.svg".format(var.upper()))
+        plt.close()
+
+
 # running the program
 if __name__ == "__main__": 
     # load the file pathways
@@ -579,7 +651,7 @@ if __name__ == "__main__":
     stations = sorted(set(noaaObsDF["NAME"]))
     months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] 
     
-    # list the models that misbehave (SSPs have notably different distributions from historical projections, specifically too wet or too cold)
+    # list the projections, models, stations that misbehave (SSPs have notably different distributions from historical projections for just these stations)
     skipPathways = ["historical"]
     skipModels = ["KACE-1-0-G", "CMCC-CM2-SR5", "TaiESM1"]
 
@@ -603,7 +675,11 @@ if __name__ == "__main__":
         noaaParamsDict, _ = AggregateGMMHMMandCopulaParameters()
         cmip6ParamsDict = repoParamsDict
         dataRepo = tempRepo
+        # -- aggregate cmip6 projections, if file doesn't already exist
+        if not os.path.isfile(controlDir + "/CMIP6_ProjWX.csv"):
+            AggregateCMIP6WX()
         # -- plot
         PlotParameterProfiles() 
         PlotParameters()
+        PlotChosenProfiles()
 

@@ -81,7 +81,7 @@ def BuildWXandGSIWR():
         for year in years:
             yearIdx = expEntry["YEAR"] == year
             yearEntry = expEntry.loc[yearIdx]
-            prcpVal = round(100. * yearEntry["PRCTOT"].values[0], 3)
+            prcpVal = round(yearEntry["PRCTOT"].values[0], 3)
             tempVal = round(yearEntry["TEMAVG"].values[0], 3)
             wxDict[(s, r, wdid, year)] = [wdid, distr, elev, s, r, year, prcpVal, tempVal]
         # gs

@@ -207,8 +207,8 @@ def ReadCLI():
     return cliDF
 
 
-# read the .str file
-def ReadSTR():
+# read the .str file to extract WDID vs elevation
+def ReadSTR1():
     # base read
     with open(controlDir + r"/cm2015.str", "r") as f:
         data = f.readlines()
@@ -241,6 +241,29 @@ def ReadSTR():
 
     # return
     return parcelElevDF
+
+
+# read the .str file to extract WDID vs climate station weighting info
+def ReadSTR2():
+    # base read: .str
+    with open(controlDir + r"/cm2015.str", "r") as f:
+        data = f.readlines() 
+    # for lines in the data...
+    strDict, l = {}, 0 
+    while l < len(data):
+        if data[l][0] != "#": 
+            # strip, replace the newline with nothing, remove the whitespace and separate
+            line = data[l].strip().replace("\n", "")
+            sepLine = [el for el in line.split() if el != ""]
+            if data[l][0].isnumeric():
+                parcelID = sepLine[0]
+                strDict[parcelID] = {}
+            if data[l][0] == "U":
+                strDict[parcelID][sepLine[0]] = [float(sepLine[2]), float(sepLine[1])]
+        l += 1
+    
+    # return
+    return strDict
 
 
 # aggregate .fd, .str, .tem files into growing season information
@@ -297,45 +320,27 @@ def ReadWXs(repo):
     # read the .prc, .tem files
     prcDF, temDF = ReadWX("PRCP"), ReadWX("TEMP")
 
-    # dataframe of weather vars by WDID, weighted to climate station structure, synced with annualized precip and temp
+    # dataframe of weather vars by WDID, weighted to climate station structure, as annualized precip and temp
     wdids, years, syncDict = list(strDict.keys()), sorted(set(prcDF["YEAR"])), {}
     for wdid in wdids:
         wdidStations = list(strDict[wdid].keys())
+        prcpWeights = [strDict[wdid][stationID][0] for stationID in wdidStations]
+        tempWeights = [strDict[wdid][stationID][1] for stationID in wdidStations]
         for year in years:
             prcYear, temYear = prcDF["YEAR"] == year, temDF["YEAR"] == year
-            prcWeights, temWeights = [], []
-            wxPRCs, wxTEMs = [[] for _ in range(len(prcDF.columns[2:]))], [[] for _ in range(len(temDF.columns[2:]))]
+            prcptot, tempavg = [], []
             for station in wdidStations:
-                prcWeights.append(strDict[wdid][station][0])
-                temWeights.append(strDict[wdid][station][1])
                 prcStation, temStation = prcDF["STATION"] == station, temDF["STATION"] == station
                 prcStationEntry, temStationEntry = prcDF.loc[prcYear & prcStation], temDF.loc[temYear & temStation]
-                for p in range(len(wxPRCs)):
-                    wxPRCs[p].append(prcStationEntry[prcStationEntry.columns[2+p]].values[0])
-                for t in range(len(wxTEMs)):
-                    wxTEMs[t].append(temStationEntry[temStationEntry.columns[2+t]].values[0])
-            # -- weight by .str+.cli fractions, fill the dict
-            wxPRC, wxTEM = [], []
-            for p in range(len(wxPRCs)):
-                wxPRC.append(np.average(wxPRCs[p], weights=prcWeights))
-            for t in range(len(wxTEMs)):
-                wxTEM.append(np.average(wxTEMs[t], weights=temWeights))
-            syncDict[(wdid, year)] = [wdid, year, *wxPRC, *wxTEM]
-    # conversion to dataframe
-    wxWindows = wxCols[2:]
-    syncCols = ["{}{}".format(wx, s) for wx in ["PRC", "TEM"] for s in wxWindows]
-    syncCols = [col if col != "PRCANNUAL" else "PRCTOT" for col in syncCols]
-    syncCols = [col if col != "TEMANNUAL" else "TEMAVG" for col in syncCols]
-    syncDF = pd.DataFrame().from_dict(syncDict, orient="index", columns=["WDID", "YEAR", *syncCols])
+                prcptot.append(float(prcStationEntry["ANNUAL"].values[0]))
+                tempavg.append(float(temStationEntry["ANNUAL"].values[0]))
+            wdidPRCP = np.nan if any(np.isnan(prcptot)) else 100.*np.average(prcptot, weights=prcpWeights)
+            wdidTEMP = np.nan if any(np.isnan(tempavg)) else np.average(tempavg, weights=tempWeights)
+            syncDict[wdid, year] = [wdid, year, wdidPRCP, wdidTEMP]
+    syncDF = pd.DataFrame().from_dict(syncDict, orient="index", columns=["WDID", "YEAR", "PRCTOT", "TEMAVG"])
     syncDF.reset_index(drop=True, inplace=True)
-    syncDtypes = {col: float for col in syncCols}
-    syncDtypes["WDID"], syncDtypes["YEAR"] = str, int
-    syncDF.astype(syncDtypes)
+    syncDF.astype({"WDID": str, "YEAR": int, "PRCTOT": float, "TEMAVG": float})
     
-    # drop the monthly columns (not sure we need them, but I'll keep them around in case)
-    dropColumns = ["{}{}".format(wx, m) for wx in ["PRC", "TEM"] for m in wxCols[2:-1]]
-    syncDF.drop(inplace=True, columns=dropColumns)
-
     # return
     return syncDF
 
