@@ -86,17 +86,18 @@ Thames, A. (2026). Output Data for Thames et al. -- Climate Sensitivity of Agric
 | StateCU | 14.0.1 | https://github.com/OpenCDSS/cdss-app-statecu-fortran | - |
 
 ## Reproduce our experiment
+We recommend the following procedure to reproduce our experiment:
 1. Create an empty directory and populate it with the hierarchy included in `workflow/`. Both `workflow/configs/` and `workflow/scripts/` are already filled; these contain configuration files or scripts relevant to execute the rest of our experiment
 2. Go through all files in `workflow/scripts/` and change any filepaths to reflect your local environment. The scripts included reflect the original Linux/SLURM environment of the first author
 3. Populate `workflow/noaa/` with the NOAA observations from the [input data](#input-data). Populate `workflow/cmip6/` with the regional CMIP6 downscales from the [input data](#input-data)   
 4. Follow the guidelines (especially the **Development Envionment** section) in the [contributing modeling software](#contributing-modeling-software) to clone the StateCU repository on GitHub to `workflow/cdss-dev/`. After cloning, continue following the instructions to compile the StateCU executable
-5. Once StateCU is compiled, change your directory to `cdss-dev/cm2015_StateCU/StateCU/` and create a [symbolic link](https://stackoverflow.com/questions/1951742/how-can-i-symlink-a-file-in-linux) called `statecu_exe` to the executable. Confirm that StateCU is operating nominally by executing it using `./statecu_exe` from the `cdss-dev/cm2015_StateCU/StateCU/` directory and inputting `cm2015B` when prompted. *Note the size of the outputs from running StateCU; make sure you have enough memory to accommodate at least 10,000x this value* 
+5. Once StateCU is compiled, change your directory to `cdss-dev/cm2015_StateCU/StateCU/` and create a [symbolic link](https://stackoverflow.com/questions/1951742/how-can-i-symlink-a-file-in-linux) called `statecu_exe` to the executable. Confirm that StateCU is operating nominally by executing it using `./statecu_exe` from the `cdss-dev/cm2015_StateCU/StateCU/` directory and inputting `cm2015B` when prompted. *Note the size of the outputs from running StateCU; make sure you have enough memory to accommodate at least 10,000x this value (totaling ~2.5 TB)* 
 6. The experiment uses the script and arguments outlined below:
     | Script Name | Description | How to Run |
     | :---: | :---: | :---: |
     | `SWGManager.py` | Script that manages processing of inputs and generation of hydroclimatology via stochastic weather generator | `python scripts/SWGManager.py source numSOWs numRealizations` |
     * `source`: can be `noaa` or `cmip6`. Determines which source of input data to use (to construct states of the world), only the NOAA-based observations or both the NOAA observations and the regional CMIP6 downscales
-    * `numSOWs`: optional, can be any positive integer that is the square of a prime number larger than 5<sup>2</sup>. Determines the number of states of the world to consider. If paired with `source=noaa` then it is only permitted that `numSOWs=1`; this experiment considers `numSOWs=1369` in the main text and `numSOWs=121` in the supplement with `source=cmip6`
+    * `numSOWs`: optional, can be any positive integer that is the square of a prime number larger than or equal to 5<sup>2</sup>. Determines the number of states of the world to consider. If paired with `source=noaa` then it is only permitted that `numSOWs=1`; this experiment considers `numSOWs=1369` in the main text and `numSOWs=121` in the supplement with `source=cmip6`
     * `numRealizations`: optional, can be any positive integer. Determines the number of samples of internal variability for each state of the world. With `source=noaa` we use `numRealizations=1000` and with `source=cmip6` we use `numRealizations=10`
 
     This managing script will run everything related to conducting the experiment, including naming and saving output files to their appropriate directories. Explicitly, the following commands were used to run the experiment:
@@ -110,7 +111,7 @@ Thames, A. (2026). Output Data for Thames et al. -- Climate Sensitivity of Agric
 
 ---
 
-Instead of running this experiment "from scratch" as outlined above, it is possible to use the [output data repository](#output-data) to run our results directly. This repository contains (1) the stationary generated precipitation (`.prc`), temperature (`.tem`), and frost date (`.fd`) files used to validate the stochastic weather generator, and (2) the experimental, synthetically-generated `.prc`, `.tem`, `.fd` files that act as inputs to StateCU and ultimately produce our results/figures. The direct outputs from StateCU using these files total ~2.7TB and therefore cannot be stored directly on Zenodo, however producing the experiment's StateCU outputs is possible using the following steps:
+Instead of running this experiment "from scratch" as outlined above, it is also possible to use the [output data repository](#output-data) to run our results directly. This repository contains (1) the stationary generated precipitation (`.prc`), temperature (`.tem`), and frost date (`.fd`) files used to validate the stochastic weather generator, and (2) the experimental, synthetically-generated `.prc`, `.tem`, `.fd` files that act as inputs to StateCU and ultimately produce our results/figures. The direct outputs from StateCU using these files total ~2.7TB and therefore cannot be stored directly on Zenodo, however producing the experiment's StateCU outputs is possible using the following steps:
 1. Place the `CMIP6_ProjWX.csv` file in the `cdss-dev/cm2015_StateCU/StateCU/` directory
 2. Unzip either the `CMIP6_121SOWs.zip` or `CMIP6_1369SOWs.zip` file, rename it to `CMIP6`, and place it as a subdirectory in `synthetic/`. Main paper results use `CMIP6_1369SOWs.zip`
 3. Make a shell script that:
