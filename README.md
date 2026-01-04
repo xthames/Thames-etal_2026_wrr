@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18148549.svg)](https://doi.org/10.5281/zenodo.18148549)
+
 # Thames-etal_2026_wrr
 
 **Climate Sensitivity of Agricultural Water Demand Depends on Control Over Growing Season: Implications for Producers in the Upper Colorado River Basin**
