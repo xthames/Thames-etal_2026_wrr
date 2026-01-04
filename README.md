@@ -113,7 +113,7 @@ We recommend the following procedure to reproduce our experiment:
 
 Instead of running this experiment "from scratch" as outlined above, it is also possible to use the [output data repository](#output-data) to run our results directly. This repository contains (1) the stationary generated precipitation (`.prc`), temperature (`.tem`), and frost date (`.fd`) files used to validate the stochastic weather generator, and (2) the experimental, synthetically-generated `.prc`, `.tem`, `.fd` files that act as inputs to StateCU and ultimately produce our results/figures. The direct outputs from StateCU using these files total ~2.7TB and therefore cannot be stored directly on Zenodo, however producing the experiment's StateCU outputs is possible using the following steps:
 1. Place the `CMIP6_ProjWX.csv` file in the `cdss-dev/cm2015_StateCU/StateCU/` directory
-2. Unzip either the `CMIP6_121SOWs.zip` or `CMIP6_1369SOWs.zip` file, rename it to `CMIP6`, and place it as a subdirectory in `synthetic/`. Main paper results use `CMIP6_1369SOWs.zip`
+2. Unzip either the `CMIP6_121SOWs.zip` or `CMIP6_1369SOWs.zip` file, rename it to `CMIP6`, and place it as a subdirectory in `synthetic/`. Main paper results use `CMIP6_1369SOWs.zip`. Unzip `NOAA.zip` and place it in `synthetic/` as well
 3. Make a shell script that:
     1. creates a symbolic link to the StateCU executable in each of the corresponding `Scenario#/Sim#` directories
     2. references the `cdss-dev/cm2015_StateCU/TemplateCU/` directory and the `simulation.rcu` file specifically
