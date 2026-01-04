@@ -75,10 +75,10 @@ You may also follow the procedure outlined below to retrieve and pre-process the
     | `DownloadNASACMIP6.py` | Script to (1) create directories and (3) check that all files were successfully downloaded relating to the NASA projections | `python scripts/DownloadNASACMIP6.py` | `makedirs`, `checkdirs` |
     | `DownloadNASACMIP6.sh` | Script to (2) parallelize downloading NASA CMIP6 projections | `sbatch scripts/DownloadNASACMIP6.sh` | - |
     | `DownloadHydroCMIP6.py` | Script to (1) reduce links, (2) create directories, and (4) check that all files were successfully downloaded relating to the DoE/ORNL projections | `python scripts/DownloadHydroCMIP6.py` | `reducelinks`, `createdirs`, `checkdirs` |
-    | `DownloadHydroCMIP6.sh` | Script to (3) parallelize downloading Doe/ORNL CMIP6 projections | `sbatch scripts/DownloadHydroCMIP6.sh` | - |
+    | `DownloadHydroCMIP6.sh` | Script to (3) parallelize downloading DoE/ORNL CMIP6 projections | `sbatch scripts/DownloadHydroCMIP6.sh` | - |
 
 ### Output data
-Thames, A. (2026). Output Data for Thames et al. -- Climate Sensitivity of Agricultural Water Demand (1.0.0) [Dataset]. Zenodo. https://doi.org/10.5281/zenodo.18148423
+Thames, A. (2026). Output Data for Thames et al. -- Climate Sensitivity of Agricultural Water Demand (1.0.1) [Dataset]. Zenodo. https://doi.org/10.5281/zenodo.18148466
 
 ## Contributing modeling software
 | Model | Version | Repository Link | DOI |

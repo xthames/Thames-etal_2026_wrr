@@ -1,1 +1,1 @@
-## This directory contains figures and the code to create those figures
+## This directory contains then main text figures; other figures can be found in the Output Data repository
