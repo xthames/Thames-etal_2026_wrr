@@ -78,7 +78,7 @@ You may also follow the procedure outlined below to retrieve and pre-process the
     | `DownloadHydroCMIP6.sh` | Script to (3) parallelize downloading Doe/ORNL CMIP6 projections | `sbatch scripts/DownloadHydroCMIP6.sh` | - |
 
 ### Output data
-Thames, A. (2026). Output Data for Thames et al. -- Climate Sensitivity of Agricultural Water Demand (1.0.0) [Dataset]. Zenodo.
+Thames, A. (2026). Output Data for Thames et al. -- Climate Sensitivity of Agricultural Water Demand (1.0.0) [Dataset]. Zenodo. https://doi.org/10.5281/zenodo.18148423
 
 ## Contributing modeling software
 | Model | Version | Repository Link | DOI |
@@ -130,7 +130,7 @@ Once all realizations successfully process through StateCU, figures from the mai
 | 2 | - | Experimental architecture of this study. Made in Adobe Illustrator | - | - |
 | 3 | - | Visual validation of observed vs. synthetically-generated precipitation and temperature | Already created in 6.II | `plots/swg/NOAA/Scenario1/` |
 
-Main text figures have been included in this repository's `figures/` directory. Figures from the Supporting Information are largely all produced at this point:
+Main text figures have been included in this repository's `figures/` directory. Note that some figures have been combined from their "raw" output here and what appears inthe main text. Figures from the Supporting Information are largely all produced at this point:
 
 | Figure Number(s) | Script Name | Description | How to Run | Location
 | :---: | :---: | :---: | :---: | :---: |
@@ -140,5 +140,5 @@ Main text figures have been included in this repository's `figures/` directory. 
 | S19-S22 | - | Bias-correction of regional CMIP6 downscaled projections to observed data (for ACCESS-CM2 specifically) | Already created in 6.III | generally `plots/cmip6/`, specifically `plots/cmip6/historical/ACCESS-CM2/` | 
 | S23-S27 | `AnalysisManager.py` | Basin-wide changes, user- and crop-specific change and sensitivities | Rerun 6.IV using `python scripts/SWGManager.py cmip6 121 10` | `plots/analysis` |
 
-All remaining figures generated throughout the experiment are included in the [output data repository](#output-data) under `figures.zip`.
+All figures generated throughout the experiment are included in the [output data repository](#output-data) under `figures.zip`.
 
