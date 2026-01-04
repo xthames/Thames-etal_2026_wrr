@@ -77,6 +77,9 @@ You may also follow the procedure outlined below to retrieve and pre-process the
     | `DownloadHydroCMIP6.py` | Script to (1) reduce links, (2) create directories, and (4) check that all files were successfully downloaded relating to the DoE/ORNL projections | `python scripts/DownloadHydroCMIP6.py` | `reducelinks`, `createdirs`, `checkdirs` |
     | `DownloadHydroCMIP6.sh` | Script to (3) parallelize downloading Doe/ORNL CMIP6 projections | `sbatch scripts/DownloadHydroCMIP6.sh` | - |
 
+### Output data
+Thames, A. (2026). Output Data for Thames et al. -- Climate Sensitivity of Agricultural Water Demand (1.0.0) [Dataset]. Zenodo.
+
 ## Contributing modeling software
 | Model | Version | Repository Link | DOI |
 | :---: | :---: | :---: | :---: |
@@ -103,7 +106,17 @@ You may also follow the procedure outlined below to retrieve and pre-process the
     | II | `python scripts/SWGManager.py noaa 1 1000` | Create stationary, synthetically-generated precipitation, temperature, and frost dates from NOAA observations and run StateCU using them |
     | III | `python scripts/SWGManager.py cmip6` | Process the regional CMIP6 downscaled projections, extract statistical parameters per SSP/model |
     | IV | `python scripts/SWGManager.py cmip6 1369 10` | Create the synthetically-generated precipitation, temperature, and frost dates from the regional CMIP6 downscaled projections and run StateSU using them |
-7. Out of the 13,690 experimental realizations processed by StateCU in this way, some can fail to be processed (this number is almost always <5). [This is a known possibility when using StateCU and synthetically-generated hydroclimatology](https://github.com/OpenCDSS/cdss-app-statecu-fortran/issues/42). You can check the exact number of failures by running `python scripts/AnalysisManager.py check`. If any realizations have failed, rerun 6.IV until none fail 
+7. Out of the 13,690 experimental realizations processed by StateCU in this way, some can fail to be processed (after many, many realizations this number has never been more than 5 set of 13,690). [This is a known possibility when using StateCU and synthetically-generated hydroclimatology](https://github.com/OpenCDSS/cdss-app-statecu-fortran/issues/42). You can check the exact number of failures by running `python scripts/AnalysisManager.py check`. If any realizations have failed, the simplest option for correcting failures is to rerun 6.IV until no realizations fail.
+
+Instead of running this experiment "from scratch" as outlined above, it is possible to use the [output data repository](#output-data) to run our results directly. This repository contains (1) the stationary generated precipitation (`.prc`), temperature (`.tem`), and frost date (`.fd`) files used to validate the stochastic weather generator, and (2) the experimental, synthetically-generated `.prc`, `.tem`, `.fd` files that act as inputs to StateCU and ultimately produce our results/figures. The direct outputs from StateCU using these files total ~2.7TB and therefore cannot be stored directly on Zenodo, however producing the experiment's StateCU outputs is possible using the following steps:
+1. Place the `CMIP6_ProjWX.csv` file in the `cdss-dev/cm2015_StateCU/StateCU/` directory
+2. Unzip either the `CMIP6_121SOWs.zip` or `CMIP6_1369SOWs.zip` file, rename it to `CMIP6`, and place it as a subdirectory in `synthetic/`. Main paper results use `CMIP6_1369SOWs.zip`
+3. Make a shell script that:
+    1. creates a symbolic link to the StateCU executable
+    2. references the `cdss-dev/cm2015_StateCU/TemplateCU/` directory and the `simulation.rcu` file specifically
+    3. Executes StateCU using each individual realization's `.prc`, .`tem`, and `.fd` files from their local repository
+
+This will create the ~2.7TB worth of output files that are used to reproduce our figures (*note that you will need the corresponding available memory to do so*).
 
 ## Reproduce our figures
 Once all realizations successfully process through StateCU, figures from the main text can be reproduced in the following way:
@@ -111,10 +124,10 @@ Once all realizations successfully process through StateCU, figures from the mai
 | Figure Number(s) | Script Name | Description | How to Run | Location |
 | :---: | :---: | :---: | :---: | :---: |
 | 1, 4-8 | `AnalysisManager.py` | Map of UCRB, basin-wide changes, user- and crop- specific changes and sensitivities | `python scripts/AnalysisManager.py` | `plots/analysis` |
-| 2 | - | Experimental design of this study. Made in Adobe Illustrator | - | - |
+| 2 | - | Experimental architecture of this study. Made in Adobe Illustrator | - | - |
 | 3 | - | Visual validation of observed vs. synthetically-generated precipitation and temperature | Already created in 6.II | `plots/swg/NOAA/Scenario1/` |
 
-Figures from the Supporting Information are largely all produced at this point:
+Main text figures have been included in this repository's `figures/` directory. Figures from the Supporting Information are largely all produced at this point:
 
 | Figure Number(s) | Script Name | Description | How to Run | Location
 | :---: | :---: | :---: | :---: | :---: |
@@ -123,4 +136,6 @@ Figures from the Supporting Information are largely all produced at this point:
 | S6-S18 | - | Visual and statistical validation of observed vs. synthetically-generated precipitation and temperature | Already created in 6.II | `plots/swg/NOAA/Scenario1/` |
 | S19-S22 | - | Bias-correction of regional CMIP6 downscaled projections to observed data (for ACCESS-CM2 specifically) | Already created in 6.III | generally `plots/cmip6/`, specifically `plots/cmip6/historical/ACCESS-CM2/` | 
 | S23-S27 | `AnalysisManager.py` | Basin-wide changes, user- and crop-specific change and sensitivities | Rerun 6.IV using `python scripts/SWGManager.py cmip6 121 10` | `plots/analysis` |
+
+All remaining figures generated throughout the experiment are included in the [output data repository](#output-data) under `figures.zip`.
 
