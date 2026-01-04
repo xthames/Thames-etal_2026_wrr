@@ -115,9 +115,9 @@ Instead of running this experiment "from scratch" as outlined above, it is also 
 1. Place the `CMIP6_ProjWX.csv` file in the `cdss-dev/cm2015_StateCU/StateCU/` directory
 2. Unzip either the `CMIP6_121SOWs.zip` or `CMIP6_1369SOWs.zip` file, rename it to `CMIP6`, and place it as a subdirectory in `synthetic/`. Main paper results use `CMIP6_1369SOWs.zip`
 3. Make a shell script that:
-    1. creates a symbolic link to the StateCU executable
+    1. creates a symbolic link to the StateCU executable in each of the corresponding `Scenario#/Sim#` directories
     2. references the `cdss-dev/cm2015_StateCU/TemplateCU/` directory and the `simulation.rcu` file specifically
-    3. Executes StateCU using each individual realization's `.prc`, .`tem`, and `.fd` files from their local repository
+    3. executes StateCU using each individual realization's `.prc`, .`tem`, and `.fd` files from their local repository
 
 This will create the ~2.7TB worth of output files that are used to reproduce our figures (*note that you will need the corresponding available memory to do so*).
 
